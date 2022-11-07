@@ -53,7 +53,7 @@ Vue.mixin(authMixin);
 Vue.use(Toasted, {duration: 10000});
 router.beforeEach((to, from, next) => {
   let isLoggedIn =
-    JSON.parse(localStorage.getItem("2@39$*8")) 
+    localStorage.getItem("2@39$*8") 
   if (to.meta.requireAuth) {
     if (isLoggedIn) {
       window.document.title = to.meta && to.meta.title ? to.meta.title : 'Home';
