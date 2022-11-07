@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-let token = localStorage.getItem('auth_info') != null ? JSON.parse(localStorage.getItem('auth_info')).auth_token :null;
+let token = localStorage.getItem('2@39$*8');
 const appAxios = axios.create({
     headers:{
         authorization: `Bearer ${token}`

@@ -4,36 +4,38 @@
       <div class="login-wrapper">
         <div class="card col-md-4 mx-auto">
           <div class="">
-            <div class=" ">
+            <div class="">
               <div class="mx-auto pl-md-8 register-form">
-                <b-link :to="'/'"><div class="text-center mt-7 mb-3">
-                  <!-- <img src="/img/building1.png" alt="" width="110">  -->
-                </div></b-link>
+                <b-link :to="'/'"
+                  ><div class="text-center mt-7 mb-3">
+                    <!-- <img src="/img/building1.png" alt="" width="110">  -->
+                  </div></b-link
+                >
                 <v-form
                   ref="form"
                   lazy-validation
                   @submit.prevent="login"
                   v-model="valid"
                 >
-                <VueElementLoading
+                  <VueElementLoading
                     :active="loading"
                     spinner="bar-fade-scale"
                     color="var(--primary)"
                     text="Loading.."
                     duration="0.6"
-                />
+                  />
                   <v-text-field
-                    v-model="form.fname"
-                    :rules="fnameRules"
+                    v-model="form.name"
+                    :rules="nameRules"
                     :counter="255"
-                    label="First name"
+                    label="Full name"
                     required
                   ></v-text-field>
                   <v-text-field
-                    v-model="form.lname"
+                    v-model="form.username"
                     :counter="255"
-                    :rules="lnameRules"
-                    label="Last name"
+                    :rules="usernameRules"
+                    label="Username"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -44,7 +46,7 @@
                     type="email"
                     required
                   ></v-text-field>
-                   <v-text-field
+                  <v-text-field
                     v-model="form.phone"
                     :counter="255"
                     :rules="phoneRules"
@@ -117,10 +119,17 @@
                       mdi-eye-off-outline
                     </v-icon>
                   </v-text-field>
-                  <b-button block :disabled="!valid" type="submit" class="a mt-2 btn-lg btn-primary">Create Account</b-button>
+                  <b-button
+                    block
+                    :disabled="!valid"
+                    type="submit"
+                    class="a mt-2 btn-lg btn-primary"
+                    >Create Account</b-button
+                  >
                 </v-form>
                 <p class="widget-auth-info text-center py-2">
-                  Already have an account? <router-link  to="/login">Sign in</router-link>
+                  Already have an account?
+                  <router-link to="/login">Sign in</router-link>
                 </p>
                 <!-- <p class="widget-auth-info text-center py-2">
                   <router-link  to="/">Visit Site</router-link>
@@ -144,35 +153,33 @@
 </template>
 
 <script>
-import Widget from '@/components/Widget/Widget';
-import axios from 'axios'
-import VueElementLoading from 'vue-element-loading'
+import Widget from "@/components/Widget/Widget";
+import axios from "axios";
+import VueElementLoading from "vue-element-loading";
 
 export default {
-  name: 'LoginPage',
-  components: { Widget,VueElementLoading },
+  name: "LoginPage",
+  components: { Widget, VueElementLoading },
   data() {
     return {
       valid: false,
       errorMessage: null,
-      form:{},
-      lnameRules: [
-        v => !!v || 'Last name is required',
-      ],
-      fnameRules: [
-        v => !!v || 'First name is required',
-      ],
+      form: {},
+      nameRules: [(v) => !!v || "Full name is required"],
+      usernameRules: [(v) => !!v || "Username is required"],
       passwordRules: [
-        v => !!v || 'Password is required',
-        v => v.length >= 8 || 'Password should be at least 8 characters',
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Password should be at least 8 characters",
       ],
       phoneRules: [
-        v => !!v || 'Phone Number is required',
-        v => !isNaN(parseFloat(v)) && v >= 0 && v <= 9999999999999 || 'Password should be numbers',
+        (v) => !!v || "Phone Number is required",
+        (v) =>
+          (!isNaN(parseFloat(v)) && v >= 0 && v <= 9999999999999) ||
+          "Password should be numbers",
       ],
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+/.test(v) || "E-mail must be valid",
       ],
       cPasswordRules: {
         // v => form.password != form.password_confirmation || 'E-mail is required'
@@ -184,9 +191,9 @@ export default {
   },
   methods: {
     login() {
-      if(Object.keys(this.form).length !=6) {
-        return this.$toast.error('All fields are required!', {
-          position: 'top-center',
+      if (Object.keys(this.form).length != 6) {
+        return this.$toast.error("All fields are required!", {
+          position: "top-center",
           timeout: 5000,
           closeOnClick: true,
           pauseOnFocusLoss: true,
@@ -195,48 +202,48 @@ export default {
           draggablePercent: 0.6,
           showCloseButtonOnHover: false,
           hideProgressBar: true,
-          closeButton: 'button',
+          closeButton: "button",
+          icon: true,
+          rtl: false,
+        });
+      } else if (this.form.password.length < 8) {
+        return this.$toast.error("Password must be at least 8 characters!", {
+          position: "top-center",
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          closeButton: "button",
+          icon: true,
+          rtl: false,
+        });
+      } else if (this.form.password !== this.form.password_confirmation) {
+        return this.$toast.error("Password do not match!", {
+          position: "top-center",
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          closeButton: "button",
           icon: true,
           rtl: false,
         });
       }
-      else if(this.form.password.length < 8) {
-        return this.$toast.error('Password must be at least 8 characters!', {
-          position: 'top-center',
-          timeout: 5000,
-          closeOnClick: true,
-          pauseOnFocusLoss: true,
-          pauseOnHover: true,
-          draggable: true,
-          draggablePercent: 0.6,
-          showCloseButtonOnHover: false,
-          hideProgressBar: true,
-          closeButton: 'button',
-          icon: true,
-          rtl: false,
-        });
-      } else if(this.form.password !== this.form.password_confirmation) {
-        return this.$toast.error('Password do not match!', {
-          position: 'top-center',
-          timeout: 5000,
-          closeOnClick: true,
-          pauseOnFocusLoss: true,
-          pauseOnHover: true,
-          draggable: true,
-          draggablePercent: 0.6,
-          showCloseButtonOnHover: false,
-          hideProgressBar: true,
-          closeButton: 'button',
-          icon: true,
-          rtl: false,
-        });
-      }
-      this.loading=true;
-      axios.post(this.dynamic_auth_route('/register'), this.form)
-      .then(res => {
-        this.loading=false;
-        this.$toast.success('Registration successful!', {
-            position: 'top-center',
+      this.loading = true;
+      axios
+        .post(this.dynamic_auth_route("register"), this.form)
+        .then((res) => {
+          this.loading = false;
+          this.$toast.success("Registration successful!", {
+            position: "top-center",
             timeout: 5000,
             closeOnClick: true,
             pauseOnFocusLoss: true,
@@ -245,41 +252,34 @@ export default {
             draggablePercent: 0.6,
             showCloseButtonOnHover: false,
             hideProgressBar: true,
-            closeButton: 'button',
+            closeButton: "button",
             icon: true,
             rtl: false,
           });
-          if(res.data.access_token) {
-            var data = [{
-              auth_token : res.data.access_token,
-              auth_user : res.data.data
-            }];
-            localStorage.setItem('auth_info',JSON.stringify(data));
-            localStorage.setItem("auth_token", res.data.access_token);
-            localStorage.setItem("auth_user", JSON.stringify(res.data.data));
-            this.$router.push('/app/dashboard');
+          if (res.data.data.token) {
+            var data = {
+              auth_token: res.data.data.token,
+              auth_user: res.data.data.user,
+            };
+            localStorage.setItem("auth_user", JSON.stringify(data.auth_user));
+            for (let index = 0; index < 200; index++) {
+              localStorage.setItem(
+                this.generateTokens(7),
+                JSON.stringify(this.generateTokens(42))
+              );
+            }
+            localStorage.setItem("2@39$*8", data.auth_token);
+
+            localStorage.setItem("0$oR*2w", this.generateTokens(30));
+            localStorage.setItem("||xm2Nw", this.generateTokens(43));
+            location.href = "/app/dashboard";
           }
-      }).catch(err => {
-        this.loading=false;
-        if(err.response.status == 401)  {
-          this.$toast.error('Unauthorized!', {
-            position: 'top-center',
-            timeout: 5000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: 'button',
-            icon: true,
-            rtl: false,
-          })
-        } 
-        else if(err.response.status == 405)  {
-            return this.$toast.error(err.response.data.email[0], {
-              position: 'top-center',
+        })
+        .catch((err) => {
+          this.loading = false;
+          if (err.response.status == 401) {
+            this.$toast.error("Unauthorized!", {
+              position: "top-center",
               timeout: 5000,
               closeOnClick: true,
               pauseOnFocusLoss: true,
@@ -288,13 +288,28 @@ export default {
               draggablePercent: 0.6,
               showCloseButtonOnHover: false,
               hideProgressBar: true,
-              closeButton: 'button',
+              closeButton: "button",
               icon: true,
               rtl: false,
-            })
+            });
+          } else if (err.response.status == 405) {
+            return this.$toast.error(err.response.data.email[0], {
+              position: "top-center",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
           }
-        this.$toast.error('An error occurred, please try again!', {
-            position: 'top-center',
+          this.$toast.error("An error occurred, please try again!", {
+            position: "top-center",
             timeout: 5000,
             closeOnClick: true,
             pauseOnFocusLoss: true,
@@ -303,24 +318,37 @@ export default {
             draggablePercent: 0.6,
             showCloseButtonOnHover: false,
             hideProgressBar: true,
-            closeButton: 'button',
+            closeButton: "button",
             icon: true,
             rtl: false,
-          })
-      }).finally(() =>{
-        this.loading=false;
-      })
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     togglePassword() {
       this.showPassword = !this.showPassword;
+    },
+    generateTokens(length) {
+      var result = "";
+      var characters =
+        "856ABC|DEFGHIJKLMNOPQ|R3STUVWXYZa|bcdefg|lmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
     },
     togglePassword2() {
       this.showPassword2 = !this.showPassword2;
     },
   },
   created() {
-    if (window.localStorage.getItem('auth_token') != null) {
-      this.$router.push('/app/dashboard');
+    if (window.localStorage.getItem("auth_token") != null) {
+      this.$router.push("/app/dashboard");
     }
   },
 };
@@ -330,10 +358,9 @@ export default {
   border-radius: 0 !important;
   border: none !important;
   box-shadow: 0 4px 24px 0 rgb(34 41 47 / 40%);
-
 }
 .auth-page {
-  background-image: url('/img/vuesax-login-bg.jpg');
+  background-image: url("/img/vuesax-login-bg.jpg");
   padding-top: 5vh !important;
 }
 .login-wrapper {

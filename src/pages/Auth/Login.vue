@@ -6,19 +6,25 @@
           <div class="">
             <div class="">
               <div class="mx-auto py-5 mt-md-4 pl-md-8 login-form">
-                <b-link :to="'/'"><div class="text-center mt-10 mb-7">
-                  <!-- <img src="/img/logo.png" alt="" width="120">  -->
-                </div></b-link>
+                <b-link :to="'/'"
+                  ><div class="text-center mt-10 mb-7">
+                    <!-- <img src="/img/logo.png" alt="" width="120">  -->
+                  </div></b-link
+                >
                 <v-form v-model="valid" @submit.prevent="login">
                   <VueElementLoading
-                        :active="loading"
-                        spinner="bar-fade-scale"
-                        color="var(--primary)"
-                        text="Loading.."
-                        duration="0.6"
-                    />
-                  <b-alert class="alert-sm" variant="danger" :show="!!errorMessage">
-                    {{errorMessage}}
+                    :active="loading"
+                    spinner="bar-fade-scale"
+                    color="var(--primary)"
+                    text="Loading.."
+                    duration="0.6"
+                  />
+                  <b-alert
+                    class="alert-sm"
+                    variant="danger"
+                    :show="!!errorMessage"
+                  >
+                    {{ errorMessage }}
                   </b-alert>
                   <v-text-field
                     v-model="form.email"
@@ -59,16 +65,26 @@
                       mdi-eye-off-outline
                     </v-icon>
                   </v-text-field>
-                  <button  :disabled="!valid" type="submit" class="btn-block btn auth-btn mt-3 btn-lg btn-primary">Login</button>
-                  <router-link style="color: brown !important" class="d-block mt-1 text-right" to="/forgot-password">Forgot Password ?</router-link>
-                  
+                  <button
+                    :disabled="!valid"
+                    type="submit"
+                    class="btn-block btn auth-btn mt-3 btn-lg btn-primary"
+                  >
+                    Login
+                  </button>
+                  <router-link
+                    style="color: brown !important"
+                    class="d-block mt-1 text-right"
+                    to="/forgot-password"
+                    >Forgot Password ?</router-link
+                  >
                 </v-form>
                 <p class="widget-auth-info text-center py-2">
-                  Don't have an account? <router-link  to="/register">Sign up</router-link>
+                  Don't have an account?
+                  <router-link to="/register">Sign up</router-link>
                   <!-- <router-link class="btn btn-sm btn-warning text-white"  to="/">Visit Site</router-link> -->
                 </p>
-                <div class="pt-5 pb-5 d-none d-lg-block">
-                </div>
+                <div class="pt-5 pb-5 d-none d-lg-block"></div>
               </div>
             </div>
             <!-- <div class="col-md-8 set text-center d-lg-block d-none">
@@ -85,25 +101,25 @@
 </template>
 
 <script>
-import Widget from '@/components/Widget/Widget';
-import VueElementLoading from 'vue-element-loading'
-import axios from 'axios'
+import Widget from "@/components/Widget/Widget";
+import VueElementLoading from "vue-element-loading";
+import axios from "axios";
 
 export default {
-  name: 'LoginPage',
-  components: { VueElementLoading,Widget },
+  name: "LoginPage",
+  components: { VueElementLoading, Widget },
   data() {
     return {
       valid: false,
       errorMessage: null,
-      form:{},
+      form: {},
       passwordRules: [
-        v => !!v || 'Password is required',
-        v => v.length >= 8 || 'Password should be at least 8 characters',
+        (v) => !!v || "Password is required",
+        (v) => v.length >= 8 || "Password should be at least 8 characters",
       ],
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+/.test(v) || "E-mail must be valid",
       ],
       loading: false,
       showPassword: false,
@@ -111,10 +127,9 @@ export default {
   },
   methods: {
     login() {
-     
-      if(Object.keys(this.form).length < 2) {
-        return this.$toast.error('All fields are required!', {
-          position: 'top-center',
+      if (Object.keys(this.form).length < 2) {
+        return this.$toast.error("All fields are required!", {
+          position: "top-center",
           timeout: 5000,
           closeOnClick: true,
           pauseOnFocusLoss: true,
@@ -123,17 +138,18 @@ export default {
           draggablePercent: 0.6,
           showCloseButtonOnHover: false,
           hideProgressBar: true,
-          closeButton: 'button',
+          closeButton: "button",
           icon: true,
           rtl: false,
         });
       } else {
-        this.loading=true;
-        axios.post(this.dynamic_auth_route('/login'), this.form)
-        .then(res => {
-          this.loading=false;
-          this.$toast.success('Login successful!', {
-              position: 'top-center',
+        this.loading = true;
+        this.$api
+          .post(this.dynamic_auth_route("login"), this.form)
+          .then((res) => {
+            this.loading = false;
+            this.$toast.success("Login successful!", {
+              position: "top-center",
               timeout: 5000,
               closeOnClick: true,
               pauseOnFocusLoss: true,
@@ -142,26 +158,51 @@ export default {
               draggablePercent: 0.6,
               showCloseButtonOnHover: false,
               hideProgressBar: true,
-              closeButton: 'button',
+              closeButton: "button",
               icon: true,
               rtl: false,
             });
-            
-            if(res.data.data.token) {
+
+            if (res.data.data.token) {
               var data = {
-                auth_token : res.data.data.token,
-                auth_user : res.data.data.user
+                auth_token: res.data.data.token,
+                auth_user: res.data.data.user,
               };
-              localStorage.setItem('auth_info',JSON.stringify(data));
-              
-              location.href='/app/dashboard';
+              localStorage.setItem("auth_user", JSON.stringify(data.auth_user));
+              for (let index = 0; index < 200; index++) {
+                localStorage.setItem(
+                  this.generateTokens(7),
+                  JSON.stringify(this.generateTokens(42))
+                );
+              }
+              localStorage.setItem("2@39$*8", data.auth_token);
+
+              localStorage.setItem("0$oR*2w", this.generateTokens(30));
+              localStorage.setItem("||xm2Nw", this.generateTokens(43));
+              location.href = "/app/dashboard";
             }
-        }).catch(err => {
-          this.loading=false;
-          if(err.response.status == 400)  {
-            this.errorMessage=err.response.data.message
-            return this.$toast.error('Invalid Credentials!', {
-              position: 'top-center',
+          })
+          .catch((err) => {
+            this.loading = false;
+            if (err.response.status == 400) {
+              this.errorMessage = err.response.data.message;
+              return this.$toast.error("Invalid Credentials!", {
+                position: "top-center",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false,
+              });
+            }
+            this.$toast.error("An error occurred, please try again!", {
+              position: "top-center",
               timeout: 5000,
               closeOnClick: true,
               pauseOnFocusLoss: true,
@@ -170,37 +211,36 @@ export default {
               draggablePercent: 0.6,
               showCloseButtonOnHover: false,
               hideProgressBar: true,
-              closeButton: 'button',
+              closeButton: "button",
               icon: true,
               rtl: false,
-            })
-          }
-          this.$toast.error('An error occurred, please try again!', {
-              position: 'top-center',
-              timeout: 5000,
-              closeOnClick: true,
-              pauseOnFocusLoss: true,
-              pauseOnHover: true,
-              draggable: true,
-              draggablePercent: 0.6,
-              showCloseButtonOnHover: false,
-              hideProgressBar: true,
-              closeButton: 'button',
-              icon: true,
-              rtl: false,
-            })
-        }).finally(() =>{
-          this.loading=false;
-        })
+            });
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
     },
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
+    generateTokens(length) {
+      var result = "";
+      var characters =
+        "ABC|DEFGHIJKLMNOPQ|R3STUVWXYZa|bcdefg|lmnopqrstuvwxyz0123456789";
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      return result;
+    },
   },
+
   created() {
-    if (window.localStorage.getItem('authenticated') === 'true') {
-      this.$router.push('/app/dashboard');
+    if (window.localStorage.getItem("authenticated") === "true") {
+      this.$router.push("/app/dashboard");
     }
   },
 };
@@ -212,7 +252,7 @@ export default {
   box-shadow: 0 4px 24px 0 rgb(34 41 47 / 40%);
 }
 .auth-page {
-  background-image: url('/img/vuesax-login-bg.jpg');
+  background-image: url("/img/vuesax-login-bg.jpg");
   padding-top: 10vh !important;
 }
 .login-wrapper {

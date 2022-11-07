@@ -113,9 +113,7 @@ export default {
       }
     },
     logout() {
-      window.localStorage.removeItem('auth_token');
-      window.localStorage.removeItem('auth_user');
-      window.localStorage.removeItem('auth_info');
+      localStorage.clear();
       this.$router.push('/');
     },
     navigate() {

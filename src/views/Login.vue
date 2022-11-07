@@ -190,7 +190,7 @@ export default {
       */
 
       axios
-        .post('/auth/login', { email: email.value, password: password.value })
+        .post(this.dynamic_auth_route('/login'), { email: email.value, password: password.value })
         .then(response => {
           const { accessToken } = response.data
 
