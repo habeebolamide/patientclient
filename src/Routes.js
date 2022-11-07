@@ -81,54 +81,74 @@ export default new Router({
       name: 'Layout',
       component: Layout,
       meta: {
-        // requiresAuth: true
+        requireAuth: true
       },
       children: [
         {
           path: 'dashboard',
           name: 'AnalyticsPage',
           component: AnalyticsPage,
-         
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'notification',
           name: 'notification',
           component: () => import('@/pages/Notifications/Notifications'),
-         
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'profile',
           name: 'ProfilePage',
           component: Profile,
-         
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'user-profile',
           name: 'UserProfile',
           
           component: () => import('@/pages/Auth/Profile'),
-              
+          meta: {
+            requireAuth: true
+          },
         },
        
         {
           path: 'upload-audio',
           name: 'Upload Audio',
           component: () => import('@/pages/UploadAudio/Index'),
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'manage-coupons/list',
           name: 'Coupon',
           component: () => import('@/pages/Coupon/Index'),
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'transcribe-text',
           name: 'TranscribeText',
-          component: () => import('@/pages/TranscribeText/Index')
+          component: () => import('@/pages/TranscribeText/Index'),
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'entity-recogntion',
           name: 'Entity-Recogntion',
           component: () => import('@/pages/EntityRecogntion/Index'),
+          meta: {
+            requireAuth: true
+          },
         },
         {
           path: 'settings',
