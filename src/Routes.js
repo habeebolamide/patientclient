@@ -97,6 +97,12 @@ export default new Router({
          
         },
         {
+          path: 'services',
+          name: 'services',
+          component: () => import('@/pages/Services/Index'),
+         
+        },,
+        {
           path: 'profile',
           name: 'ProfilePage',
           component: Profile,
