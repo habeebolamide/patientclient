@@ -39,7 +39,6 @@
 </template>
 <script>
 import VueElementLoading from "vue-element-loading";
-import axios from "axios";
 export default {
     props: {
     my_modal: Object,
@@ -61,15 +60,29 @@ export default {
         createService(){
           this.loading = "true"
              this.$api.post(this.dynamic_route("services"), this.form)
-              .then((res) => {
+              .then(() => {
           this.loading = false;
           this.$emit("creates-service");
           this.closeMe();
-          toastr.success("Services Created Successfully");
-        
+          this.$toast.success("Service Created Successfully!", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+            });
+            
         })
-        .catch((err) => {
+        .catch(() => {
           this.loading = false;
+         
         });
         },
     closeMe() {
