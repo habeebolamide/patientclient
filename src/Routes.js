@@ -114,6 +114,14 @@ export default new Router({
           },
         },
         {
+          path: 'package',
+          name: 'package',
+          component: () => import('@/pages/Package/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'profile',
           name: 'ProfilePage',
           component: Profile,
