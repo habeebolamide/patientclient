@@ -1,42 +1,26 @@
 <template>
     <div class="">
-        <form action="" @submit.prevent="createService()">
+        <form @submit.prevent="createService">
             <VueElementLoading
           :active="loading"
           spinner="line-scale"
           color="var(--primary)"
         />
-        <div class="row">
-          <div class="col-md-12 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Service Name</span>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                v-model="form.service_name"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-md-12 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Description</span>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                v-model="form.description"
-                required
-              />
-            </div>
-          </div>
-
-        </div>
-        </form>
-        <div class="d-block text-right card-footer">
+       <div>
+        <v-text-field
+          label="Service Name"
+          :rules="rules"
+          hide-details="auto"
+          v-model="form.service_name"
+        ></v-text-field>
+        <v-text-field
+          label="Description "
+          hide-details="auto"
+          v-model="form.description"
+          class="mt-3"
+        ></v-text-field>
+       </div>
+        <div class="d-block text-right mt-4">
         <button
           type="button"
           class="mr-2 btn btn-link btn-sm"
@@ -47,14 +31,15 @@
         <button type="submit" class="btn btn-primary btn-sm">
           Create Service
         </button>
-      </div>
+       </div>
+        </form>
+     
     </div>
     
 </template>
 <script>
 import VueElementLoading from "vue-element-loading";
 import axios from "axios";
-
 export default {
     props: {
     my_modal: Object,
@@ -62,7 +47,11 @@ export default {
     data: () => ({
     errors: null,
     loading: false,
-    form:{}
+    form:{},
+    rules: [
+        value => !!value || 'Required.',
+        value => (value && value.length >= 3) || 'Min 3 characters',
+      ],
   }),
 
     components:{
@@ -70,13 +59,14 @@ export default {
     },
     methods:{
         createService(){
-            this.loading = true 
-            axios .post('/services/', this.form)
-        .then((res) => {
+          this.loading = "true"
+             this.$api.post(this.dynamic_route("services"), this.form)
+              .then((res) => {
           this.loading = false;
-          toastr.success("Services Created Successfully");
-        //   this.$emit("election-created");
+          this.$emit("creates-service");
           this.closeMe();
+          toastr.success("Services Created Successfully");
+        
         })
         .catch((err) => {
           this.loading = false;

@@ -35,7 +35,6 @@ import NotificationsPage from '@/pages/Notifications/Notifications';
 
 
 Vue.use(Router);
-
 export default new Router({
   mode: 'history',
   routes: [
@@ -44,8 +43,6 @@ export default new Router({
       name: 'Login',
       redirect: '/login',
     },
-    
-    
     {
       path: '/login',
       name: 'Login',
@@ -112,8 +109,10 @@ export default new Router({
           path: 'services',
           name: 'services',
           component: () => import('@/pages/Services/Index'),
-         
-        },,
+          meta: {
+            requireAuth: true
+          },
+        },
         {
           path: 'profile',
           name: 'ProfilePage',
@@ -131,7 +130,6 @@ export default new Router({
             requireAuth: true
           },
         },
-       
         {
           path: 'upload-audio',
           name: 'Upload Audio',
@@ -169,7 +167,6 @@ export default new Router({
           name: 'Settings',
           component: () => import('@/pages/Settings/Index'),
         },
-        
         {
           path: 'typography',
           name: 'TypographyPage',

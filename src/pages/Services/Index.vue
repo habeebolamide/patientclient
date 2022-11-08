@@ -1,17 +1,18 @@
 <template>
   <div>
     <div class="card">
-      <div class="card-header">
-        <div
+      <div class="card-header-tab card-header">
+        <!-- <div
             class="
+            card-header-title
               font-size-lg
               text-capitalize
               font-weight-normal
             "
           >
-            <i class="header-icon fa fa-header mr-3 text-muted opacity-6"></i>
+            <i class="fa fa-cog fa-2x mr-3  text-muted opacity-6"></i>
             Services Manager
-          </div>
+          </div> -->
         <div class="float-right text-capitalize actions-icon-btn">
           <b-dropdown
             toggle-class="btn-icon btn-icon-only"
@@ -19,7 +20,7 @@
             right
           >
             <span slot="button-content">
-                <i class="fa fa-th"></i>
+              <i class="fa fa-th"></i>
             </span>
             <div>
               <button
@@ -35,51 +36,135 @@
           </b-dropdown>
         </div>
       </div>
-      <div class="card-body"></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <v-data-table
+              :headers="headers"
+              :items="desserts"
+              :items-per-page="5"
+              class="elevation-1"
+            ></v-data-table> -->
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td>S/N</td>
+                    <td>Service Name</td>
+                    <td>Service Description</td>
+                    <td>Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(service, i) in services" :key="i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ service.service_name }}</td>
+                    <td>{{ service.description }}</td>
+                    <td>
+                      <div class=" text-capitalize actions-icon-btn">
+                        <b-dropdown
+                          toggle-class="btn-icon btn-icon-only"
+                          variant="link"
+                          right
+                        >
+                          <span slot="button-content">
+                            <i class="fa fa-th"></i>
+                          </span>
+                          <div>
+                            <button
+                              type="button"
+                              tabindex="0"
+                              class="dropdown-item"
+                              @click="
+                               setCurrent(service);
+                              $bvModal.show('edit-service')
+                              "
+                            >
+                              <i
+                                class="
+                                  pe-7s-note
+                                  icon-gradient
+                                  bg-grow-early
+                                  mr-2
+                                "
+                              ></i>
+                              <span>Edit Service</span>
+                            </button>
+                          </div>
+                        </b-dropdown>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <b-modal
-      id="creates-service"
-      size="lg"
-      hide-footer
-      title="Create Service"
-    >
-    <CreateService
-          :my_modal="this.$bvModal"
-        />
+    <b-modal id="creates-service" size="lg" hide-footer title="Create Service">
+      <CreateService :my_modal="this.$bvModal" 
+      @creates-service = "getServices()" />
+    </b-modal>
+    <b-modal id="edit-service" size="lg" hide-footer title="Edit Service">
+      <EditService :my_modal="this.$bvModal"
+      :currentservice="setCurrentService"
+      @edit-service = "getServices()"
+      />
     </b-modal>
   </div>
 </template>
 <script>
 import Widget from "@/components/Widget/Widget";
 import CreateService from "./Partials/Create.vue";
+import EditService from "./Partials/Edit.vue";
 import axios from "axios";
 import VueElementLoading from "vue-element-loading";
-
 import { mapState, mapActions } from "vuex";
-
 export default {
   data() {
     return {
       headers: [
         {
-          text: "Name",
+          text: "S/N",
           align: "start",
           sortable: false,
-          value: "name",
+          value: "",
         },
-        { text: "File", value: "file" },
-        { text: "Duration", value: "duration" },
-        { text: "Timestamp", value: "timestamp" },
+        { text: "Package Name", value: "" },
+        { text: "Package Description", value: "" },
       ],
+      services: {},
       data: [],
+      setCurrentService:{}
     };
   },
-  components:{
-    CreateService
+  components: {
+    CreateService,
+    EditService
   },
   computed: {},
-  mounted() {},
-  methods: {},
+  methods: {
+    getServices() {
+      this.$api
+        .get(this.dynamic_route("services"))
+        .then((res) => {
+          this.services = res.data.services;
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loading = false;
+          this.text = "";
+        });
+    },
+    setCurrent(data) {
+            this.setCurrentService = data;
+       },
+  },
+  mounted() {
+    this.getServices();
+  },
 };
 </script>
 <style scoped>
