@@ -139,7 +139,7 @@
       >
          <CreatePackage
             :my_modal="this.$bvModal"
-            @package="fetchData()"
+            @creates-package="fetchData()"
           />
         </b-modal>
       </v-app>
@@ -153,7 +153,7 @@
         <EditPackage
               :my_modal="this.$bvModal"
               :package="current"
-              @package-updated="fetchData"
+              @edit-package="fetchData()"
             />
           </b-modal>
         </v-app>
@@ -192,7 +192,6 @@
     computed: {},
     methods: {
         fetchData(page=1) {
-            
           this.$api
         .get(this.dynamic_route("pacakges"))
         .then((res) => {
