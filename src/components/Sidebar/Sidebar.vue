@@ -98,7 +98,22 @@
             index="settings2"
             isHeader
         />
-        
+        <NavLink 
+            :activeItem="activeItem"
+            header="Services"
+            link="/app/services"
+            iconName="flaticon-alert"
+            index="settingss"
+            isHeader
+        />
+        <NavLink 
+            :activeItem="activeItem"
+            header="Pacakges"
+            link="/app/package"
+            iconName="flaticon-alert"
+            index="settingss"
+            isHeader
+        />
       </ul>
       
     </nav>
