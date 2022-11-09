@@ -60,29 +60,60 @@ export default {
         createService(){
           this.loading = "true"
              this.$api.post(this.dynamic_route("services"), this.form)
-              .then(() => {
-          this.loading = false;
-          this.$emit("creates-service");
-          this.closeMe();
-          this.$toast.success("Service Created Successfully!", {
-            position: "top-right",
-            timeout: 5000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false
+              .then((res) => {
+                if (res.data.status == "true") {
+                this.loading = false;
+                this.$emit("creates-service");
+                this.closeMe();
+                this.$toast.success(res.data.message, {
+                  position: "top-right",
+                  timeout: 5000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
             });
-            
+                }else{
+                  console.log('hi');
+                  this.closeMe();
+                this.$toast.error(res.data.message, {
+                  position: "top-right",
+                  timeout: 5000,
+                  closeOnClick: true,
+                  pauseOnFocusLoss: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  draggablePercent: 0.6,
+                  showCloseButtonOnHover: false,
+                  hideProgressBar: true,
+                  closeButton: "button",
+                  icon: true,
+                  rtl: false
+            });
+                }
         })
-        .catch(() => {
+        .catch((err) => {
           this.loading = false;
-         
+          this.$toast.error(err.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
         });
         },
     closeMe() {
