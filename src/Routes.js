@@ -90,6 +90,14 @@ export default new Router({
           },
         },
         {
+          path: 'package',
+          name: 'package',
+          component: () => import('@/pages/Package/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'notification',
           name: 'notification',
           component: () => import('@/pages/Notifications/Notifications'),
@@ -101,6 +109,14 @@ export default new Router({
           path: 'services',
           name: 'services',
           component: () => import('@/pages/Services/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: 'package',
+          name: 'package',
+          component: () => import('@/pages/Package/Index'),
           meta: {
             requireAuth: true
           },
