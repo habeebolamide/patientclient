@@ -24,14 +24,14 @@
                 v-model="form.package_price"
                 ></v-text-field>
                 </div>
-                <div class="col-md-12 mb-3">
+                <!-- <div class="col-md-12 mb-3">
                     <v-select
                         :items="['active','inactive']"
                         :rules="rules"
                         label="Status"
                         v-model="form.status"
                     ></v-select>
-                </div>
+                </div> -->
             </div>
             <div class="d-block text-right card-footer">
                 <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
@@ -70,10 +70,10 @@ export default {
         .post(this.dynamic_route("pacakges"), this.form)
         .then((res) => {
           this.loading = false;
-          this.$emit("package");
+          this.$emit("creates-package");
           this.closeMe();
           this.$toast.success("Package created successfully!", {
-              position: "top-center",
+              position: "top-right",
               timeout: 5000,
               closeOnClick: true,
               pauseOnFocusLoss: true,

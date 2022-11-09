@@ -24,14 +24,14 @@
         v-model="form.package_price"
         ></v-text-field>
         </div>
-        <div class="col-md-12 mb-3">
+        <!-- <div class="col-md-12 mb-3">
             <v-select
             v-model="form.status"
                 :items="['active','inactive']"
                 :rules="rules"
                 label="Status"
             ></v-select>
-        </div>
+        </div> -->
     </div>
     <div class="d-block text-right card-footer">
         <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
@@ -66,8 +66,10 @@ export default {
             this.loading = true 
             this.$api.put(this.dynamic_route("pacakges/"+this.form.id),this.form).then((res) => {
             this.loading = false;
+            this.$emit("edit-package");
+            this.closeMe();
             this.$toast.success("Package updated successfully!", {
-              position: "top-center",
+              position: "top-right",
               timeout: 5000,
               closeOnClick: true,
               pauseOnFocusLoss: true,
@@ -80,9 +82,7 @@ export default {
               icon: true,
               rtl: false,
             });
-
-            this.closeMe();
-            this.$emit("package-updated");
+            
           })
           .catch((err) => {
             this.loading = false;
