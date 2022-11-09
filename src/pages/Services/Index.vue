@@ -47,7 +47,7 @@
             ></v-data-table> -->
 
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover"  v-if="services != ''">
                 <thead>
                   <tr>
                     <td>S/N</td>
@@ -91,6 +91,23 @@
                               ></i>
                               <span>Edit Service</span>
                             </button>
+                            <button
+                              type="button"
+                              tabindex="0"
+                              class="dropdown-item"
+                              @click="
+                              deleteCurrent(service.id);                              "
+                            >
+                              <i
+                                class="
+                                  pe-7s-note
+                                  icon-gradient
+                                  bg-grow-early
+                                  mr-2
+                                "
+                              ></i>
+                              <span>Delete Service</span>
+                            </button>
                           </div>
                         </b-dropdown>
                       </div>
@@ -98,6 +115,7 @@
                   </tr>
                 </tbody>
               </table>
+            <div class="alert text-center font-weight-bold alert-info" v-if="services == ''">No Record Found</div>
             </div>
           </div>
         </div>
@@ -158,6 +176,31 @@ export default {
           this.text = "";
         });
     },
+    deleteCurrent(id){
+          this.$api
+        .delete(this.dynamic_route("services/"+id))
+        .then((res) => {
+          this.$toast.success(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
+          this.getServices();
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loading = false;
+        });
+        },
     setCurrent(data) {
             this.setCurrentService = data;
        },
