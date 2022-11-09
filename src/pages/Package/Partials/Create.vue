@@ -1,65 +1,47 @@
 <template>
   <div>
-    <form action="" @submit.prevent="createPackage()">
-      <VueElementLoading
-        :active="loading"
-        spinner="line-scale"
-        color="var(--primary)"
-      />
+        <form action="" @submit.prevent="createPackage()">
+                <VueElementLoading
+                    :active="loading"
+                    spinner="line-scale"
+                    color="var(--primary)"
+                />
 
-      <div class="row">
-        <div class="col-md-12 mb-3">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Package Name</span>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <v-text-field
+                    label="Package Name"
+                    :rules="rules"
+                    hide-details="auto"
+                    v-model="form.package_name"
+                    ></v-text-field>
+                </div>
+                <div class="col-md-12 mb-3">
+                <v-text-field
+                label="Package Price"
+                :rules="rules"
+                hide-details="auto"
+                v-model="form.package_price"
+                ></v-text-field>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <v-select
+                        :items="['active','inactive']"
+                        :rules="rules"
+                        label="Status"
+                        v-model="form.status"
+                    ></v-select>
+                </div>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              v-model="form.package_name"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-12 mb-3">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Package Price</span>
+            <div class="d-block text-right card-footer">
+                <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary btn-sm">
+                    Create Package
+                </button>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              v-model="form.package_price"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-12 mb-3">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">Package Status</span>
-            </div>
-            <select
-              class="form-control"
-              id="status"
-              v-model="form.status"
-            >
-              <option value="">Select Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    <div class="d-block text-right card-footer">
-      <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
-        Cancel
-      </button>
-      <button type="submit" class="btn btn-primary btn-sm">
-        Create Service
-      </button>
-    </div>
-    </form>
+        </form>
   </div>
 </template>
 <script>
@@ -75,6 +57,7 @@ export default {
     errors: null,
     loading: false,
     form: {},
+    // items: ['active','inactive'],
   }),
   components: {
     VueElementLoading,

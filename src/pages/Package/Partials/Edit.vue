@@ -2,64 +2,46 @@
     <div class="">
       <form action="" @submit.prevent="UpdatePackage()">
         <VueElementLoading
-          :active="loading"
-          spinner="line-scale"
-          color="var(--primary)"
+            :active="loading"
+            spinner="line-scale"
+            color="var(--primary)"
         />
-  
-        <div class="row">
-          <div class="col-md-12 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Package Name</span>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                v-model="form.package_name"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-md-12 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Package Price</span>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                v-model="form.package_price"
-                required
-              />
-            </div>
-          </div>
-          <div class="col-md-12 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Package Status</span>
-              </div>
-              <select
-                class="form-control"
-                id="status"
-                v-model="form.status"
-              >
-                <option value="">Select Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <v-text-field
+            label="Package Name"
+            :rules="rules"
+            hide-details="auto"
+            v-model="form.package_name"
+            ></v-text-field>
         </div>
-      <div class="d-block text-right card-footer">
+        <div class="col-md-12 mb-3">
+        <v-text-field
+        label="Package Price"
+        :rules="rules"
+        hide-details="auto"
+        v-model="form.package_price"
+        ></v-text-field>
+        </div>
+        <div class="col-md-12 mb-3">
+            <v-select
+            v-model="form.status"
+                :items="['active','inactive']"
+                :rules="rules"
+                label="Status"
+            ></v-select>
+        </div>
+    </div>
+    <div class="d-block text-right card-footer">
         <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
-          Cancel
+            Cancel
         </button>
         <button type="submit" class="btn btn-primary btn-sm">
-          Update Package
+            Update Package
         </button>
-      </div>
-      </form>
+    </div>
+</form>
     </div>
 </template>
 <script>

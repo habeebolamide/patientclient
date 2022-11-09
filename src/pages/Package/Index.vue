@@ -129,29 +129,34 @@
           </div>
         </div>
       </div>
+      <v-app>
+
       <b-modal
         id="creates-package"
         size="md"
         hide-footer
         title="Create Package"
       >
-      <CreatePackage
+         <CreatePackage
             :my_modal="this.$bvModal"
             @package="fetchData()"
           />
-      </b-modal>
+        </b-modal>
+      </v-app>
+      <v-app>
       <b-modal
         id="edit-package"
         size="md"
         hide-footer
         title="Edit Package"
       >
-      <EditPackage
-            :my_modal="this.$bvModal"
-            :package="current"
-            @package-updated="fetchData"
-          />
-      </b-modal>
+        <EditPackage
+              :my_modal="this.$bvModal"
+              :package="current"
+              @package-updated="fetchData"
+            />
+          </b-modal>
+        </v-app>
     </div>
   </template>
   <script>
