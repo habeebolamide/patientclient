@@ -3,56 +3,59 @@
  
     <h1 class="page-title">Dashboard</h1>
     
-    <div class="row">
-      <div class="col-md-4 mb-1">
-        <div class="card">
-          <div class="card-body">
-            <h4>Transcribe Text</h4>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ex explicabo magni velit, veritatis sed laborum!</p>
-            <button class="btn btn-primary" type="button">Try it Out</button>
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="box">
+              <h3>Free Plan</h3>
+              <h4><sup>$</sup>0<span>per month</span></h4>
+              <ul>
+                <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
+                <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
+                <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
+                <li class="na"><i class="bx bx-x"></i> <span>Pharetra massa massa ultricies</span></li>
+                <li class="na"><i class="bx bx-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
+              </ul>
+              <a href="#" class="buy-btn">Try It Out</a>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-1">
-        <div class="card">
-          <div class="card-body">
-            <h4>Entity Recognition</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, distinctio?</p>
-            <button class="btn btn-primary" type="button">Try it Out</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-1">
-        <div class="card">
-          <div class="card-body">
-            <h4>Text Excerpt</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex quibusdam temporibus fuga sequi itaque nobis placeat optio reiciendis inventore. Ad.</p>
-            <button class="btn btn-primary" type="button">Try it Out</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-1">
-        <div class="card">
-          <div class="card-body">
-            <h4>Retrieve Audio</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, distinctio?</p>
-            <button class="btn btn-primary" type="button">Try it Out</button>
+          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+            <div class="box featured">
+              <h3>Business Plan</h3>
+              <h4><sup>$</sup>29<span>per month</span></h4>
+              <ul>
+                <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
+                <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
+                <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
+                <li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>
+                <li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>
+              </ul>
+              <a href="#" class="buy-btn">Try It Out</a>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-6 mb-1">
-        <div class="card">
-          <div class="card-body">
-            <h4>Text Sentiment </h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, distinctio?</p>
-            <button class="btn btn-primary" type="button">Try it Out</button>
+
+          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+            <div class="box">
+              <h3>Developer Plan</h3>
+              <h4><sup>$</sup>49<span>per month</span></h4>
+              <ul>
+                <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
+                <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
+                <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
+                <li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>
+                <li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>
+              </ul>
+              <a href="#" class="buy-btn">Try It Out</a>
+            </div>
           </div>
+
         </div>
+
       </div>
-    </div>
+    </section><!-- End Pricing Section -->
   
     
   </div>
@@ -335,4 +338,127 @@ export default {
   button {
     color: #ffffff;
   }
+
+  .services .row {
+  padding-top: 40px;
+}
+
+.services .box {
+  padding: 60px 40px;
+  box-shadow: 0 3px 20px -2px rgba(20, 45, 100, 0.1);
+  background: #fff;
+  height: 100%;
+  border-top: 4px solid #fff;
+  border-radius: 5px;
+}
+
+.services h3 {
+  font-weight: 500;
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #37517e;
+}
+
+.services h4 {
+  font-size: 48px;
+  color: #37517e;
+  font-weight: 400;
+  font-family: "Jost", sans-serif;
+  margin-bottom: 25px;
+}
+
+.services h4 sup {
+  font-size: 28px;
+}
+
+.services h4 span {
+  color: #47b2e4;
+  font-size: 18px;
+  display: block;
+}
+
+.services ul {
+  padding: 20px 0;
+  list-style: none;
+  color: #999;
+  text-align: left;
+  line-height: 20px;
+}
+
+.services ul li {
+  padding: 10px 0 10px 30px;
+  position: relative;
+}
+
+.services ul i {
+  color: #28a745;
+  font-size: 24px;
+  position: absolute;
+  left: 0;
+  top: 6px;
+}
+
+.services ul .na {
+  color: #ccc;
+}
+
+.services ul .na i {
+  color: #ccc;
+}
+
+.services ul .na span {
+  text-decoration: line-through;
+}
+
+.services .buy-btn {
+  display: inline-block;
+  padding: 12px 35px;
+  border-radius: 50px;
+  color: #47b2e4;
+  transition: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+  border: 1px solid #47b2e4;
+}
+
+.services .buy-btn:hover {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.services .featured {
+  border-top-color: #47b2e4;
+}
+
+.services .featured .buy-btn {
+  background: #47b2e4;
+  color: #fff;
+}
+
+.services .featured .buy-btn:hover {
+  background: #23a3df;
+}
+
+@media (max-width: 992px) {
+  .services .box {
+    max-width: 60%;
+    margin: 0 auto 30px auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .services .box {
+    max-width: 80%;
+    margin: 0 auto 30px auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .services .box {
+    max-width: 100%;
+    margin: 0 auto 30px auto;
+  }
+}
 </style>

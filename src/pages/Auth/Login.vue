@@ -1,102 +1,113 @@
 <template>
   <v-app>
     <div class="auth-page">
-      <div class="login-wrapper">
-        <div class="card mx-auto col-md-6">
-          <div class="">
-            <div class="">
-              <div class="mx-auto py-5 mt-md-4 pl-md-8 login-form">
-                <b-link :to="'/'"
-                  ><div class="text-center mt-10 mb-7">
-                    <!-- <img src="/img/logo.png" alt="" width="120">  -->
-                  </div></b-link
-                >
-                <v-form v-model="valid" @submit.prevent="login">
-                  <VueElementLoading
-                    :active="loading"
-                    spinner="bar-fade-scale"
-                    color="var(--primary)"
-                    text="Loading.."
-                    duration="0.6"
-                  />
-                  <b-alert
-                    class="alert-sm"
-                    variant="danger"
-                    :show="!!errorMessage"
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <img
+              src="/remove.png"
+              alt=""
+              class="img-fluid mb-5 center"
+              width="40%"
+            />
+            <div class="card">
+              <div class="container">
+                <div class="login-form py-5">
+                  <h1
+                    class="text-center"
+                    style="font-weight: bold; color: #3f86ca"
                   >
-                    {{ errorMessage }}
-                  </b-alert>
-                  <v-text-field
-                    v-model="form.email"
-                    :rules="emailRules"
-                    label="Email"
-                    type="email"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="form.password"
-                    :rules="passwordRules"
-                    label="Password"
-                    type="password"
-                    v-if="!showPassword"
-                    required
+                    Login to your account
+                  </h1>
+                  <p
+                    class="text-center mb-5"
+                    style="color: #4a5568; text-align: center !important"
                   >
-                    <v-icon
-                      slot="append"
-                      style="cursor: pointer"
-                      @click="togglePassword"
+                    Securely login to your Hypelbase
+                  </p>
+                  <form @submit.prevent="login" class="pt-4">
+                    <VueElementLoading
+                      :active="loading"
+                      spinner="bar-fade-scale"
+                      color="var(--primary)"
+                      text="Loading.."
+                      duration="0.6"
+                    />
+                    <b-alert
+                      class="alert-sm"
+                      variant="danger"
+                      :show="!!errorMessage"
                     >
-                      mdi-eye-outline
-                    </v-icon>
-                  </v-text-field>
-                  <v-text-field
-                    v-model="form.password"
-                    :rules="passwordRules"
-                    label="Password"
-                    type="text"
-                    required
-                    v-if="showPassword"
-                  >
-                    <v-icon
-                      slot="append"
-                      style="cursor: pointer"
-                      @click="togglePassword"
+                      {{ errorMessage }}
+                    </b-alert>
+                    <p style="color: #4a5568; font-weight: 700">Email</p>
+                    <input
+                      v-model="form.email"
+                      :rules="emailRules"
+                      label="Email"
+                      class="form-control mb-5"
+                      type="email"
+                      required
+                    />
+                    <p style="color: #4a5568; font-weight: 700">Password</p>
+
+                    <input
+                      v-model="form.password"
+                      :rules="passwordRules"
+                      label="Password"
+                      type="password"
+                      class="form-control"
+                      v-if="!showPassword"
+                      required
+                    />
+
+                    <input
+                      v-model="form.password"
+                      :rules="passwordRules"
+                      label="Password"
+                      class="form-control mb-5"
+                      type="text"
+                      required
+                      v-if="showPassword"
+                    />
+
+                    <button
+                      type="submit"
+                      class="btn-block btn auth-btn btn-lg btn-primary"
+                      @click.prevent="login"
                     >
-                      mdi-eye-off-outline
-                    </v-icon>
-                  </v-text-field>
-                  <button
-                    :disabled="!valid"
-                    type="submit"
-                    class="btn-block btn auth-btn mt-3 btn-lg btn-primary"
-                  >
-                    Login
-                  </button>
-                  <router-link
-                    style="color: brown !important"
-                    class="d-block mt-1 text-right"
-                    to="/forgot-password"
-                    >Forgot Password ?</router-link
-                  >
-                </v-form>
-                <p class="widget-auth-info text-center py-2">
-                  Don't have an account?
-                  <router-link to="/register">Sign up</router-link>
-                  <!-- <router-link class="btn btn-sm btn-warning text-white"  to="/">Visit Site</router-link> -->
-                </p>
-                <div class="pt-5 pb-5 d-none d-lg-block"></div>
+                      LOG IN
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
-            <!-- <div class="col-md-8 set text-center d-lg-block d-none">
-              <img style="width:100%" src="/img/login-img2.png" alt="">
-            </div> -->
+            <div class="others pt-3">
+              <p class="pt-5">
+                <router-link
+                  style="color: black; font-weight: 600"
+                  to="/register"
+                >
+                  Don't have an account? Register
+                </router-link>
+              </p>
+              <p class="pt-3">
+                <router-link
+                  style="color: black; font-weight: 600"
+                  to="/forgot-password"
+                >
+                  Forgot Password?
+                </router-link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <footer class="auth-footer">
+    </div>
+    <!-- <footer class="auth-footer">
         2019 &copy; Sing App Vue Admin Dashboard Template - Made by <a href="https://flatlogic.com/">Flatlogic</a>
       </footer> -->
-    </div>
   </v-app>
 </template>
 
@@ -144,7 +155,7 @@ export default {
         });
       } else {
         this.loading = true;
-        this.$api
+        axios
           .post(this.dynamic_auth_route("login"), this.form)
           .then((res) => {
             this.loading = false;
@@ -250,10 +261,33 @@ export default {
   border-radius: 0 !important;
   border: none !important;
   box-shadow: 0 4px 24px 0 rgb(34 41 47 / 40%);
+  border-radius: 25px 25px 25px 0px !important;
+  height: auto;
+  font-family: "Rubik";
+  /* width: ; */
+}
+input {
+  padding-top: 28px !important;
+  padding-bottom: 28px !important;
+  border: none;
+  background: #e8f0fe !important;
+}
+.card h1 {
+  font-family: "Rubik";
+  font-size: 25px !important;
 }
 .auth-page {
   background-image: url("/img/vuesax-login-bg.jpg");
-  padding-top: 10vh !important;
+  padding-top: 15px !important;
+}
+
+.auth-btn {
+  margin-top: 35px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  font-family: "Rubik";
+  font-weight: 700;
+  border-radius: 10px 10px 10px 0px !important;
 }
 .login-wrapper {
   width: 90%;
@@ -267,11 +301,27 @@ export default {
   background-color: #ec570d;
   /* background-image: linear-gradient(135deg, #f27233 0%, #f27233 100%) !important; */
 }
+.others {
+  font-family: "Rubik";
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-align: center;
+  color: #000000 !important;
+}
+
+.others p router-link {
+  color: #000000 !important;
+}
 .widget-auth-info {
   color: #000000 !important;
   /* font-weight: 500; */
   margin-top: 20px;
   border-top: 1px solid rgb(213, 216, 222);
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .set {
   width: 100px;
