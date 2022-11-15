@@ -193,7 +193,7 @@
     methods: {
         fetchData(page=1) {
           this.$api
-        .get(this.dynamic_route("pacakges"))
+        .get(this.dynamic_route("packages"))
         .then((res) => {
           this.packages = res.data.packages;
         })
@@ -208,7 +208,7 @@
         },
         deleteCurrent(id){
           this.$api
-        .delete(this.dynamic_route("pacakges/"+id))
+        .delete(this.dynamic_route("packages/"+id))
         .then((res) => {
           this.$toast.success(res.data.message, {
               position: "top-center",

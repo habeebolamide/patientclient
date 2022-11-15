@@ -108,8 +108,16 @@
         />
         <NavLink 
             :activeItem="activeItem"
-            header="Pacakges"
+            header="packages"
             link="/app/package"
+            iconName="flaticon-alert"
+            index="settingss"
+            isHeader
+        />
+        <NavLink 
+            :activeItem="activeItem"
+            header="My Packages"
+            link="/app/my-packages"
             iconName="flaticon-alert"
             index="settingss"
             isHeader

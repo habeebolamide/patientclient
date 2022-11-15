@@ -67,7 +67,7 @@ export default {
         // return console.log(this.dynamic_route())
       this.loading = "true";
       this.$api
-        .post(this.dynamic_route("pacakges"), this.form)
+        .post(this.dynamic_route("packages"), this.form)
         .then((res) => {
           this.loading = false;
           this.$emit("creates-package");

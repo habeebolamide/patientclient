@@ -7,46 +7,12 @@
     <section id="services" class="services">
       <div class="container" data-aos="fade-up">
         <div class="row">
-          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="box">
-              <h3>Free Plan</h3>
-              <h4><sup>$</sup>0<span>per month</span></h4>
-              <ul>
-                <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
-                <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
-                <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
-                <li class="na"><i class="bx bx-x"></i> <span>Pharetra massa massa ultricies</span></li>
-                <li class="na"><i class="bx bx-x"></i> <span>Massa ultricies mi quis hendrerit</span></li>
-              </ul>
-              <a href="#" class="buy-btn">Try It Out</a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+          <div class="col-lg-4" v-for="(service, i) in services" :key="i" data-aos="fade-up" data-aos-delay="100">
             <div class="box featured">
-              <h3>Business Plan</h3>
-              <h4><sup>$</sup>29<span>per month</span></h4>
+              <!-- <h3>Free Plan</h3> -->
+              <h4>{{ service.service_name }}</h4>
               <ul>
-                <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
-                <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
-                <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
-                <li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>
-                <li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>
-              </ul>
-              <a href="#" class="buy-btn">Try It Out</a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-            <div class="box">
-              <h3>Developer Plan</h3>
-              <h4><sup>$</sup>49<span>per month</span></h4>
-              <ul>
-                <li><i class="bx bx-check"></i> Quam adipiscing vitae proin</li>
-                <li><i class="bx bx-check"></i> Nec feugiat nisl pretium</li>
-                <li><i class="bx bx-check"></i> Nulla at volutpat diam uteera</li>
-                <li><i class="bx bx-check"></i> Pharetra massa massa ultricies</li>
-                <li><i class="bx bx-check"></i> Massa ultricies mi quis hendrerit</li>
+                <li> {{ service.description }}</li>
               </ul>
               <a href="#" class="buy-btn">Try It Out</a>
             </div>
@@ -147,8 +113,7 @@ export default {
       };
     }
   },
-  mounted() {
-  },
+
   data() {
     return {
       mock,
@@ -156,7 +121,8 @@ export default {
       authType:'',
       analytics:{},
       loading:true,
-      CompKey : 0
+      CompKey : 0,
+      services:{},
        
     };
   },
@@ -216,8 +182,22 @@ export default {
         }
     },
     
-
+    getServices() {
+      this.$api
+        .get(this.dynamic_route("services"))
+        .then((res) => {
+          this.services = res.data.services;
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loading = false;
+          this.text = "";
+        });
+    },
     
+  },
+  mounted() {
+    this.getServices();
   },
 };
 </script>
@@ -360,16 +340,13 @@ export default {
 }
 
 .services h4 {
-  font-size: 48px;
+  font-size: 28px;
   color: #37517e;
   font-weight: 400;
-  font-family: "Jost", sans-serif;
-  margin-bottom: 25px;
+  font-family: 'Rubik';
+  /* margin-bottom: 25px; */
 }
 
-.services h4 sup {
-  font-size: 28px;
-}
 
 .services h4 span {
   color: #47b2e4;
@@ -380,13 +357,14 @@ export default {
 .services ul {
   padding: 20px 0;
   list-style: none;
+  font-family: 'Rubik';
   color: #999;
   text-align: left;
   line-height: 20px;
 }
 
 .services ul li {
-  padding: 10px 0 10px 30px;
+  /* padding: 10px 0 10px 30px; */
   position: relative;
 }
 

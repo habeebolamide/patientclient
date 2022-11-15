@@ -64,7 +64,7 @@ export default {
     methods:{
         UpdatePackage(){
             this.loading = true 
-            this.$api.put(this.dynamic_route("pacakges/"+this.form.id),this.form).then((res) => {
+            this.$api.put(this.dynamic_route("packages/"+this.form.id),this.form).then((res) => {
             this.loading = false;
             this.$emit("edit-package");
             this.closeMe();
