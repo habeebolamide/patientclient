@@ -1,18 +1,14 @@
 <template>
   <div>
-    <div class="card">
-      <div class="card-header-tab card-header">
-        <!-- <div
-            class="
-            card-header-title
-              font-size-lg
-              text-capitalize
-              font-weight-normal
-            "
-          >
-            <i class="fa fa-cog fa-2x mr-3  text-muted opacity-6"></i>
-            Services Manager
-          </div> -->
+    <v-card 
+    class="mx-auto"
+    max-height="auto"
+    >
+      <v-card-title>
+        <div class="font-size-lg text-capitalize font-weight-normal">
+          <i class="header-icon fi flaticon-audio mr-3 text-muted opacity-6"></i>
+          Services Manager
+        </div>
         <div class="float-right text-capitalize actions-icon-btn">
           <b-dropdown
             toggle-class="btn-icon btn-icon-only"
@@ -35,25 +31,18 @@
             </div>
           </b-dropdown>
         </div>
-      </div>
-      <div class="card-body">
+      </v-card-title>
+
+      <v-card-text class="text-h5 font-weight-bold">
         <div class="row">
           <div class="col-md-12">
-            <!-- <v-data-table
-              :headers="headers"
-              :items="desserts"
-              :items-per-page="5"
-              class="elevation-1"
-            ></v-data-table> -->
-
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover"  v-if="services != ''">
+            <v-simple-table v-if="services != ''">
                 <thead>
                   <tr>
-                    <td>S/N</td>
-                    <td>Service Name</td>
-                    <td>Service Description</td>
-                    <td>Action</td>
+                    <th>S/N</th>
+                    <th>Service Name</th>
+                    <th>Service Description</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -114,13 +103,15 @@
                     </td>
                   </tr>
                 </tbody>
-              </table>
-            <div class="alert text-center font-weight-bold alert-info" v-if="services == ''">No Record Found</div>
+            </v-simple-table>
+            <div class="alert alert-primary text-center" role="alert" v-else>
+               <h4> No Record Found !!!</h4>
             </div>
+          
           </div>
         </div>
-      </div>
-    </div>
+      </v-card-text>
+    </v-card>
     <b-modal id="creates-service" size="lg" hide-footer title="Create Service">
       <CreateService :my_modal="this.$bvModal" 
       @creates-service = "getServices()" />

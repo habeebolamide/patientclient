@@ -162,10 +162,9 @@ export default {
   methods: {
     getPackages() {
       this.$api
-        .get(this.dynamic_route("packages"))
+        .get(this.dynamic_route("pacakges"))
         .then((res) => {
           this.packages = res.data.packages;
-
         })
         .catch((err) => {})
         .finally(() => {
