@@ -24,14 +24,7 @@
         v-model="form.package_price"
         ></v-text-field>
         </div>
-        <!-- <div class="col-md-12 mb-3">
-            <v-select
-            v-model="form.status"
-                :items="['active','inactive']"
-                :rules="rules"
-                label="Status"
-            ></v-select>
-        </div> -->
+      
     </div>
     <div class="d-block text-right card-footer">
         <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
@@ -64,7 +57,7 @@ export default {
     methods:{
         UpdatePackage(){
             this.loading = true 
-            this.$api.put(this.dynamic_route("packages/"+this.form.id),this.form).then((res) => {
+            this.$api.put(this.dynamic_route("pacakges/"+this.form.id),this.form).then((res) => {
             this.loading = false;
             this.$emit("edit-package");
             this.closeMe();

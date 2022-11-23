@@ -77,7 +77,8 @@ export default {
                   icon: true,
                   rtl: false
             });
-                }else{
+                }
+                else{
                   this.closeMe();
                 this.$toast.error(res.data.message, {
                   position: "top-right",

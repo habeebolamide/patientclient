@@ -49,7 +49,7 @@
                 <tr v-for="(p, i) in packages" :key="i">
                   <td>{{ i + 1 }}</td>
                   <td>{{ p.package_name }}</td>
-                  <td>{{ p.package_price }}</td>
+                  <td><sup>₦</sup>{{ p.package_price }}</td>
                   <!-- <td>{{}}</td> -->
                   <td>
                     <span
@@ -133,7 +133,7 @@
       <EditPackage
         :my_modal="this.$bvModal"
         :package="current"
-        @edit-package="fetchData()"
+        @edit-package="getPackages()"
       />
     </b-modal>
   </div>
