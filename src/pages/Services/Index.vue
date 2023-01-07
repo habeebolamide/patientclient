@@ -1,42 +1,26 @@
 <template>
   <div>
-    <v-card 
-    class="mx-auto"
-    max-height="auto"
-    >
-      <v-card-title>
-        <div class="font-size-lg text-capitalize font-weight-normal">
-          <i class="header-icon fi flaticon-audio mr-3 text-muted opacity-6"></i>
-          Services Manager
-        </div>
-        <div class="float-right text-capitalize actions-icon-btn">
-          <b-dropdown
-            toggle-class="btn-icon btn-icon-only"
-            variant="link"
-            right
-          >
-            <span slot="button-content">
-              <i class="fa fa-th"></i>
-            </span>
-            <div>
-              <button
-                type="button"
-                tabindex="0"
-                class="dropdown-item"
-                @click="$bvModal.show('creates-service')"
-              >
-                <i class="pe-7s-note icon-gradient bg-grow-early mr-2"></i>
-                <span>Create Service</span>
-              </button>
-            </div>
-          </b-dropdown>
-        </div>
-      </v-card-title>
+    <v-card class="mx-auto" max-height="auto">
+      <v-container>
+        <v-card-title>
+          <div class="font-size-lg text-capitalize font-weight-normal">
+            <i class="fi flaticon-audio mr-3 text-muted opacity-6"></i>
+            Service Manager
+          </div>
+          <v-spacer></v-spacer>
+          <div data-app>
+            <v-row justify="center">
+              <CreateService
+                        @creates-service="getServices()"
+                      />
+            </v-row>
+          </div>
+        </v-card-title>
 
-      <v-card-text class="text-h5 font-weight-bold">
-        <div class="row">
-          <div class="col-md-12">
-            <v-simple-table v-if="services != ''">
+        <v-card-text class="text-h5 font-weight-bold">
+          <div class="row">
+            <div class="col-md-12">
+              <v-simple-table v-if="services != ''">
                 <thead>
                   <tr>
                     <th>S/N</th>
@@ -51,7 +35,7 @@
                     <td>{{ service.service_name }}</td>
                     <td>{{ service.description }}</td>
                     <td>
-                      <div class=" text-capitalize actions-icon-btn">
+                      <div class="text-capitalize actions-icon-btn">
                         <b-dropdown
                           toggle-class="btn-icon btn-icon-only"
                           variant="link"
@@ -60,32 +44,16 @@
                           <span slot="button-content">
                             <i class="fa fa-th"></i>
                           </span>
-                          <div>
-                            <button
-                              type="button"
+                          <div >
+                              <EditService
+                                :currentservice="service"
+                                @edit-service="getServices()"
+                              />
+                            <v-btn
                               tabindex="0"
-                              class="dropdown-item"
-                              @click="
-                               setCurrent(service);
-                              $bvModal.show('edit-service')
-                              "
-                            >
-                              <i
-                                class="
-                                  pe-7s-note
-                                  icon-gradient
-                                  bg-grow-early
-                                  mr-2
-                                "
-                              ></i>
-                              <span>Edit Service</span>
-                            </button>
-                            <button
-                              type="button"
-                              tabindex="0"
-                              class="dropdown-item"
-                              @click="
-                              deleteCurrent(service.id);                              "
+                              color="blue darken-1" 
+                              text
+                              @click="deleteCurrent(service.id)"
                             >
                               <i
                                 class="
@@ -96,30 +64,28 @@
                                 "
                               ></i>
                               <span>Delete Service</span>
-                            </button>
+                          </v-btn>
                           </div>
                         </b-dropdown>
                       </div>
                     </td>
                   </tr>
                 </tbody>
-            </v-simple-table>
-            <div class="alert alert-primary text-center" role="alert" v-else>
-               <h4> No Record Found !!!</h4>
+              </v-simple-table>
+              <div class="alert alert-primary text-center mt-5" role="alert" v-else>
+                <h4>No Record Found !!!</h4>
+              </div>
             </div>
-          
           </div>
-        </div>
-      </v-card-text>
+        </v-card-text>
+      </v-container>
     </v-card>
-    <b-modal id="creates-service" size="lg" hide-footer title="Create Service">
-      <CreateService :my_modal="this.$bvModal" 
-      @creates-service = "getServices()" />
-    </b-modal>
+   
     <b-modal id="edit-service" size="lg" hide-footer title="Edit Service">
-      <EditService :my_modal="this.$bvModal"
-      :currentservice="setCurrentService"
-      @edit-service = "getServices()"
+      <EditService
+        :my_modal="this.$bvModal"
+        :currentservice="setCurrentService"
+        @edit-service="getServices()"
       />
     </b-modal>
   </div>
@@ -146,15 +112,19 @@ export default {
       ],
       services: {},
       data: [],
-      setCurrentService:{}
+      
+      setCurrentService: {},
     };
   },
   components: {
     CreateService,
-    EditService
+    EditService,
   },
   computed: {},
   methods: {
+    closeDialog() {
+      this.$emit("input");
+    },
     getServices() {
       this.$api
         .get(this.dynamic_route("services"))
@@ -167,49 +137,49 @@ export default {
           this.text = "";
         });
     },
-    deleteCurrent(id){
-          this.$api
-        .delete(this.dynamic_route("services/"+id))
+    deleteCurrent(id) {
+      this.$api
+        .delete(this.dynamic_route("services/" + id))
         .then((res) => {
           this.$toast.success(res.data.message, {
-              position: "top-right",
-              timeout: 5000,
-              closeOnClick: true,
-              pauseOnFocusLoss: true,
-              pauseOnHover: true,
-              draggable: true,
-              draggablePercent: 0.6,
-              showCloseButtonOnHover: false,
-              hideProgressBar: true,
-              closeButton: "button",
-              icon: true,
-              rtl: false,
-            });
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
           this.getServices();
         })
         .catch((err) => {
           this.$toast.error(err.data.message, {
-              position: "top-right",
-              timeout: 5000,
-              closeOnClick: true,
-              pauseOnFocusLoss: true,
-              pauseOnHover: true,
-              draggable: true,
-              draggablePercent: 0.6,
-              showCloseButtonOnHover: false,
-              hideProgressBar: true,
-              closeButton: "button",
-              icon: true,
-              rtl: false,
-            });
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         })
         .finally(() => {
           this.loading = false;
         });
-        },
+    },
     setCurrent(data) {
-            this.setCurrentService = data;
-       },
+      this.setCurrentService = data;
+    },
   },
   mounted() {
     this.getServices();
