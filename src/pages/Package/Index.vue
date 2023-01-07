@@ -1,33 +1,17 @@
 <template>
   <div>
     <v-card class="mx-auto">
-      <v-card-title>
+      <v-container>
+        <v-card-title>
         <div class="font-size-lg text-capitalize font-weight-normal">
           <i class="fi flaticon-audio mr-3 text-muted opacity-6"></i>
           Package Manager
         </div>
         <v-spacer></v-spacer>
-        <div class="float-right text-capitalize actions-icon-btn">
-          <b-dropdown
-            toggle-class="btn-icon btn-icon-only"
-            variant="link"
-            right
-          >
-            <span slot="button-content">
-              <i class="fa fa-th"></i>
-            </span>
-            <div>
-              <button
-                type="button"
-                tabindex="0"
-                class="dropdown-item"
-                @click="$bvModal.show('creates-package')"
-              >
-                <i class="pe-7s-note icon-gradient bg-grow-early mr-2"></i>
-                <span>Create Package</span>
-              </button>
-            </div>
-          </b-dropdown>
+        <div data-app>
+          <CreatePackage
+          @creates-package="getPackages()"
+       />
         </div>
       </v-card-title>
 
@@ -73,29 +57,14 @@
                           <i class="fa fa-th"></i>
                         </span>
                         <div>
-                          <button
+                          <EditPackage
+                            :package="p"
+                            @edit-package="getPackages()"
+                          />
+                          <v-btn
                             type="button"
                             tabindex="0"
-                            class="dropdown-item"
-                            @click="
-                              setCurrent(p);
-                              $bvModal.show('edit-package');
-                            "
-                          >
-                            <i
-                              class="
-                                pe-7s-note
-                                icon-gradient
-                                bg-grow-early
-                                mr-2
-                              "
-                            ></i>
-                            <span>Edit Package</span>
-                          </button>
-                          <button
-                            type="button"
-                            tabindex="0"
-                            class="dropdown-item"
+                            text
                             @click="deleteCurrent(p.id)"
                           >
                             <i
@@ -107,7 +76,7 @@
                               "
                             ></i>
                             <span>Delete Package</span>
-                          </button>
+                        </v-btn>
                         </div>
                       </b-dropdown>
                     </div>
@@ -122,19 +91,13 @@
           </div>
         </div>
       </v-card-text>
+      </v-container>
     </v-card>
-    <b-modal id="creates-package" size="md" hide-footer title="Create Package">
-      <CreatePackage
-        :my_modal="this.$bvModal"
-        @creates-package="getPackages()"
-      />
-    </b-modal>
+    <!-- <b-modal id="creates-package" size="md" hide-footer title="Create Package">
+     
+    </b-modal> -->
     <b-modal id="edit-package" size="md" hide-footer title="Edit Package">
-      <EditPackage
-        :my_modal="this.$bvModal"
-        :package="current"
-        @edit-package="getPackages()"
-      />
+    
     </b-modal>
   </div>
 </template>

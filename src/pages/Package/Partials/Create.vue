@@ -1,39 +1,57 @@
 <template>
-  <div>
-        <form action="" @submit.prevent="createPackage()">
-                <VueElementLoading
-                    :active="loading"
-                    spinner="line-scale"
-                    color="var(--primary)"
-                />
-
-            <div class="row">
-                <div class="col-md-12 mb-3">
+  <v-dialog v-model="dialog" persistent max-width="600px">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn class="mx-2" fab small dark color="#3f50b5" v-bind="attrs" v-on="on">
+        <v-icon dark> mdi-format-list-bulleted-square </v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <span class="text-h5">Create Package</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container>
+          <div class="">
+            <form>
+              <VueElementLoading
+                :active="loading"
+                spinner="line-scale"
+                color="var(--primary)"
+              />
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
                     <v-text-field
-                    label="Package Name"
-                    hide-details="auto"
-                    v-model="form.package_name"
+                      label="Package Name"
+                      v-model="form.package_name"
+                      required
                     ></v-text-field>
-                </div>
-                <div class="col-md-12 mb-3">
-                <v-text-field
-                label="Package Price"
-                hide-details="auto"
-                v-model="form.package_price"
-                ></v-text-field>
-                </div>
-              
-            </div>
-            <div class="d-block text-right card-footer">
-                <button type="button" class="mr-2 btn btn-link btn-sm" @click="closeMe()">
-                    Cancel
-                </button>
-                <button type="submit" class="btn btn-primary btn-sm">
-                    Create Package
-                </button>
-            </div>
-        </form>
-  </div>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Price"
+                      type="text"
+                      v-model="form.package_price"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeMe()">
+                  Close
+                </v-btn>
+                <v-btn color="blue darken-1" text @click="createPackage()">
+                  Create Package
+                </v-btn>
+              </v-card-actions>
+            </form>
+          </div>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import Widget from "@/components/Widget/Widget";
@@ -42,63 +60,31 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   props: {
-    my_modal: Object,
   },
   data: () => ({
     errors: null,
     loading: false,
     form: {},
-    // items: ['active','inactive'],
+    dialog: false,
+    rules: [
+        (value) => !!value || "Required.",
+        (value) => (value && value.length >= 3) || "Min 3 characters",
+      ],
   }),
   components: {
     VueElementLoading,
   },
   methods: {
-    createPackage(){
-          this.loading = "true"
-             this.$api.post(this.dynamic_route("pacakges"), this.form)
-              .then((res) => {
-                console.log(this.form);
-                if (res.data.status == "true") {
-                this.loading = false;
-                this.$emit("creates-package");
-                this.closeMe();
-                this.$toast.success(res.data.message, {
-                  position: "top-right",
-                  timeout: 5000,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  draggablePercent: 0.6,
-                  showCloseButtonOnHover: false,
-                  hideProgressBar: true,
-                  closeButton: "button",
-                  icon: true,
-                  rtl: false
-            });
-                }
-                else{
-                  this.closeMe();
-                this.$toast.error(res.data.message, {
-                  position: "top-right",
-                  timeout: 5000,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  draggablePercent: 0.6,
-                  showCloseButtonOnHover: false,
-                  hideProgressBar: true,
-                  closeButton: "button",
-                  icon: true,
-                  rtl: false
-            });
-                }
-        })
-        .catch((err) => {
-          this.loading = false;
-          this.$toast.error(err.data.message, {
+    createPackage() {
+      this.loading = true;
+      this.$api
+        .post(this.dynamic_route("pacakges"), this.form)
+        .then((res) => {
+          if (res.status == 201) {
+            this.loading = false;
+            this.$emit("creates-package");
+            this.closeMe();
+            this.$toast.success(res.data.message, {
               position: "top-right",
               timeout: 5000,
               closeOnClick: true,
@@ -112,10 +98,28 @@ export default {
               icon: true,
               rtl: false,
             });
+          } 
+        })
+        .catch((err) => {
+          this.loading = false;
+          this.$toast.error(err.data.message, {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         });
-        },
+    },
     closeMe() {
-      this.my_modal.hide("creates-package");
+      this.dialog = !this.dialog;
     },
   },
   mounted() {},

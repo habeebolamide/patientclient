@@ -1,106 +1,93 @@
 <template>
-    <div class="">
-        <form @submit.prevent="createService">
-            <VueElementLoading
-          :active="loading"
-          spinner="line-scale"
-          color="var(--primary)"
-        />
-       <div>
-        <v-text-field
-          label="Service Name"
-          :rules="rules"
-          hide-details="auto"
-          v-model="form.service_name"
-        ></v-text-field>
-        <v-text-field
-          label="Description "
-          hide-details="auto"
-          v-model="form.description"
-          class="mt-3"
-        ></v-text-field>
-       </div>
-        <div class="d-block text-right mt-4">
-        <button
-          type="button"
-          class="mr-2 btn btn-link btn-sm"
-          @click="closeMe()"
-        >
-          Cancel
-        </button>
-        <button type="submit" class="btn btn-primary btn-sm">
-          Create Service
-        </button>
-       </div>
-        </form>
-     
-    </div>
-    
+  <v-dialog v-model="dialog" persistent max-width="600px">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn class="mx-2" fab dark small color="#3f50b5" v-bind="attrs" v-on="on">
+        <v-icon dark> mdi-format-list-bulleted-square </v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <span class="text-h5">Create Service</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container>
+          <div class="">
+            <form>
+              <VueElementLoading
+                :active="loading"
+                spinner="line-scale"
+                color="var(--primary)"
+              />
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Service Name"
+                      v-model="form.service_name"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      label="Service Description"
+                      type="text"
+                      v-model="form.description"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeMe()">
+                  Close
+                </v-btn>
+                <v-btn color="blue darken-1" text @click="createService()">
+                  Create Service
+                </v-btn>
+              </v-card-actions>
+            </form>
+          </div>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
+import { objectEach } from "highcharts";
 import VueElementLoading from "vue-element-loading";
 export default {
-    props: {
+  props: {
     my_modal: Object,
   },
-    data: () => ({
-    errors: null,
-    loading: false,
-    form:{},
-    rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
+  data() {
+    return {
+      errors: null,
+      loading: false,
+      form: {},
+      dialog: false,
+      rules: [
+        (value) => !!value || "Required.",
+        (value) => (value && value.length >= 3) || "Min 3 characters",
       ],
-  }),
+    };
+  },
 
-    components:{
-        VueElementLoading
-    },
-    methods:{
-        createService(){
-          this.loading = "true"
-             this.$api.post(this.dynamic_route("services"), this.form)
-              .then((res) => {
-                if (res.data.status == "true") {
-                this.loading = false;
-                this.$emit("creates-service");
-                this.closeMe();
-                this.$toast.success(res.data.message, {
-                  position: "top-right",
-                  timeout: 5000,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  draggablePercent: 0.6,
-                  showCloseButtonOnHover: false,
-                  hideProgressBar: true,
-                  closeButton: "button",
-                  icon: true,
-                  rtl: false
-            });
-                }else{
-                  console.log('hi');
-                  this.closeMe();
-                this.$toast.error(res.data.message, {
-                  position: "top-right",
-                  timeout: 5000,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  draggablePercent: 0.6,
-                  showCloseButtonOnHover: false,
-                  hideProgressBar: true,
-                  closeButton: "button",
-                  icon: true,
-                  rtl: false
-            });
-                }
-        })
-        .catch((err) => {
-          this.loading = false;
-          this.$toast.error(err.data.message, {
+  components: {
+    VueElementLoading,
+  },
+  methods: {
+    createService() {
+      this.loading = true;
+      this.$api
+        .post(this.dynamic_route("services"), this.form)
+        .then((res) => {
+          if (res.status == 201) {
+            // return console.log(res);
+            this.loading = false;
+            this.closeMe()
+            this.$emit("creates-service");
+            this.$toast.success(res.data.message, {
               position: "top-right",
               timeout: 5000,
               closeOnClick: true,
@@ -114,13 +101,50 @@ export default {
               icon: true,
               rtl: false,
             });
+          }else{  
+            this.loading = false;
+            this.toggleModal()
+            this.$toast.success(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
+            this.$emit("creates-service");
+          }
+        })
+        .catch((err) => {
+          this.loading = false;
+          // this.$toast.error(err.data.message, {
+          //   position: "top-right",
+          //   timeout: 5000,
+          //   closeOnClick: true,
+          //   pauseOnFocusLoss: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   draggablePercent: 0.6,
+          //   showCloseButtonOnHover: false,
+          //   hideProgressBar: true,
+          //   closeButton: "button",
+          //   icon: true,
+          //   rtl: false,
+          // });
         });
-        },
+    },
     closeMe() {
-         this.my_modal.hide("creates-service");
+      this.dialog = !this.dialog;
     },
-    },
-    mounted(){
-    }
-}
+    
+  },
+  mounted() {
+  },
+};
 </script>
