@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn class="mx-2" fab dark small color="#3f50b5" v-bind="attrs" v-on="on">
+      <v-btn class="mx-2" fab small color="#3f50b5" v-bind="attrs" v-on="on" outlined>
         <v-icon dark> mdi-format-list-bulleted-square </v-icon>
       </v-btn>
     </template>
@@ -35,6 +35,13 @@
                       required
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="12">
+                    <v-select
+                      :items="items"
+                      label="Status"
+                      v-model="form.status"
+                    ></v-select>
+                  </v-col>
                 </v-row>
               </v-container>
               <v-card-actions>
@@ -66,6 +73,7 @@ export default {
       loading: false,
       form: {},
       dialog: false,
+      items: ['active', 'inactive'],
       rules: [
         (value) => !!value || "Required.",
         (value) => (value && value.length >= 3) || "Min 3 characters",

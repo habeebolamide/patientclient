@@ -26,6 +26,7 @@
                     <th>S/N</th>
                     <th>Service Name</th>
                     <th>Service Description</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -34,6 +35,15 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ service.service_name }}</td>
                     <td>{{ service.description }}</td>
+                    <td> <span
+                      class="badge text-capitalize py-2 px-2"
+                      :class="{
+                        'bg-success': service.status == 'active',
+                        'bg-danger': service.status == 'inactive',
+                      }"
+                    >
+                      {{ service.status }}
+                    </span></td>
                     <td>
                       <div class="text-capitalize actions-icon-btn">
                         <b-dropdown

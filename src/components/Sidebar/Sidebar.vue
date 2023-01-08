@@ -6,7 +6,7 @@
         @mouseleave="sidebarMouseLeave"
     >
       <header class="logo text-center">
-        <img src="/remove.png" alt="HypelBase logo" width="100%">
+        <img src="/remove.png" alt="HypelBase logo" width="70%">
 
         <router-link to="/app/dashboard">
           <!-- <span class="primary-word">

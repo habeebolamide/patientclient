@@ -32,6 +32,12 @@
                   v-model="form.package_price"
                   class="mt-3"
                 ></v-text-field>
+                    <v-select
+                      :items="items"
+                      label="Status"
+                      v-model="form.status"
+                      class="mt-3"
+                    ></v-select>
               </div>
               <div class="d-block text-right mt-4">
                 <v-btn color="blue darken-1" text @click="closeMe()">
@@ -61,6 +67,7 @@ export default {
       loading: false,
       form: this.package,
       dialog: false,
+      items: ['active', 'inactive'],
       rules: [
         (value) => !!value || "Required.",
         (value) => (value && value.length >= 3) || "Min 3 characters",
