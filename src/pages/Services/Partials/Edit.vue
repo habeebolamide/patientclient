@@ -32,8 +32,14 @@
                   hide-details="auto"
                   :rules="rules"
                   v-model="form.description"
-                  class="mt-3"
+                  class="mt-5"
                 ></v-text-field>
+                    <v-select
+                      :items="items"
+                      label="Status"
+                      v-model="form.status"
+                      class="mt-5"
+                    ></v-select>
               </div>
               <div class="d-block text-right mt-4">
                 <v-btn color="blue darken-1" text @click="closeMe()">
@@ -64,15 +70,11 @@ export default {
     return {
       errors: null,
       loading: false,
-
-      form: {
-        service_name: this.currentservice.service_name,
-        description: this.currentservice.description,
-      },
+      items: ['active', 'inactive'],
+      form:this.currentservice,
       dialog: false,
       rules: [
         (value) => !!value || "Required.",
-        (value) => (value && value.length >= 3) || "Min 3 characters",
       ],
       
     };
@@ -84,14 +86,15 @@ export default {
   methods: {
     UpdateService() {
       this.loading = true;
-      let id = this.currentservice.id;
       this.$api
-        .put(this.dynamic_route("services/" + id), this.form)
-        .then(() => {
-          this.loading = false;
+        .put(this.dynamic_route("services/" + this.form.id), this.form)
+        .then((res) => {
+          console.log(res);
+          if (res.data.status) {
+            this.loading = false;
           this.closeMe();
           this.$emit("edit-service");
-          this.$toast.success("Service Updated Successfully!", {
+          this.$toast.success(res.data.message, {
             position: "top-right",
             timeout: 5000,
             closeOnClick: true,
@@ -104,12 +107,31 @@ export default {
             closeButton: "button",
             icon: true,
             rtl: false,
-          });
+            });
+          }else if (!res.data.status) {
+            console.log(res);
+            this.loading = false;
+          this.closeMe();
+          this.$emit("edit-service");
+          return  this.$toast.error(res.data.message, {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+            });
+          }
         })
         .catch((err) => {
           this.loading = true;
-          alert(err);
-          this.my_modal.show("edit-service");
+          this.closeMe()
         });
     },
     closeMe() {
