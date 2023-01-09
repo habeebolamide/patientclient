@@ -71,12 +71,12 @@
                             color="var(--primary)"
                           />
                           <b-alert
-                          class="alert-sm"
-                          variant="danger"
-                          :show="!!errorMessage"
-                        >
-                          {{ errorMessage }}
-                        </b-alert>
+                            class="alert-sm"
+                            variant="danger"
+                            :show="!!errorMessage"
+                          >
+                            {{ errorMessage }}
+                          </b-alert>
                           <v-container>
                             <v-row>
                               <v-col cols="12">
@@ -270,14 +270,13 @@ export default {
       loading: false,
       changePassLoading: false,
       disableEdit: true,
-      form: { user_type: {}  },
-      authInfo: {
-      },
+      form: { user_type: {} },
+      authInfo: {},
       dialog: false,
       errors: {},
       countries: countries,
-      errorMessage:null,
-      loading1 :false,
+      errorMessage: null,
+      loading1: false,
       nameRule: [(v) => !!v || "Field is required"],
       show1: false,
       show2: false,
@@ -304,48 +303,66 @@ export default {
     closeMe() {
       this.dialog = !this.dialog;
     },
-    changePassword(){
-        this.loading1 = true
-        this.$api.put(this.dynamic_auth_route("updatePassword"), this.authInfo)
+    changePassword() {
+      this.loading1 = true;
+      this.$api
+        .put(this.dynamic_auth_route("updatePassword"), this.authInfo)
         .then((res) => {
-          if (res.data.success == false) {
-            this.loading1 = true
-            this.$toast.error(res.data.data, {
-            position: "top-right",
-            timeout: 5000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false,
-           });
+          if (this.authInfo.newpassword != this.authInfo.confirm) {
+            this.loading1 = false;
+            return this.$toast.error("Password do not match!", {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
+          } else {
+            if (res.data.success == false) {
+              this.loading1 = true;
+              this.$toast.error(res.data.data, {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false,
+              });
+              this.dialog = !this.dialog;
+            } else if (res.data.success == true) {
+              this.loading1 = false;
+              this.dialog = !this.dialog;
+              this.disableEdit = !this.disableEdit;
+              this.$toast.success(res.data.data, {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false,
+              });
+            }
           }
-          else if (res.data.success == true){
-            this.loading1 = false
-            this.dialog = !this.dialog
-            this.disableEdit = !this.disableEdit;
-            this.$toast.success(res.data.data, {
-            position: "top-right",
-            timeout: 5000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false,
-          });
-          }
-
-        })
+        });
     },
     editUserInfo() {
       this.loading = true;

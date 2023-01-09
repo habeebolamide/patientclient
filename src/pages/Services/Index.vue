@@ -205,4 +205,15 @@ export default {
   background-color: #ec570d !important;
   /* background-image: linear-gradient(135deg, #f27233 0%, #f27233 100%) !important; */
 }
+  .dropdown-toggle::after {
+    font-family: "Line Awesome Free", sans-serif;
+    content: none !important;
+    border: none;
+    width: auto;
+    height: auto;
+    vertical-align: baseline;
+    opacity: 0.8;
+    font-size: 85%;
+    font-weight: 600;
+}
 </style>
