@@ -106,6 +106,7 @@ export default {
               icon: true,
               rtl: false,
             });
+            this.form={}
           } 
         })
         .catch((err) => {

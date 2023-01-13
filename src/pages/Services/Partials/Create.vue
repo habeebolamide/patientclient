@@ -109,6 +109,7 @@ export default {
               icon: true,
               rtl: false,
             });
+            this.form = {}
           }else{  
             this.loading = false;
             this.toggleModal()

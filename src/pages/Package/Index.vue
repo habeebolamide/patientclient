@@ -77,6 +77,10 @@
                             ></i>
                             <span>Delete Package</span>
                         </v-btn>
+                        <AttachService
+                          @attach-service="getPackages()"
+                          :package = "p"
+                        />
                         </div>
                       </b-dropdown>
                     </div>
@@ -105,6 +109,7 @@
 import Widget from "@/components/Widget/Widget";
 import CreatePackage from "./Partials/Create.vue";
 import EditPackage from "./Partials/Edit.vue";
+import AttachService from "./Partials/AttachService.vue"
 import axios from "axios";
 import VueElementLoading from "vue-element-loading";
 import { mapState, mapActions } from "vuex";
@@ -130,6 +135,7 @@ export default {
   components: {
     CreatePackage,
     EditPackage,
+    AttachService
   },
   computed: {},
   methods: {
@@ -152,7 +158,7 @@ export default {
       this.$api
         .delete(this.dynamic_route("pacakges/" + id))
         .then((res) => {
-          this.$toast.success(res.data.message, {
+          this.$toast.error(res.data.message, {
             position: "top-right",
             timeout: 5000,
             closeOnClick: true,
