@@ -15,9 +15,13 @@
               <h3>{{ p.package_name }}</h3>
               <h4><sup>₦</sup>{{ p.package_price }}<span>per month</span></h4>
               <ul>
-                <li v-for="(s,i) in p.services" :key="i"><i class="bx bx-check pr-2"></i>{{ s.service_name }}</li>
+                <li v-for="(s, i) in p.services" :key="i">
+                  <i class="bx bx-check pr-2"></i>{{ s.service_name }}
+                </li>
               </ul>
-              <a href="#" class="buy-btn">Suscribe</a>
+              <button href="#" @click="Subscribe(p)" class="buy-btn">
+                Suscribe
+              </button>
             </div>
           </div>
         </div>
@@ -73,10 +77,9 @@
 .services ul li {
   /* padding: 10px 0 10px 30px; */
   position: relative;
-  font-family: 'Rubik' !important;
+  font-family: "Rubik" !important;
   font-size: 19px !important;
-  padding-bottom:12px ;
-
+  padding-bottom: 12px;
 }
 
 .services ul i {
@@ -162,15 +165,72 @@ export default {
   methods: {
     getPackages() {
       this.$api
-        .get(this.dynamic_route("pacakges"))
+        .get(this.dynamic_route("package_services"))
         .then((res) => {
-          this.packages = res.data.packages;
+          this.packages = res.data.packageservices;
         })
         .catch((err) => {})
         .finally(() => {
           this.loading = false;
           this.text = "";
         });
+    },
+    Subscribe(data) {
+      let packageservice = data.id;
+      // return console.log(packageservice.id);
+      // return console.log(packageservice);;
+      this.$swal({
+        icon: "warning",
+        title: "Subscribe ",
+        text: "Are you sure you want to subscribe to this package?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes !",
+        cancelButtonText: "No, Exit!",
+        cancelButtonColor: "#d92550",
+        showCloseButton: true,
+        showLoaderOnConfirm: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$api.post(this.dynamic_route(`subscribe/store/${packageservice}`))
+          .then((res) => {
+            if (res.data.status) {
+              this.$toast.success(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+              });
+            }else{
+              console.log(res.data.message);
+              this.$toast.error(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+              });
+            }
+
+           
+          })
+        }
+      });
     },
   },
   mounted() {

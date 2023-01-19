@@ -18,6 +18,8 @@ import vuetify from './plugins/vuetify'
 import 'vue-toastification/dist/index.css'
 import Toast from 'vue-toastification';
 import Toasted from 'vue-toasted';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 import VueSocialSharing from 'vue-social-sharing'
 import Echo from 'laravel-echo';
@@ -38,6 +40,7 @@ Vue.use(require('vue-moment'));
 
 Vue.use(BootstrapVue);
 Vue.use(Toast)
+Vue.use(VueSweetalert2);
 Vue.use(VueSocialSharing);
 Vue.use(VueTouch);
 Vue.use(Trend); 
