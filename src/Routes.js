@@ -172,6 +172,14 @@ export default new Router({
           },
         },
         {
+          path: 'text-exercpt',
+          name: 'TextExercpt',
+          component: () => import('@/pages/TextExercpt/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'entity-recogntion',
           name: 'Entity-Recogntion',
           component: () => import('@/pages/EntityRecogntion/Index'),

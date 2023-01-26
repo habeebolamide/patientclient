@@ -5,8 +5,8 @@
         @mouseenter="sidebarMouseEnter"
         @mouseleave="sidebarMouseLeave"
     >
-      <header class="logo text-center">
-        <img src="/remove.png" alt="HypelBase logo" width="70%">
+      <header class="logo text-center mt-3">
+        <img src="../../assets/remove.png" alt="HypelBase logo" width="70%">
 
         <router-link to="/app/dashboard">
           <!-- <span class="primary-word">
@@ -50,14 +50,6 @@
             index="manage-orders"
             isHeader
         />
-        <NavLink 
-            :activeItem="activeItem"
-            header="Notification"
-            link="/app/settings"
-            iconName="flaticon-alert"
-            index="settingss"
-            isHeader
-        />
         <NavLink
             :activeItem="activeItem"
             header="Transcribe text"
@@ -66,34 +58,35 @@
             index="transcribe-text"
             isHeader
         />
-        <NavLink
-            :activeItem="activeItem"
-            header="Entity Recognition"
-            link="/app/entity-recogntion"
-            iconName="flaticon-investment"
-            index="entity-recogntion"
-            isHeader
-        />
+      
         <NavLink
             :activeItem="activeItem"
             header="Text Excerpt"
-            link="/app/excerpt"
+            link="/app/text-exercpt"
             iconName="flaticon-investment"
             index="settings"
             isHeader
         />
-        <NavLink
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Retrieve Audio"
             link="/app/retrieve"
             iconName="flaticon-audio"
             index="settings2"
             isHeader
-        />
+        /> -->
         <NavLink
             :activeItem="activeItem"
             header="Text Sentiment"
             link="/app/sentiment"
+            iconName="flaticon-investment"
+            index="settings2"
+            isHeader
+        />
+        <NavLink
+            :activeItem="activeItem"
+            header="Paraphase Text"
+            link="/app/paraphase-text"
             iconName="flaticon-investment"
             index="settings2"
             isHeader

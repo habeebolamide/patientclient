@@ -26,7 +26,7 @@
                   v-model="form.package_name"
                 ></v-text-field>
                 <v-text-field
-                  label="Description "
+                  label="Price "
                   hide-details="auto"
                   :rules="rules"
                   v-model="form.package_price"
