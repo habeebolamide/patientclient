@@ -67,26 +67,26 @@
             index="settings"
             isHeader
         />
-        <!-- <NavLink
+        <NavLink
             :activeItem="activeItem"
-            header="Retrieve Audio"
-            link="/app/retrieve"
+            header="POS"
+            link="/app/pos"
             iconName="flaticon-audio"
             index="settings2"
             isHeader
-        /> -->
-        <NavLink
+        />
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Text Sentiment"
             link="/app/sentiment"
             iconName="flaticon-investment"
             index="settings2"
             isHeader
-        />
+        /> -->
         <NavLink
             :activeItem="activeItem"
-            header="Paraphase Text"
-            link="/app/paraphase-text"
+            header="Paraphrase Text"
+            link="/app/paraphrase"
             iconName="flaticon-investment"
             index="settings2"
             isHeader

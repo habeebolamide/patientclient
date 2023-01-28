@@ -21,6 +21,8 @@ import Toasted from 'vue-toasted';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import AudioRecorder from 'vue-audio-recorder'
+
 import VueSocialSharing from 'vue-social-sharing'
 import Echo from 'laravel-echo';
 import axiosConfig from './axios-config';
@@ -44,6 +46,7 @@ Vue.use(VueSweetalert2);
 Vue.use(VueSocialSharing);
 Vue.use(VueTouch);
 Vue.use(Trend); 
+Vue.use(AudioRecorder);
 Vue.component('Widget', Widget);
 Vue.use(VueGoogleMaps, {
   load: {

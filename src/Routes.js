@@ -180,6 +180,22 @@ export default new Router({
           },
         },
         {
+          path: 'pos',
+          name: 'POS',
+          component: () => import('@/pages/POS/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: 'paraphrase',
+          name: 'Paraphrase',
+          component: () => import('@/pages/Paraphrase/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'entity-recogntion',
           name: 'Entity-Recogntion',
           component: () => import('@/pages/EntityRecogntion/Index'),
