@@ -6,7 +6,7 @@
                 color="var(--primary)"
               />
     <div class="pb-3" style="border-bottom: 2px solid lightgrey">
-      <h2 class="page-title mb-0">Transcript</h2>
+      <h2 class="page-title mb-0">POS</h2>
     </div>
     <div class="mt-5">
       <form>
@@ -43,7 +43,11 @@
                         <td>{{ i }}</td>
                         <td>
                           <h6>
-                            {{ p }}
+                            <ul>
+                              <li  v-for="(ps, i) in p" :key="i" class="li">
+                                <span>{{ ps }},</span>
+                            </li>
+                            </ul>
                           </h6>
                         </td>
                     </tr>
@@ -98,7 +102,9 @@ export default {
   background-color: #ec570d !important;
   /* background-image: linear-gradient(135deg, #f27233 0%, #f27233 100%) !important; */
 }
-
+li{
+  display: inline;
+}
 .custom-select {
 }
 </style>
