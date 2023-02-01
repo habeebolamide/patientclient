@@ -8,7 +8,7 @@
     <div class="" style="">
       <h2 class="page-title">Record Audio</h2>
     </div>
-    <form>
+    <form enctype="multipart/form-data">
       <div class="row pl-4 pb-2">
         <div class="pb-5 mt-5 col-md-6 offset-3">
           <div class="mb-4">
@@ -30,7 +30,7 @@
                 placeholder="Pick an audio"
                 prepend-icon="mdi-music-note-plus"
                 label="Upload audio"
-                v-model="form.audio_file"
+                @change="onFileChange($event)"
               ></v-file-input>
             </div>
           </div>
@@ -70,14 +70,14 @@
             type="button"
           >
             <span id="output_url">
-              <span> Get KeyWords </span>
+              <p> Get KeyWords </p>
             </span>
           </button>
         </template>
       </v-textarea>
-      <div ref="display" v-html="modifiedText" class="display-text"></div>
+      <div ref="display" id="display" class="display-text"></div>
       <!-- <Bar /> -->
-        <Barchart v-if="sentiment != ''" :sentiments = "this.sentiment" :key="refreshKey"/>
+        <Barchart v-if="this.sentiment.length != 0" :sentiments = "this.sentiment" :key="refreshKey"/>
       <!-- <Bar :data="data" :options="options" /> -->
     </div>
     <!-- V Dialog End -->
@@ -92,7 +92,9 @@ export default {
       form: {},
       loading: false,
       text: "",
+      filename:{},
       keywords: [],
+      files:{},
       modifiedText : "",
       sentiment : [],
       current : {},
@@ -111,20 +113,27 @@ export default {
   methods: {
     Upload() {
       this.loading = true;
+      let currentObj = this;
+      const config = {
+        headers: {
+        'content-type': 'multipart/form-data',
+        }
+      }
       const formData = new FormData();
-      formData.append("audio_file", this.form.audio_file);
+      formData.append("audio_file", this.files);
       this.$api
-        .post(this.dynamic_route("service/uploadaudio"), formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(this.dynamic_route("service/uploadaudio"), formData, config)
         .then((res) => {
+          console.log(res.data.audio.text);
           this.loading = false;
-          this.text = res.data.data.text
+          this.text = res.data.audio.text
           this.getSentiment()
         });
     },
+    onFileChange(e) {
+      // this.filename = "Selected File: " + e.target.files[0].name;
+      this.files = e;
+      },
     getKeyword() {
     this.loading = true;
     let text = this.text;
@@ -148,29 +157,29 @@ export default {
         text: encodeURIComponent(text),
       })
       .then((res) => {
+        console.log(res.data.data.sentiments);
         this.loading = false;
         this.sentiment[0] = res.data.data.sentiments.negative.replace('%', '')
         this.sentiment[1] = res.data.data.sentiments.neutral.replace('%', '')
         this.sentiment[2] = res.data.data.sentiments.positive.replace('%', '')
         this.refreshKey += 1
+      }).finally(() => {
+          this.loading = false
       })
   },
-  setCurrent() {
-      this.current =this.sentiment;
-      // console.log(this.current);
-    },
   highlightKeywords() {
   const textarea = this.$refs.textarea;
+  const div = document.getElementById("display");
   const text = textarea.value;
   const keywords = this.keywords;
   let modifiedText = text;
   keywords.forEach(keyword => {
     keyword.forEach(key => {
       const regex = new RegExp("(" + key + ")", "g");
-      modifiedText = modifiedText.replace(regex, `<p style="color: red;">${key}</p>`);
+      modifiedText = modifiedText.replace(regex, `<span class = "text-danger">${key}</span>`);
     });
   });
-  textarea.innerHTML = modifiedText;
+  div.innerHTML = modifiedText;
   console.log(textarea.innerHTML);
 },
   },
@@ -197,5 +206,4 @@ svg {
   margin-top: 30px;
   margin-bottom: 30px;
 }
-
 </style>
