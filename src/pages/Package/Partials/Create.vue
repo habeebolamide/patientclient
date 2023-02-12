@@ -30,7 +30,6 @@
                   <v-col cols="12">
                     <v-text-field
                       label="Price"
-                      type="text"
                       v-model="form.package_price"
                       required
                     ></v-text-field>

@@ -1,209 +1,98 @@
 <template>
-  <v-app class="p-4">
-    <VueElementLoading
-      :active="loading"
-      spinner="line-scale"
-      color="var(--primary)"
-    />
-    <div class="" style="">
-      <h2 class="page-title">Record Audio</h2>
-    </div>
-    <form enctype="multipart/form-data">
-      <div class="row pl-4 pb-2">
-        <div class="pb-5 mt-5 col-md-6 offset-3">
-          <div class="mb-4">
-            <!-- <audio-recorder
-                    upload-url="this.dynamic_route(service/uploadaudio')"
-                    :attempts="10"
-                    :time="2000"
-                    :headers="headers"
-                    :before-recording="callback"
-                    :pause-recording="callback"
-                    :after-recording="callback"
-                    :select-record="callback"
-                    :before-upload="callback"
-                    :successful-upload="callback"
-                    :failed-upload="callback" /> -->
-            <div class="my-5">
-              <v-file-input
-                accept="audio/wav,audio/ogg,audio/mp3"
-                placeholder="Pick an audio"
-                prepend-icon="mdi-music-note-plus"
-                label="Upload audio"
-                @change="onFileChange($event)"
-              ></v-file-input>
+    <transition name="fade" mode="out-in">
+      <div>
+        <div class="pt-4">
+          <tabs
+            :tabs="tabs"
+            :currentTab="currentTab"
+            :wrapper-class="'body-tabs shadow-tabs'"
+            :tab-class="'tab-item'"
+            :tab-active-class="'tab-item-active'"
+            :line-class="'tab-item-line'"
+            @onClick="handleClick"
+          />
+        </div>
+  
+        <div class="col-md-12" v-if="currentTab === 'tab1'">
+          <b-card no-body>
+            <template v-slot:title
+              >Upload 
+              <b-badge href="#" variant="info" id="rolePerm" pill>
+                <i class="fa fa-question" aria-hidden="true"></i>
+              </b-badge>
+              </template>
+            <div class="row">
+              <div class="col-md-12"><Upload/></div>
             </div>
-          </div>
-          <div class="mx-auto" style="width: fit-content">
-            <button
-              class="btn btn-primary t mb-5"
-              type="button"
-              @click="Upload()"
-            >
-              Upload
-            </button>
-          </div>
+          </b-card>
+        </div>
+        <v-spacer></v-spacer>
+        <div class="col-md-12" v-if="currentTab === 'tab2'">
+          <b-card class="mb-3" no-body>
+            <template v-slot:title
+              >Manage
+              <b-badge href="#" variant="info" id="manageRolePerm" pill
+                ><i class="fa fa-question" aria-hidden="true"></i></b-badge
+            ></template>
+            <div class="row">
+              <div class="col-md-12"><Manage /></div>
+            </div>
+          </b-card>
         </div>
       </div>
-    </form>
-
-    <!-- <div class="record pt-5 mt-5" style="border-bottom: 2px solid lightgray;">
-            <h2>Recordings</h2>
-        </div>
-
-        <div class="mt-5 pb-1"  >
-            <v-data-table
-                dense
-                :headers="headers"
-                :items="data"
-                item-key="name"
-                class="elevation-1"
-            ></v-data-table>
-        </div>
-         -->
-    <div style="margin-top: 80px">
-      <v-textarea ref="textarea" outlined name="input-7-4" label="Field" :value="text">
-        <template v-slot:append-outer>
-          <button
-            class="btn btn-primary btn-lg mt-5"
-            @click="getKeyword()"
-            type="button"
-          >
-            <span id="output_url">
-              <p> Get KeyWords </p>
-            </span>
-          </button>
-        </template>
-      </v-textarea>
-      <div ref="display" id="display" class="display-text"></div>
-      <!-- <Bar /> -->
-        <Barchart v-if="this.sentiment.length != 0" :sentiments = "this.sentiment" :key="refreshKey"/>
-      <!-- <Bar :data="data" :options="options" /> -->
-    </div>
-    <!-- V Dialog End -->
-  </v-app>
-</template>
-<script>
-import VueElementLoading from "vue-element-loading";
-import Barchart from "../Charts/chart.js";
-export default {
-  data() {
-    return {
-      form: {},
-      loading: false,
-      text: "",
-      filename:{},
-      keywords: [],
-      files:{},
-      modifiedText : "",
-      sentiment : [],
-      current : {},
-      refreshKey: 0
-    };
-  },
-  components: {
-    VueElementLoading,
-    Barchart
-    // "audio-recorder" : AudioRecorder
-  },
-  computed: {
-
-  },
-  mounted() {},
-  methods: {
-    Upload() {
-      this.loading = true;
-      let currentObj = this;
-      const config = {
-        headers: {
-        'content-type': 'multipart/form-data',
-        }
-      }
-      const formData = new FormData();
-      formData.append("audio_file", this.files);
-      this.$api
-        .post(this.dynamic_route("service/uploadaudio"), formData, config)
-        .then((res) => {
-          console.log(res.data.audio.text);
-          this.loading = false;
-          this.text = res.data.audio.text
-          this.getSentiment()
-        });
+    </transition>
+  </template>
+  
+  <script>
+//   import VuePerfectScrollbar from "vue-perfect-scrollbar";
+  import VueElementLoading from "vue-element-loading";
+//   import Spinner from "vue-spinkit";
+  import Tabs from "vue-tabs-with-active-line";
+  import Upload from "./partials/Index.vue";
+  import Manage from "./partials/Manage.vue";
+  const TABS = [
+    {
+      title: '<span class = "mr-5"><i class="badge badge-pill badge-primary">1</i> Upload.</span> ',
+      value: "tab1",
+      disabled: false,
     },
-    onFileChange(e) {
-      // this.filename = "Selected File: " + e.target.files[0].name;
-      this.files = e;
+    {
+      title: ' <i class="badge badge-pill badge-primary">2</i> Manage Audios',
+      value: "tab2",
+      disabled: false,
+    },
+  ];
+  
+  export default {
+    props: {},
+    components: {
+      VueElementLoading,
+      Tabs,
+      Upload,
+      Manage,
+    },
+    data () {
+        return {
+            heading: "Configuration",
+            subheading: "Configuration.",
+            icon: "pe-7s-lock icon-gradient bg-tempting-azure",
+            tabs: TABS,
+            currentTab: "tab1",
+        }
+    },
+  
+    methods: {
+      handleClick(newTab) {
+        var tab = newTab.replace("tab", "");
+        if (tab == "1") {
+          this.currentTab = newTab;
+        }
+        if (tab == "2") {
+          this.currentTab = newTab;
+        }
       },
-    getKeyword() {
-    this.loading = true;
-    let text = this.text;
-    this.$api
-      .post(this.dynamic_route("service/getkeyword"), {
-        text: encodeURIComponent(text),
-      })
-      .then((res) => {
-        // console.log(res.data.data.keywords);
-        this.loading = false;
-        this.keywords.push(res.data.data.keywords) ;
-        this.highlightKeywords();
-        // this.summary = res.data.summary.summarizedtext
-      });
-  },
-  getSentiment() {
-    this.loading = true;
-    let text = this.text;
-    this.$api
-      .post(this.dynamic_route("service/sentiment"), {
-        text: encodeURIComponent(text),
-      })
-      .then((res) => {
-        console.log(res.data.data.sentiments);
-        this.loading = false;
-        this.sentiment[0] = res.data.data.sentiments.negative.replace('%', '')
-        this.sentiment[1] = res.data.data.sentiments.neutral.replace('%', '')
-        this.sentiment[2] = res.data.data.sentiments.positive.replace('%', '')
-        this.refreshKey += 1
-      }).finally(() => {
-          this.loading = false
-      })
-  },
-  highlightKeywords() {
-  const textarea = this.$refs.textarea;
-  const div = document.getElementById("display");
-  const text = textarea.value;
-  const keywords = this.keywords;
-  let modifiedText = text;
-  keywords.forEach(keyword => {
-    keyword.forEach(key => {
-      const regex = new RegExp("(" + key + ")", "g");
-      modifiedText = modifiedText.replace(regex, `<span class = "text-danger">${key}</span>`);
-    });
-  });
-  div.innerHTML = modifiedText;
-  console.log(textarea.innerHTML);
-},
-  },
-};
-</script>
-<style scoped>
-.modal-body {
-  background: white !important;
-}
-.custom-btn {
-  color: #ffffff;
-  background-color: #ec570d !important;
-  /* background-image: linear-gradient(135deg, #f27233 0%, #f27233 100%) !important; */
-}
-.ar {
-  width: 100% !important;
-}
-svg {
-  vertical-align: inherit !important;
-}
-.ar-recorder__duration {
-  font-size: 35px;
-  font-weight: 900;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-</style>
+    },
+  };
+  </script>
+  
+  
