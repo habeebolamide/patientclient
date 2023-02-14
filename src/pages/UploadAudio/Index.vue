@@ -52,7 +52,7 @@ import Upload from "./partials/Index.vue";
 import Manage from "./partials/Manage.vue";
 const TABS = [
   {
-    title: '<span class = "mr-5"><i class="badge badge-pill badge-primary">1</i> Upload.</span> ',
+    title: '<span style=" margin-left: 16px !important;" class = "mr-5"><i class="badge badge-pill badge-primary">1</i> Upload.</span> ',
     value: "tab1",
     disabled: false,
   },
@@ -105,7 +105,7 @@ export default {
       margin-left: 16px !important;
       color: white !important;
     }
-    button.tabs__item.tabs__item_active.tab-item-active.tab-item i.badge.badge-pill.badge-primary {
+    button.tabs__item.tabs__item_active.tab-item-active.tab-item  i.badge.badge-pill.badge-primary {
       background: white;
       color: #3e86ca;
     }
