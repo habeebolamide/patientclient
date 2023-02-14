@@ -95,4 +95,15 @@
   };
   </script>
   
+  <style >
+   button.tabs__item.tabs__item_active.tab-item-active.tab-item{
+        height: 40px !important;
+        background: #3E86CA !important;
+        border-radius: 10px !important;
+        margin-right: 10px !important;
+        padding: 10px !important;
+        margin-left: 16px !important;
+        color: white !important;
+      }
+  </style>
   
