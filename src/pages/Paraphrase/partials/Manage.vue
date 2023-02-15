@@ -1,6 +1,17 @@
 <template>
   <v-app class="p-4 mx-0">
     <v-card>
+      <v-card-title>
+        <v-btn
+        class="mx-2"
+        @click="exportToCsv()"
+        small
+        color="#3f50b5"
+        outlined
+      >
+        <span>Export To Csv</span>
+      </v-btn>
+      </v-card-title>
       <v-container>
         <div class="row">
           <div class="col-md-12">
@@ -13,7 +24,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(t, index) in text" :key="index">
+                <tr v-for="(t, index) in text.data" :key="index">
                   <td width="1%">{{ index + 1 }}</td>
                   <td width="30%">
                     <span v-if="readMoreActivated !== index"
@@ -72,23 +83,25 @@
               </tbody>
             </v-simple-table>
           </div>
+          <div class="col-md-12">
+             <laravelVuePagination :data="text" @pagination-change-page="getText" />
+          </div>
         </div>
       </v-container>
     </v-card>
-    <audio src=""></audio>
   </v-app>
 </template>
   <script>
 import VueElementLoading from "vue-element-loading";
-import axios from "axios";
-import { mapState, mapActions } from "vuex";
-
+import laravelVuePagination from 'laravel-vue-pagination'
+import Papa from 'papaparse';
 export default {
   props: ["my_model"],
-  components: { VueElementLoading },
+  components: { VueElementLoading,laravelVuePagination },
   data() {
     return {
       text: {},
+      textcsv: {},
       readMoreActivated: null,
       readMore: null,
     };
@@ -100,13 +113,23 @@ export default {
       this.$bvModal.hide("create");
     },
 
-    getText() {
+    getText(page=1) {
       this.loading = true;
       this.$api
-        .get(this.dynamic_route("service/paraphrase/getparaphrase"))
+        .get(this.dynamic_route(`service/paraphrase/getparaphrase?page=${page}`))
         .then((res) => {
           this.loading = false;
           this.text = res.data;
+        });
+    },
+    getTextcsv() {
+      this.loading = true;
+      this.$api
+        .get(this.dynamic_route("service/paraphrase/getcsvtext"))
+        .then((res) => {
+          // return console.log(res.data);
+          this.loading = false;
+          this.textcsv = res.data;
         });
     },
     activateReadMore(index) {
@@ -121,9 +144,18 @@ export default {
     deactivate() {
       this.readMore = null;
     },
+    exportToCsv() {
+      const csv = Papa.unparse(this.textcsv);
+      // return console.log(csv);
+      const link = document.createElement('a');
+      link.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+      link.download = 'data.csv';
+      link.click();
+    },
   },
   mounted() {
     this.getText();
+    this.getTextcsv()
   },
 };
 </script>

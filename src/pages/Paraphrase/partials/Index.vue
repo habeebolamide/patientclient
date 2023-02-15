@@ -8,6 +8,8 @@
               />
     <div class="pb-3" style="border-bottom: 2px solid lightgrey">
       <h2 class="page-title mb-0">Paraphrase</h2>
+      <Export :text ="this.form.text" @export-text="handleExportText"/>
+
     </div>
     <div class="mt-5">
       <form>
@@ -37,11 +39,14 @@
 </template>
 <script>
 import VueElementLoading from "vue-element-loading";
+import Export from "../../TextExercpt/partials/Import.vue";
 
 export default {
   data() {
     return {
-        form:{},
+        form:{
+          text : ""
+        },
         paraphrase:"",
         loading:false,
         copyTextString : "Copy",
@@ -49,6 +54,7 @@ export default {
   },
   components: {
     VueElementLoading,
+    Export
   },
   computed: {},
   mounted() {},
@@ -73,6 +79,10 @@ export default {
     document.execCommand('copy');
     document.body.removeChild(el);
     this.copyTextString = "Copied!"
+    },
+    handleExportText(data){
+      this.form.text = "hi"
+      this.form.text = data.text
     }
   },
 };

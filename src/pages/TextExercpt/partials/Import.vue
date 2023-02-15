@@ -43,7 +43,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(a, i) in audio" :key="i">
+              <tr v-for="(a, i) in audio.data" :key="i">
                 <td>{{ i + 1 }}</td>
                 <!-- <td>{{ p.audio_file }}</td> -->
                 <td>
@@ -91,16 +91,8 @@
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
-          <!-- <v-pagination
-            v-model="currentPage"
-            :page-count="pageCount"
-            @click="changePage"
-          ></v-pagination> -->
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeMe()"> Close </v-btn>
-          <!-- <v-btn color="blue darken-1" text @click="createPackage()">
-                    Create Package
-                  </v-btn> -->
         </v-card-actions>
       </v-card-text>
     </v-card>

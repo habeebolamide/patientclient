@@ -24,7 +24,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(t, index) in text" :key="index">
+                <tr v-for="(t, index) in text.data" :key="index">
                   <td width="1%">{{ index + 1 }}</td>
                   <td width="50%">
                     <span v-if="readMoreActivated !== index">{{ t.textuploaded.slice(0, 200)}}   </span>
@@ -32,7 +32,7 @@
                       Read more...
                     </a>
 
-                    <span v-if="readMoreActivated === index" v-html="t.textuploaded "></span>
+                    <span v-if="readMoreActivated === index" v-html="t.textuploaded"></span>
                     <a class="" v-if="readMoreActivated === index" @click="deactivateReadMore" href="#">
                       Read less...
                     </a>
@@ -55,18 +55,21 @@
               </tbody>
             </v-simple-table>
           </div>
+          <div class="col-md-12">
+             <laravelVuePagination :data="text" @pagination-change-page="getText" />
+          </div>
         </div>
       </v-container>
     </v-card>
-    <audio src=""></audio>
   </v-app>
 </template>
   <script>
 import VueElementLoading from "vue-element-loading";
+import laravelVuePagination from 'laravel-vue-pagination'
 import Papa from 'papaparse';
 export default {
   props: ["my_model"],
-  components: { VueElementLoading },
+  components: { VueElementLoading,laravelVuePagination },
   data() {
     return {
       text: {},
@@ -82,10 +85,10 @@ export default {
       this.$bvModal.hide("create");
     },
 
-    getText() {
+    getText(page=1) {
       this.loading = true;
       this.$api
-        .get(this.dynamic_route("service/textexcerpt/gettext"))
+        .get(this.dynamic_route(`service/textexcerpt/gettext?page=${page}`))
         .then((res) => {
           this.loading = false;
           this.text = res.data;

@@ -59,9 +59,8 @@
     </v-card>
   </v-dialog>
 </template>
-<style scoped>
-   
-</style>
+
+
 <script>
 import Widget from "@/components/Widget/Widget";
 import VueElementLoading from "vue-element-loading";
