@@ -1,6 +1,11 @@
 <template>
   <v-app class="p-4 mx-0">
     <v-card>
+      <VueElementLoading
+                :active="loading"
+                spinner="line-scale"
+                color="var(--primary)"
+              />
       <v-card-title>
         <v-btn
         class="mx-2"
@@ -77,7 +82,8 @@ export default {
     return {
       audio: {},
       audiocsv: [],
-      readMoreActivated: null
+      readMoreActivated: null,
+      loading: false,
     };
   },
 
