@@ -196,6 +196,14 @@ export default new Router({
           },
         },
         {
+          path: 'subscribe',
+          name: 'Subscribe',
+          component: () => import('@/pages/Package/Partials/Subscribe'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'entity-recogntion',
           name: 'Entity-Recogntion',
           component: () => import('@/pages/EntityRecogntion/Index'),

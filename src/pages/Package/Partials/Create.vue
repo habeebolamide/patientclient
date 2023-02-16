@@ -77,7 +77,6 @@ export default {
     items: ['active', 'inactive'],
     rules: [
         (value) => !!value || "Required.",
-        (value) => (value && value.length >= 3) || "Min 3 characters",
       ],
   }),
   components: {

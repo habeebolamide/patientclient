@@ -7,6 +7,7 @@
     />
     <div class="pb-3" style="border-bottom: 2px solid lightgrey">
       <h2 class="page-title mb-0">POS</h2>
+      <Export :text ="this.form.text" @export-text="handleExportText"/>
     </div>
     <div class="mt-5">
       <form>
@@ -71,17 +72,21 @@
 </template>
 <script>
 import VueElementLoading from "vue-element-loading";
+import Export from "../../TextExercpt/partials/Import.vue";
 
 export default {
   data() {
     return {
-      form: {},
+      form: {
+        text :""
+      },
       pos: "",
       loading: false,
     };
   },
   components: {
     VueElementLoading,
+    Export
   },
   computed: {},
   mounted() {},
@@ -97,6 +102,10 @@ export default {
           return console.log(this.pos);
         });
     },
+    handleExportText(data){
+      this.form.text = "hi"
+      this.form.text = data.text
+    }
   },
 };
 </script>

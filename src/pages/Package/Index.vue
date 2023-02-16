@@ -31,7 +31,7 @@
                   <tr v-for="(p, i) in packages" :key="i">
                     <td>{{ i + 1 }}</td>
                     <td>{{ p.package_name }}</td>
-                    <td><sup>₦</sup>{{ p.package_price }}</td>
+                    <td><sup>$</sup>{{ p.package_price }}</td>
                     <!-- <td>{{}}</td> -->
                     <td>
                       <span

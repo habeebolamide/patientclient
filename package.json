@@ -13,6 +13,7 @@
     "npm": "8.4.1"
   },
   "dependencies": {
+    "@paypal/paypal-js": "^5.1.4",
     "animate.css": "^4.1.1",
     "apexcharts": "^3.35.0",
     "awesome-bootstrap-checkbox": "^1.0.1",

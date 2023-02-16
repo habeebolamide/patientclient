@@ -164,7 +164,7 @@
             this.loading = false;
             this.keywords.push(res.data.data.keywords) ;
             this.highlightKeywords();
-            this.POS()
+            // this.POS()
             // this.summary = res.data.summary.summarizedtext
           })
           .finally(() => {

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <v-app>
+    <div>
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container" data-aos="fade-up">
@@ -13,12 +14,13 @@
           >
             <div class="box featured">
               <h3>{{ p.package_name }}</h3>
-              <h4><sup>₦</sup>{{ p.package_price }}<span>per month</span></h4>
+              <h4><sup>$</sup>{{ p.package_price }}<span>per month</span></h4>
               <ul>
                 <li v-for="(s, i) in p.services" :key="i">
                   <i class="bx bx-check pr-2"></i>{{ s.service_name }}
                 </li>
               </ul>
+              <!-- <Subscribe :p="p"/> -->
               <button href="#" @click="Subscribe(p)" class="buy-btn">
                 Suscribe
               </button>
@@ -29,6 +31,8 @@
     </section>
     <!-- End Pricing Section -->
   </div>
+  </v-app>
+  
 </template>
 <style scoped>
 .services .row {
@@ -156,7 +160,12 @@
 </style>
 
 <script>
+import Subscribe from "./Partials/Subscribe.vue";
+
 export default {
+  components:{
+    Subscribe
+  },
   data() {
     return {
       packages: {},
@@ -177,7 +186,7 @@ export default {
     },
     Subscribe(data) {
       let packageservice = data.id;
-      // return console.log(packageservice.id);
+      // return console.log(packageservice);
       // return console.log(packageservice);;
       this.$swal({
         icon: "warning",
@@ -192,7 +201,7 @@ export default {
         showLoaderOnConfirm: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          this.$api.post(this.dynamic_route(`subscribe/store/${packageservice}`))
+          this.$api.post(this.dynamic_route(`transaction/store/${packageservice}`))
           .then((res) => {
             if (res.data.status) {
               this.$toast.success(res.data.message, {
@@ -209,6 +218,7 @@ export default {
               icon: true,
               rtl: false,
               });
+              this.redirection(data)
             }else{
               console.log(res.data.message);
               this.$toast.error(res.data.message, {
@@ -226,12 +236,21 @@ export default {
               rtl: false,
               });
             }
-
-           
           })
         }
       });
     },
+    redirection(data){
+      // const queryString = `?data=${encodeURIComponent(JSON.stringify(data))}`;
+      // const url = `/app/subscribe${queryString}`;
+      // return window.open(url, '_blank');
+      this.$router.push({
+        name:'Subscribe',
+        params:{
+          packages:data
+        }
+      })
+    }
   },
   mounted() {
     this.getPackages();
