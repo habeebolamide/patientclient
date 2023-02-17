@@ -169,6 +169,7 @@ export default {
   data() {
     return {
       packages: {},
+      transdata:{}
     };
   },
   methods: {
@@ -203,6 +204,7 @@ export default {
         if (result.isConfirmed) {
           this.$api.post(this.dynamic_route(`transaction/store/${packageservice}`))
           .then((res) => {
+            this.transdata = res.data 
             if (res.data.status) {
               this.$toast.success(res.data.message, {
               position: "top-right",
@@ -218,7 +220,7 @@ export default {
               icon: true,
               rtl: false,
               });
-              this.redirection(data)
+              this.redirection()
             }else{
               console.log(res.data.message);
               this.$toast.error(res.data.message, {
@@ -240,14 +242,14 @@ export default {
         }
       });
     },
-    redirection(data){
+    redirection(){
       // const queryString = `?data=${encodeURIComponent(JSON.stringify(data))}`;
       // const url = `/app/subscribe${queryString}`;
       // return window.open(url, '_blank');
       this.$router.push({
         name:'Subscribe',
         params:{
-          packages:data
+          transres:this.transdata
         }
       })
     }

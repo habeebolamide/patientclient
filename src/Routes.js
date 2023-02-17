@@ -107,6 +107,14 @@ export default new Router({
           },
         },
         {
+          path: 'transactions',
+          name: 'transaction',
+          component: () => import('@/pages/Transaction/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'notification',
           name: 'notification',
           component: () => import('@/pages/Notifications/Notifications'),
