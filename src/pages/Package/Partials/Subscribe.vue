@@ -92,23 +92,10 @@ export default {
         // console.log(res.id);
         this.paid = true;
         this.Subscribe();
-        this.checkStatus()
-        // this.redir(this)
+        // this.UploadPaymentId()
       });
     },
-    redir($this) {
-      setTimeout(function () {
-        $this.$router.push("/app/my-packages");
-        console.log("Order complete!");
-      }, 3000);
-    },
-    checkStatus(){
-      let payment_id = this.payment_id
-      this.$api
-        .get(this.dynamic_route(`transaction/payments/${payment_id}`)).then((res) => {
-          console.log(res);
-        })
-    },
+    
     Subscribe() {
       let packageservice = this.transaction_res.package_id;
       this.$api
@@ -151,14 +138,30 @@ export default {
     },
     changeStatus() {
       // return console.log(this.package.id);
-      console.log("abeg naaaaaaabrvkurvbwive");
-      let transaction = this.transaction_res.id;
+      let transactionid = this.transaction_res.id;
+      let payment_id = this.payment_id;
       this.$api
-        .put(this.dynamic_route(`transaction/updatestatus/${transaction}`), {
+        .put(this.dynamic_route(`transaction/updatestatus/${transactionid}`), {
           status: this.status,
+          payment_id: payment_id,
         })
         .then((res) => {
           console.log("hi");
+          // window.location.href = "/app/my-packages";
+        });
+    },
+    UploadPaymentId() {
+      // return console.log(this.package.id);
+      let transaction_id = this.transaction_res.id;
+      let payment_id = this.payment_id;
+      console.log(payment_id);
+      this.$api
+        .put(this.dynamic_route(`transaction/updatepaymentid/${transaction_id}`), {
+          payment_id: payment_id,
+        })
+        .then((res) => {
+          // console.log("hi");
+          console.log(res);
           // window.location.href = "/app/my-packages";
         });
     },
@@ -195,7 +198,7 @@ export default {
   },
 };
 const CLIENT_ID =
-  "AUAMS6qH6XppC1QEe38lP6HAt4vDVeg_ug7iytDGuo_8ic4hx2NIIy8VIgh6EsNQkhS0n5XT07FVSRxB";
+  "AR1Am4fPawitMR_XPdRzZhYQDWSai0yoH_uybMGkQ_ILBzWewc0lOdl9cKEW3dU_-BZLdX2QoIotEww0";
 </script>
   
   <style scoped>

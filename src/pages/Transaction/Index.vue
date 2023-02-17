@@ -19,7 +19,8 @@
                 <thead>
                   <tr>
                     <th class="text-left">S/N</th>
-                    <th class="text-left">Package Name</th>
+                    <th class="text-left">Transaction Reference</th>
+                    <th class="text-left">Payment Id</th>
                     <th class="text-left">Amount</th>
                     <th class="text-left">Expected Amount</th>
                     <!-- <th class="text-left">Service Name</th> -->
@@ -31,6 +32,7 @@
                   <tr v-for="(t, i) in transactions.data" :key="i">
                     <td>{{ i + 1 }}</td>
                     <td>{{ t.transaction_reference }}</td>
+                    <td>{{ t.payment_id }}</td>
                     <td><sup>$</sup>{{ t.amount }}</td>
                     <td><sup>$</sup>{{ t.expected_amount }}</td>
                     <!-- <td>{{}}</td> -->
@@ -47,7 +49,7 @@
                       </span>
                     </td>
                     <td>
-                      <v-btn class="mx-2" small  color="#3f50b5" outlined @click="checkStatus( t.transaction_reference)">
+                      <v-btn v-if="t.status != 'success'" class="mx-2" small  color="#3f50b5" outlined @click="checkStatus( t.transaction_reference)">
                           Check Status
                       </v-btn>
                     </td>
@@ -142,7 +144,7 @@ export default {
     },
     checkStatus(id){
       this.$api
-        .get(this.dynamic_route(`transaction/payments/${id}`)).then((res) => {
+        .post(this.dynamic_route(`transaction/payments/${id}`), {id:id}).then((res) => {
           console.log(res);
         })
     },
