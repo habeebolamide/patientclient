@@ -51,6 +51,8 @@
           Inbox &nbsp;&nbsp;<b-badge variant="inverse" pill class="animate__animated animate__bounceIn" style="padding: 6px 9px;">9</b-badge>
         </b-dropdown-item> -->
         <b-dropdown-divider />
+        <b-dropdown-item @click="trans"><i class='fi flaticon-person px-3 mr-2' />Transaction History</b-dropdown-item>
+        <b-dropdown-divider />
         <b-dropdown-item-button @click="logout">
           <i class="fi flaticon-power-1 px-3 mr-3" /> Log Out
         </b-dropdown-item-button>
@@ -118,6 +120,9 @@ export default {
     },
     navigate() {
       this.$router.push({name: 'ProfilePage'});
+    },
+    trans() {
+      this.$router.push({name: 'transaction'});
     },
     returnToMyAccount(){
         const auth_user = JSON.parse(localStorage.getItem('auth_info'))

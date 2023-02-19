@@ -40,6 +40,7 @@
     "pusher-js": "^7.0.6",
     "rickshaw": "1.7.1",
     "sass-loader": "^7.3.1",
+    "stripe": "^11.11.0",
     "vue": "^2.6.12",
     "vue-apexcharts": "^1.6.2",
     "vue-audio-recorder": "^3.0.1",

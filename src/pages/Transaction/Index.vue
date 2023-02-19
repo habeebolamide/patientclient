@@ -25,7 +25,7 @@
                     <th class="text-left">Expected Amount</th>
                     <!-- <th class="text-left">Service Name</th> -->
                     <th class="text-left">Status</th>
-                    <th class="text-left">Action</th>
+                    <!-- <th class="text-left">Action</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -41,18 +41,18 @@
                         class="badge text-capitalize py-2 px-2"
                         :class="{
                           'bg-success': t.status == 'success',
-                          'bg-warning': t.status == 'pending',
+                          'bg-warning': t.status == 'not completed',
                           'bg-danger': t.status == 'declined',
                         }"
                       >
                         {{ t.status }}
                       </span>
                     </td>
-                    <td>
-                      <v-btn v-if="t.status != 'success'" class="mx-2" small  color="#3f50b5" outlined @click="checkStatus( t.transaction_reference)">
+                    <!-- <td>
+                      <v-btn  class="mx-2" small  color="#3f50b5" outlined @click="checkStatus(t.payment_id)">
                           Check Status
                       </v-btn>
-                    </td>
+                    </td> -->
                     <!-- <td>
                       <div class="text-capitalize actions-icon-btn">
                         <b-dropdown
@@ -142,9 +142,10 @@ export default {
           this.text = "";
         });
     },
-    checkStatus(id){
+    checkStatus(payment_id){
+      // return console.log(payment_id);
       this.$api
-        .post(this.dynamic_route(`transaction/payments/${id}`), {id:id}).then((res) => {
+        .post(this.dynamic_route(`transaction/payments/${payment_id}`), {payment_id:payment_id}).then((res) => {
           console.log(res);
         })
     },

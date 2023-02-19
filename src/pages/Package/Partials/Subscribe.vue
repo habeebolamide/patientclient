@@ -11,7 +11,7 @@
     <v-card>
       <v-card-text>
         <div v-if="!paid" id="paypal-button-container"></div>
-        <div v-else id="confirmation">Order complete!</div>
+        <!-- <div v-else id="confirmation">Order complete!</div> -->
       </v-card-text>
     </v-card>
   </div>
@@ -84,18 +84,28 @@ export default {
       });
     },
     onApprove(data, actions) {
-      console.log("Order approved...");
-      this.status = "success";
+   
       return actions.order.capture().then((res) => {
+      console.log(res.status);
+        if (res.status != "COMPLETED") {
+        this.payment_id = null;
+        this.status = "declined";
+      }else{
+        console.log("Order approved...");
+        this.status = "success";
+        console.log(res.status);
         this.payment_id = res.id
         // console.log("res");
         // console.log(res.id);
         this.paid = true;
         this.Subscribe();
+        setTimeout(() => {
+            this.$router.push({ name: 'my-packages' }); 
+         }, 3000);
         // this.UploadPaymentId()
+        }
       });
     },
-    
     Subscribe() {
       let packageservice = this.transaction_res.package_id;
       this.$api
