@@ -99,7 +99,9 @@
             index="settingss"
             isHeader
         />
+
         <NavLink 
+            v-if = "authType == 'admin'"
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -113,6 +115,15 @@
             link="/app/my-packages"
             iconName="flaticon-alert"
             index="settingss"
+            isHeader
+        />
+        <NavLink 
+            v-if = "authType == 'admin'"
+            :activeItem="activeItem"
+            header="Manage Users"
+            link="/app/manage-users"
+            iconName="flaticon-users"
+            index="settings2"
             isHeader
         />
       </ul>
@@ -171,17 +182,20 @@ export default {
     },
      
     getUserType(){
-         const auth_user = JSON.parse(localStorage.getItem('auth_info'))[0]  || null;
+         const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
+        //  return console.log(auth_user);
         if(auth_user) {
-          axios
-            .get(this.dynamic_auth_route('/user_type'),
+          // return console.log(auth_user.auth_token);
+          this.$api
+            .get(this.dynamic_route('user'),
             {
-              headers:{
-                authorization: `Bearer ${auth_user.auth_token}`
-              }
+              // headers:{
+              //   authorization: `Bearer 18|ZGFToUhOKfZjTPT9UtPPqags1EVDyH0sts4T5mJM`
+              // }
             })
             .then(res => {
-              this.authType = res.data;
+              this.authType = res.data.user_type;
+              console.log( this.authType);
             })
             .catch(err => {
               if(err.response.status == 401 && err.response.data.message == "Unauthenticated.") {
@@ -198,6 +212,7 @@ export default {
   },
   created() {
     this.setActiveByRoute();
+    this.getUserType();
   },
   mounted() {
     

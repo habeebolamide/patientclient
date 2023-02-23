@@ -123,6 +123,14 @@ export default new Router({
           },
         },
         {
+          path: 'manage-users',
+          name: 'notification',
+          component: () => import('@/pages/ManageUsers/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'services',
           name: 'services',
           component: () => import('@/pages/Services/Index'),
