@@ -6,6 +6,7 @@ import Login from '@/pages/Auth/Login';
 import ForgotPassword from '@/pages/Auth/ForgotPassword';
 import ResetPassword from '@/pages/Auth/ResetPassword';
 import MyPackages from '@/pages/Package/UserIndex';
+import MyServices from '@/pages/Services/Tryitout';
 import Profile from '@/pages/Auth/Profile';
 import Register from '@/pages/Auth/Register';
 import ErrorPage from '@/pages/Error/Error';
@@ -102,6 +103,14 @@ export default new Router({
           path: 'my-packages',
           name: 'my-packages',
           component: MyPackages,
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: 'my-services',
+          name: 'my-services',
+          component: MyServices,
           meta: {
             requireAuth: true
           },

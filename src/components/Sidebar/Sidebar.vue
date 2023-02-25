@@ -22,34 +22,44 @@
       </h5> -->
       <ul class="nav">
         <NavLink
+            v-for="(menu, index) in menus"
+            :key="index"
+            :activeItem="activeItem"
+            :header="menu.header"
+            :link="menu.link"
+            :iconName="menu.iconName"
+            :index="menu.index"
+            isHeader
+        />
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Dashboard"
             link="/app/dashboard"
             iconName="flaticon-homew"
             index="dashboard"
             isHeader
-        />
+        /> -->
         
         <!-- <div class="bg-info" style="position:relative;width:100%;overflow:hidden"> -->
-          <NavLink
+          <!-- <NavLink
               :activeItem="activeItem"
               header="User Profiles"
               link="/app/user-profile"
               iconName="flaticon-account-box"
               index="list"
               isHeader
-          />
+          /> -->
           <!-- <span class="badge badge-warning">90</span> -->
 
         <!-- </div> -->
-         <NavLink
+         <!-- <NavLink
             :activeItem="activeItem"
             header="Upload Audios"
             iconName="flaticon-audio"
             link="/app/upload-audio"
             index="manage-orders"
             isHeader
-        />
+        /> -->
         <!-- <NavLink
             :activeItem="activeItem"
             header="Transcribe text"
@@ -58,7 +68,7 @@
             index="transcribe-text"
             isHeader
         /> -->
-      
+<!--       
         <NavLink
             :activeItem="activeItem"
             header="Text Excerpt"
@@ -66,7 +76,7 @@
             iconName="flaticon-investment"
             index="settings"
             isHeader
-        />
+        /> -->
         <!-- <NavLink
             :activeItem="activeItem"
             header="POS"
@@ -83,14 +93,14 @@
             index="settings2"
             isHeader
         /> -->
-        <NavLink
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Paraphrase Text"
             link="/app/paraphrase"
             iconName="flaticon-investment"
             index="settings2"
             isHeader
-        />
+        /> -->
         <NavLink 
             :activeItem="activeItem"
             header="Services"
@@ -118,12 +128,20 @@
             isHeader
         />
         <NavLink 
+            :activeItem="activeItem"
+            header="My Services"
+            link="/app/my-services"
+            iconName="flaticon-alert"
+            index="settingss"
+            isHeader
+        />
+        <NavLink 
             v-if = "authType == 'admin'"
             :activeItem="activeItem"
             header="Manage Users"
             link="/app/manage-users"
             iconName="flaticon-users"
-            index="settings2"
+            index="manage-users"
             isHeader
         />
       </ul>
@@ -143,6 +161,7 @@ export default {
   data() {
     return {
       authType:'',
+      menus:{},
       alerts: [
         {
           id: 0,
@@ -195,7 +214,6 @@ export default {
             })
             .then(res => {
               this.authType = res.data.user_type;
-              console.log( this.authType);
             })
             .catch(err => {
               if(err.response.status == 401 && err.response.data.message == "Unauthenticated.") {
@@ -209,10 +227,18 @@ export default {
           
         }
     },
+
+    getSidebarCont(){
+      this.$api.get(this.dynamic_route("menus/getmenus")).then((res) => {
+                this.menus = res.data;
+                // console.log(this.menus);
+            });
+    }
   },
   created() {
     this.setActiveByRoute();
     this.getUserType();
+    this.getSidebarCont()
   },
   mounted() {
     

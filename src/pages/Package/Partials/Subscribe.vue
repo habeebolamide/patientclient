@@ -61,18 +61,7 @@ export default {
     },
 
     createOrder(data, actions) {
-      console.log(this.currentpackage);
-      console.log("Creating order...");
       return actions.order.create({
-        // purchase_units: [
-        //   {
-        //     reference_id : this.package.transaction_reference,
-        //     amount: {
-        //       value: this.cartTotal,
-        //       reference_id: this.reference_id
-        //     },
-        //   },
-        // ],
         purchase_units: [
           {
             amount: {
@@ -81,12 +70,10 @@ export default {
             reference_id: this.reference_id, // replace with your reference ID
           },
         ],
-      });
+      })
     },
     onApprove(data, actions) {
-   
       return actions.order.capture().then((res) => {
-      console.log(res.status);
         if (res.status != "COMPLETED") {
         this.payment_id = null;
         this.status = "declined";
@@ -98,7 +85,9 @@ export default {
         // console.log("res");
         // console.log(res.id);
         this.paid = true;
-        this.Subscribe();
+        // console.log(res.purchase_units[0].amount.value);
+        let amount_payed = res.purchase_units[0].amount.value
+        this.Subscribe(amount_payed);
         setTimeout(() => {
             this.$router.push({ name: 'my-packages' }); 
          }, 3000);
@@ -106,10 +95,13 @@ export default {
         }
       });
     },
-    Subscribe() {
+    Subscribe(amount_payed) {
+      // return console.log(amount_payed);
       let packageservice = this.transaction_res.package_id;
       this.$api
-        .post(this.dynamic_route(`subscribe/store/${packageservice}`))
+        .post(this.dynamic_route(`subscribe/store/${packageservice}`), {
+          amount_payed :amount_payed 
+        })
         .then((res) => {
           if (res.data.status) {
             this.$toast.success(res.data.message, {
