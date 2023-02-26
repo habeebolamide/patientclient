@@ -1,164 +1,51 @@
 <template>
   <div class="dashboard-page">
-    <h1 class="page-title">Dashboard</h1>
+    <h1 class="page-title">My Services</h1>
 
-    <AdminDashboard v-if="authType == 'admin'" />
-    <ClientDashboard v-else/>
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div
+            class="col-lg-4"
+            v-for="(service, i) in services"
+            :key="i"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <div class="box featured">
+              <!-- <h3>Free Plan</h3> -->
+              <h4>{{ service.service_name }}</h4>
+              <ul>
+                <li>{{ service.description }}</li>
+              </ul>
+              <button @click="AttachService(service)" class="buy-btn">
+                Try It Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- End Pricing Section -->
   </div>
 </template>
 
 <script>
-import Widget from "@/components/Widget/Widget";
-import BigStat from "./components/BigStat/BigStat";
-import AdminDashboard from "./components/AdminDashboard";
-import ClientDashboard from "./components/ClientDashboard";
-import mock from "./mock";
-import Bar from "./Bar";
 import VueElementLoading from "vue-element-loading";
-import { Chart } from "highcharts-vue";
-import axios from "axios";
-import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "Dashboard",
   components: {
-    Bar,
-    Widget,
-    BigStat,
-    highcharts: Chart,
-    AdminDashboard,
-    ClientDashboard,
     VueElementLoading,
   },
 
-  computed: {
-    donut() {
-      let revenueData = this.getRevenueData();
-      let { danger, info, primary } = this.appConfig.colors;
-      let series = [
-        {
-          name: "Revenue",
-          data: revenueData.map((s) => {
-            return {
-              name: s.label,
-              y: s.data,
-            };
-          }),
-        },
-      ];
-      return {
-        chart: {
-          type: "pie",
-          height: 120,
-        },
-        credits: {
-          enabled: false,
-        },
-        title: false,
-        plotOptions: {
-          pie: {
-            dataLabels: {
-              enabled: false,
-            },
-            borderColor: null,
-            showInLegend: true,
-            innerSize: 60,
-            size: 100,
-            states: {
-              hover: {
-                halo: {
-                  size: 1,
-                },
-              },
-            },
-          },
-        },
-        colors: [danger, info, primary],
-        legend: {
-          align: "right",
-          verticalAlign: "middle",
-          layout: "vertical",
-          itemStyle: {
-            color: "#495057",
-            fontWeight: 100,
-            fontFamily: "Montserrat",
-          },
-          itemMarginBottom: 5,
-          symbolRadius: 0,
-        },
-        exporting: {
-          enabled: false,
-        },
-        series,
-      };
-    },
-  },
 
   data() {
     return {
-      mock,
-      dialog: false,
-      authType: "",
-      analytics: {},
-      loading: true,
-      CompKey: 0,
       services: {},
     };
   },
   methods: {
-    getRandomData() {
-      const arr = [];
-
-      for (let i = 0; i < 25; i += 1) {
-        arr.push(Math.random().toFixed(1) * 10);
-      }
-
-      return arr;
-    },
-    reQueryTrasaction() {
-      this.getAnalytics();
-      this.CompKey++;
-    },
-    getRevenueData() {
-      const data = [];
-      const seriesCount = 3;
-      const accessories = ["SMX", "Direct", "Networks"];
-
-      for (let i = 0; i < seriesCount; i += 1) {
-        data.push({
-          label: accessories[i],
-          data: Math.floor(Math.random() * 100) + 1,
-        });
-      }
-
-      return data;
-    },
-    getUserType(){
-         const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
-        if(auth_user) {
-          this.$api
-            .get(this.dynamic_route('user'),
-            {
-              // headers:{
-              //   authorization: `Bearer 18|ZGFToUhOKfZjTPT9UtPPqags1EVDyH0sts4T5mJM`
-              // }
-            })
-            .then(res => {
-              this.authType = res.data.user_type;
-            })
-            .catch(err => {
-              if(err.response.status == 401 && err.response.data.message == "Unauthenticated.") {
-                return this.logoutUser();
-              }
-            })
-            .finally(() => {
-              this.loading = false
-            });
-          
-        }
-    },
-
     getServices() {
       this.$api
         .get(this.dynamic_route("services"))
@@ -228,12 +115,10 @@ export default {
   },
   mounted() {
     this.getServices();
-    this.getUserType();
   },
 };
 </script>
 
-<style src="./Dashboard.scss" lang="scss" />
 <style scoped>
 .card {
   border: none;

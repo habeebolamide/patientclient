@@ -59,9 +59,8 @@
     </v-card>
   </v-dialog>
 </template>
-<style scoped>
-   
-</style>
+
+
 <script>
 import Widget from "@/components/Widget/Widget";
 import VueElementLoading from "vue-element-loading";
@@ -78,7 +77,6 @@ export default {
     items: ['active', 'inactive'],
     rules: [
         (value) => !!value || "Required.",
-        (value) => (value && value.length >= 3) || "Min 3 characters",
       ],
   }),
   components: {

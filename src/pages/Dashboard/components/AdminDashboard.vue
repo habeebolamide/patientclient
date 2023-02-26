@@ -24,7 +24,7 @@
                                 <div class="small-box">
                                     <div class="d-flex inner">
                                     <div>
-                                        <h3>&#8358; {{stats ? Number(stats.total_transactions).toLocaleString() : 0}}</h3>
+                                        <h3>$ {{stats ? Number(stats.total_transactions).toLocaleString() : 0}}</h3>
                                         <p>Total Income</p>
                                     </div>
                                     <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
@@ -44,8 +44,8 @@
                                 <div class="small-box">
                                     <div class="d-flex inner">
                                     <div>
-                                        <h3>&#8358; {{stats ? Number(stats.total_transactions).toLocaleString() : 0}}</h3>
-                                        <p>Orders</p>
+                                        <h3>{{stats ? Number(stats.total_users).toLocaleString() : 0}}</h3>
+                                        <p>Total User</p>
                                     </div>
                                     <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
                                         <span class="b-avatar-custom">
@@ -64,8 +64,8 @@
                                 <div class="small-box">
                                     <div class="d-flex inner">
                                     <div>
-                                        <h3>&#8358; {{stats ? Number(stats.total_transactions).toLocaleString() : 0}}</h3>
-                                        <p>Earnings</p>
+                                        <h3> {{stats ? Number(stats.active_subscriptions).toLocaleString() : 0}}</h3>
+                                        <p>Active Subscriptions</p>
                                     </div>
                                     <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
                                         <span class="b-avatar-custom">
@@ -104,7 +104,7 @@
 
             </div>
         </div>
-        <b-row>
+        <!-- <b-row>
             <b-col md="6">
               <Widget
                 title="<h5>Categories against Customers</h5>"
@@ -112,11 +112,11 @@
                 customHeader
               >
                   <div class="px-3">
-                      <!-- <VueElementLoading
+                      <VueElementLoading
                           :active="loading3"
                           spinner="bar-fade-scale"
                           color="var(--primary)"
-                      /> -->
+                      />
                       <bar :chartData="chartData" :height="395" style="height: 395px;"></bar>
                   </div>
               </Widget>
@@ -128,19 +128,17 @@
                 customHeader
             >
                 <div class="table-responsive mt-3">
-                    <!-- <VueElementLoading
+                    <VueElementLoading
                         :active="loading2"
                         spinner="bar-fade-scale"
                         color="var(--primary)"
-                    /> -->
+                    />
                   <table class="table table-striped table-lg mb-0 requests-table">
                       <thead>
                       <tr class="text-muted">
                           <th>PRODUCT</th>
                           <th>TOTAL ORDERS</th>
                           <th>PRICE</th>
-                          <!-- <th>DATE</th>
-                          <th>CITY</th> -->
                           <th>STATUS</th>
                       </tr>
                       </thead>
@@ -153,8 +151,6 @@
                           </td>
                           <td>5</td>
                           <td>₦ 20.00</td>
-                          <!-- <td>{{row.date}}</td>
-                          <td>{{row.city}}</td> -->
                           <td>
                           <b-badge
                               variant="success"
@@ -169,7 +165,7 @@
                 </div>
             </Widget>
             </b-col>
-        </b-row>
+        </b-row> -->
         <b-row>
             <b-col md="12">
             <Widget
@@ -182,7 +178,7 @@
                     spinner="bar-fade-scale"
                     color="var(--primary)"
                 />
-                <div class="scroll-area-lg" v-if="transactions.length">
+                <div class="scroll-area-lg" v-if="transactions">
                     <div class="table-responsive mt-4">
                         <table class="table table-hover table-sm mb-0 requests-table-two">
                             <thead>
@@ -190,32 +186,30 @@
                                     <th class="hidden-sm-down">#</th>
                                     <th class="hidden-sm-down">Transaction ID</th>
                                     <th class="hidden-sm-down" width="40%">User Info </th>
-                                    <th class="hidden-sm-down">Product</th>
-                                    <th class="hidden-sm-down">Installment Type (%)</th>
+                                    <th class="hidden-sm-down">Package</th>
+                                    <th class="hidden-sm-down">Payment ID</th>
                                     <th class="hidden-sm-down">Amount</th>
                                     <th class="hidden-sm-down">Date</th>
                                     <th class="hidden-sm-down">Status</th>
-                                    <th class="hidden-sm-down text-center">Action</th>
+                                    <!-- <th class="hidden-sm-down text-center">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(transaction, index) in transactions" :key="transaction.id">
+                                <tr v-for="(transaction, index) in transactions.data" :key="transaction.id">
                                     <td>{{index+1}}</td>
                                     <td class="text-dark">
-                                        {{transaction.transaction_id}}
+                                        {{transaction.transaction_reference}}
                                     </td>
                                     <td>
                                         <span class="d-flex pt-2">
                                             <span>
                                                 <span class="b-avatar rounded-circle" :class="getRandomBadgeClass()" 
                                                     style="width: 38px; height: 38px; font-weight: 600">
-                                                    {{getInitials(transaction.user.fullname)}}
+                                                    {{getInitials(transaction.user.name)}}
                                                 </span>
                                             </span>
                                             <span class="ml-3">
-                                                <!-- <p class="mb-0"> -->
-                                                        <span class="fw-semi-bold">&nbsp; {{transaction.user.fullname}}</span>
-                                                <!-- </p> -->
+                                                        <span class="fw-semi-bold">&nbsp; {{transaction.user.name}}</span>
                                                 <p>
                                                     <small>
                                                         <span class="text-semi-muted">&nbsp; {{transaction.user.email}}</span>
@@ -225,26 +219,26 @@
                                         </span>
                                     </td>
                                     <td class="text-dark">
-                                        {{transaction.main_property_group ? transaction.main_property_group.main_property.name : '-'}}
+                                        {{transaction.package.package_name}}
                                     </td>
                                     <td class="text-dark">
-                                        {{transaction.installment.name}}
+                                        {{transaction.payment_id}}
                                     </td>
                                     <td class="text-dark text-capitalize">
-                                        &#8358; {{Number(transaction.amount).toLocaleString()}}
+                                        $ {{Number(transaction.amount).toLocaleString()}}
                                     </td>
                                     <td class="text-dark">
                                         {{transaction.created_at | moment("D MMM, YYYY, h:mm a")}}
                                     </td>
                                     <td class="font-weight-bolder">
                                         <span class="badge badge-pill text-capitalize"
-                                            :class="{'badge-light-warning': transaction.status == 'pending', 
-                                            'badge-light-success': transaction.status == 'approved', 
-                                            'badge-light-danger': transaction.status == 'failed'}"> 
+                                            :class="{'badge-light-secondary': transaction.status == 'not completed', 
+                                            'badge-light-success': transaction.status == 'success', 
+                                            'badge-light-danger': transaction.status == 'declined'}"> 
                                             {{transaction.status}} 
                                         </span>
                                     </td>
-                                    <td class="text-center" style="font-size: 18px">
+                                    <!-- <td class="text-center" style="font-size: 18px">
                                         <v-menu
                                             bottom
                                             origin="center center"
@@ -273,11 +267,13 @@
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
-                                    </td>
+                                    </td> -->
                                 </tr>
                             </tbody>
+                        
                         </table>
                     </div>
+                    <laravelVuePagination :data="transactions" @pagination-change-page="getDashboardTransactions" />
                 </div>
                 <div class="alert alert-info text-center m-4" v-else>
                     <b style="font-weight: 600 !important">NO TRANSACTION RECORD</b>
@@ -297,12 +293,11 @@ import { Chart } from 'highcharts-vue';
 import { mapState, mapActions } from 'vuex';
 import axios from "axios"
 import VueApexCharts from 'vue-apexcharts'
-
-// import laravelVuePagination from 'laravel-vue-pagination'
+import laravelVuePagination from 'laravel-vue-pagination'
 export default {
   name: 'Dashboard',
   components: {
-    Bar, Widget, BigStat, highcharts: Chart, VueElementLoading,VueApexCharts,
+    Bar, Widget, BigStat, highcharts: Chart, VueElementLoading,VueApexCharts,laravelVuePagination
   },
   data() {
     return {
@@ -396,7 +391,7 @@ export default {
         },
       },
       stats: {
-        total_transactions:0,
+        // total_transactions:0,
       },
       number:290,
       closeOnContentClick: true,
@@ -407,24 +402,43 @@ export default {
     };
   },
   mounted(){
-      // this.getDashboardStats()
+      this.getDashboardStats()
       // this.getDashboardChartData()
       // this.getDashboardTableData()
-      // this.getDashboardTransactions()
+      this.getDashboardTransactions()
   },
   computed:{
-    ...mapState('auth', ['auth_data','auth_token']),
+    // ...mapState('auth', ['auth_data','auth_token']),
   },
   methods: {
-    ...mapActions('auth', ['getAuthData']),
+    // ...mapActions('auth', ['getAuthData']),
     getDashboardStats(){
-      axios.get(this.dynamic_route('/dashboard/stats'), {
-            headers:{
-                authorization: `Bearer ${this.auth_token}`
-            }
+      this.$api
+            .get(this.dynamic_route('dashboard/stats'), {
+            // headers:{
+            //     authorization: `Bearer ${this.auth_token}`
+            // }
         }).then((res)=> {
-          this.stats = res.data
+          // return console.log(res.data);
+          this.stats = res.data.stats
+          // console.log(this.stats);
         })
+    },
+    getInitials(fullname) {
+        const allNames = fullname.trim().split(' ');
+        const initials = allNames.reduce((acc, curr, index) => {
+            if(index === 0 || index === allNames.length - 1){
+                acc = `${acc}${curr.charAt(0).toUpperCase()}`;
+            }
+            return acc;
+        }, '');
+        return initials;
+    },
+        getRandomBadgeClass() {
+    //   const {primary, success, info, danger} = this.appConfig.colors;
+      const colors = ['badge-light-info', 'badge-light-primary', 'badge-light-danger', 
+                    'badge-light-success', 'badge-light-warning', 'badge-light-secondary'];
+      return colors[Math.floor(Math.random() * colors.length)]
     },
     getDashboardChartData(){
         this.loading3 = true
@@ -448,21 +462,12 @@ export default {
           this.loading2 = false
         })
     },
-    getDashboardTransactions(){
+    getDashboardTransactions(page = 1){
       this.loading = true
-      axios.get(this.dynamic_route('/dashboard/transactions'), {
-            headers:{
-                authorization: `Bearer ${this.auth_token}`
-            }
+      this.$api
+            .get(this.dynamic_route(`transaction/?page=${page}`), {
         }).then((res)=> {
           this.transactions = res.data
-          res.data.forEach(transaction => {
-                if(transaction.user.mname) {
-                    Object.assign(transaction.user, { fullname: transaction.user.lname + ' '  + transaction.user.fname + ' ' + transaction.user.mname})
-                } else {
-                    Object.assign(transaction.user, { fullname: transaction.user.lname + ' '  + transaction.user.fname })
-                }
-            });
             this.loading = false
         })
     },

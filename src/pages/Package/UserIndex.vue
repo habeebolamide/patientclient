@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <v-app>
+    <div>
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container" data-aos="fade-up">
@@ -14,16 +15,16 @@
           >
             <div class="box featured">
               <h3>{{ p.package_name }}</h3>
-              <h4><sup>₦</sup>{{ p.package_price }}<span>per month</span></h4>
+              <h4><sup>$</sup>{{ p.package_price }}<span>per month</span></h4>
               <ul>
                 <li v-for="(s, i) in p.services" :key="i">
                   <i class="bx bx-check pr-2"></i>{{ s.service_name }}
                 </li>
               </ul>
-
-              <div data-app>
-                <Subscribe @subscribe="getPackages()" />
-              </div>
+              <!-- <Subscribe :p="p"/> -->
+              <button href="#" @click="Subscribe(p)" class="buy-btn">
+                Suscribe
+              </button>
             </div>
           </div>
         </div>
@@ -32,6 +33,8 @@
     </section>
     <!-- End Pricing Section -->
   </div>
+  </v-app>
+  
 </template>
 
 <script>
@@ -252,3 +255,107 @@ export default {
   }
 }
 </style>
+<<<<<<< HEAD
+=======
+
+<script>
+import Subscribe from "./Partials/Subscribe.vue";
+
+export default {
+  components:{
+    Subscribe
+  },
+  data() {
+    return {
+      packages: {},
+      transdata:{}
+    };
+  },
+  methods: {
+    getPackages() {
+      this.$api
+        .get(this.dynamic_route("package_services"))
+        .then((res) => {
+          this.packages = res.data.packageservices;
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loading = false;
+          this.text = "";
+        });
+    },
+    Subscribe(data) {
+      let packageservice = data.id;
+      // return console.log(packageservice);
+      // return console.log(packageservice);;
+      this.$swal({
+        icon: "warning",
+        title: "Subscribe ",
+        text: "Are you sure you want to subscribe to this package?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes !",
+        cancelButtonText: "No, Exit!",
+        cancelButtonColor: "#d92550",
+        showCloseButton: true,
+        showLoaderOnConfirm: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$api.post(this.dynamic_route(`transaction/store/${packageservice}`))
+          .then((res) => {
+            this.transdata = res.data 
+            if (res.data.status) {
+              this.$toast.success(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+              });
+              this.redirection()
+            }else{
+              console.log(res.data.message);
+              this.$toast.error(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+              });
+            }
+          })
+        }
+      });
+    },
+    redirection(){
+      // const queryString = `?data=${encodeURIComponent(JSON.stringify(data))}`;
+      // const url = `/app/subscribe${queryString}`;
+      // return window.open(url, '_blank');
+      this.$router.push({
+        name:'Subscribe',
+        params:{
+          transres:this.transdata
+        }
+      })
+    }
+  },
+  mounted() {
+    this.getPackages();
+  },
+};
+</script>
+>>>>>>> b8d0518ad9c354d5148952b14410a8e6788fc192

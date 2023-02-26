@@ -6,6 +6,7 @@ import Login from '@/pages/Auth/Login';
 import ForgotPassword from '@/pages/Auth/ForgotPassword';
 import ResetPassword from '@/pages/Auth/ResetPassword';
 import MyPackages from '@/pages/Package/UserIndex';
+import MyServices from '@/pages/Services/Tryitout';
 import Profile from '@/pages/Auth/Profile';
 import Register from '@/pages/Auth/Register';
 import ErrorPage from '@/pages/Error/Error';
@@ -107,9 +108,33 @@ export default new Router({
           },
         },
         {
+          path: 'my-services',
+          name: 'my-services',
+          component: MyServices,
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: 'transactions',
+          name: 'transaction',
+          component: () => import('@/pages/Transaction/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
           path: 'notification',
           name: 'notification',
           component: () => import('@/pages/Notifications/Notifications'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: 'manage-users',
+          name: 'notification',
+          component: () => import('@/pages/ManageUsers/Index'),
           meta: {
             requireAuth: true
           },
@@ -191,6 +216,14 @@ export default new Router({
           path: 'paraphrase',
           name: 'Paraphrase',
           component: () => import('@/pages/Paraphrase/Index'),
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: 'subscribe',
+          name: 'Subscribe',
+          component: () => import('@/pages/Package/Partials/Subscribe'),
           meta: {
             requireAuth: true
           },

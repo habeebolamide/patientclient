@@ -11,29 +11,23 @@
         v-on="on"
         outlined
       >
-        <span>Export Text</span>
+        <span>Import Text</span>
       </v-btn>
     </template>
     <v-card>
+      <VueElementLoading
+                :active="loading"
+                spinner="line-scale"
+                color="var(--primary)"
+              />
       <v-card-title>
         <span class="text-h5">Export Text</span>
       </v-card-title>
       <v-card-text>
         <v-container>
-          <!-- <div class ="row">
-                    <div class="col" v-for="(a,i) in audio" :key="i" @dblclick="Export(a)">
-                      <span v-if="readMoreActivated !== i">{{ a.text.slice(0, 200)}}   </span>
-                    <a class="" v-if="readMoreActivated !== i" @click="activateReadMore(i)" href="#">
-                      Read more...
-                    </a>
-
-                    <span v-if="readMoreActivated === i" v-html="a.text "></span>
-                    <a class="" v-if="readMoreActivated === i" @click="deactivateReadMore" href="#">
-                      Read less...
-                    </a>
-                </div>
-                </div> -->
-          <v-simple-table>
+          <div class="row">
+            <div class="col-md-12">
+              <v-simple-table>
             <thead>
               <tr>
                 <th width="1%" class="text-center">S/N</th>
@@ -43,7 +37,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(a, i) in audio" :key="i">
+              <tr v-for="(a, i) in audio.data" :key="i">
                 <td>{{ i + 1 }}</td>
                 <!-- <td>{{ p.audio_file }}</td> -->
                 <td>
@@ -87,20 +81,17 @@
                 </td>
               </tr>
             </tbody>
-          </v-simple-table>
+              </v-simple-table>
+            </div>
+            <div class="col-md-12">
+             <laravelVuePagination :data="audio" @pagination-change-page="getAudio" />
+          </div>
+          </div>
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
-          <!-- <v-pagination
-            v-model="currentPage"
-            :page-count="pageCount"
-            @click="changePage"
-          ></v-pagination> -->
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="closeMe()"> Close </v-btn>
-          <!-- <v-btn color="blue darken-1" text @click="createPackage()">
-                    Create Package
-                  </v-btn> -->
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -111,6 +102,7 @@
   <script>
 import Widget from "@/components/Widget/Widget";
 import VueElementLoading from "vue-element-loading";
+import laravelVuePagination from 'laravel-vue-pagination'
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -132,17 +124,16 @@ export default {
   },
   components: {
     VueElementLoading,
+    laravelVuePagination
   },
   methods: {
-    getAudio() {
+    getAudio(page=1) {
       this.loading = true;
       this.$api
-        .get(this.dynamic_route("service/uploadaudio/getaudio"))
+        .get(this.dynamic_route(`service/uploadaudio/getaudio?page=${page}`))
         .then((res) => {
           this.loading = false;
           this.audio = res.data;
-          this.page = res.data.last_page;
-          // console.log(res.data);
         });
     },
     getPaginatedSession(filters = null, url = null) {

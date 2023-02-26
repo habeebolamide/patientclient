@@ -49,7 +49,7 @@ export default {
 
   extends: Bar,
   mounted() {
-    // console.log(this.sentiments);
+    console.log(this.sentiments);
     this.renderChart({
       labels: ['Negative', 'Neutral', 'Postive'],
       datasets: [

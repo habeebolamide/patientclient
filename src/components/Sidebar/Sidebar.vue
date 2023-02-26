@@ -21,44 +21,55 @@
         APP
       </h5> -->
       <ul class="nav">
+
         <NavLink
+            v-for="(menu, index) in menus"
+            :key="index"
+            :activeItem="activeItem"
+            :header="menu.header"
+            :link="menu.link"
+            :iconName="menu.iconName"
+            :index="menu.index"
+            isHeader
+        />
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Dashboard"
             link="/app/dashboard"
             iconName="flaticon-homew"
             index="dashboard"
             isHeader
-        />
+        /> -->
         
         <!-- <div class="bg-info" style="position:relative;width:100%;overflow:hidden"> -->
-          <NavLink
+          <!-- <NavLink
               :activeItem="activeItem"
               header="User Profiles"
               link="/app/user-profile"
               iconName="flaticon-account-box"
               index="list"
               isHeader
-          />
+          /> -->
           <!-- <span class="badge badge-warning">90</span> -->
 
         <!-- </div> -->
-         <NavLink
+         <!-- <NavLink
             :activeItem="activeItem"
             header="Upload Audios"
             iconName="flaticon-audio"
             link="/app/upload-audio"
             index="manage-orders"
             isHeader
-        />
-        <NavLink
+        /> -->
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Transcribe text"
             link="/app/transcribe-text"
             iconName="flaticon-admin-quick"
             index="transcribe-text"
             isHeader
-        />
-      
+        /> -->
+<!--       
         <NavLink
             :activeItem="activeItem"
             header="Text Excerpt"
@@ -66,7 +77,7 @@
             iconName="flaticon-investment"
             index="settings"
             isHeader
-        />
+        /> -->
         <!-- <NavLink
             :activeItem="activeItem"
             header="POS"
@@ -83,15 +94,16 @@
             index="settings2"
             isHeader
         /> -->
-        <NavLink
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Paraphrase Text"
             link="/app/paraphrase"
             iconName="flaticon-investment"
             index="settings2"
             isHeader
-        />
+        /> -->
         <NavLink 
+            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
             :activeItem="activeItem"
             header="Services"
             link="/app/services"
@@ -99,7 +111,9 @@
             index="settingss"
             isHeader
         />
+
         <NavLink 
+            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -113,6 +127,23 @@
             link="/app/my-packages"
             iconName="flaticon-alert"
             index="settingss"
+            isHeader
+        />
+        <NavLink 
+            :activeItem="activeItem"
+            header="My Services"
+            link="/app/my-services"
+            iconName="flaticon-alert"
+            index="settingss"
+            isHeader
+        />
+        <NavLink 
+            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            :activeItem="activeItem"
+            header="Manage Users"
+            link="/app/manage-users"
+            iconName="flaticon-users"
+            index="manage-users"
             isHeader
         />
       </ul>
@@ -132,6 +163,8 @@ export default {
   data() {
     return {
       authType:'',
+      menus:{},
+      user_type_hash:"",
       alerts: [
         {
           id: 0,
@@ -171,17 +204,19 @@ export default {
     },
      
     getUserType(){
-         const auth_user = JSON.parse(localStorage.getItem('auth_info'))[0]  || null;
+         const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
+          
         if(auth_user) {
-          axios
-            .get(this.dynamic_auth_route('/user_type'),
+          this.user_type_hash = auth_user.user_typehash;
+          this.$api
+            .get(this.dynamic_route('user'),
             {
-              headers:{
-                authorization: `Bearer ${auth_user.auth_token}`
-              }
+              // headers:{
+              //   authorization: `Bearer 18|ZGFToUhOKfZjTPT9UtPPqags1EVDyH0sts4T5mJM`
+              // }
             })
             .then(res => {
-              this.authType = res.data;
+              this.authType = res.data.user_type;
             })
             .catch(err => {
               if(err.response.status == 401 && err.response.data.message == "Unauthenticated.") {
@@ -195,9 +230,18 @@ export default {
           
         }
     },
+
+    getSidebarCont(){
+      this.$api.get(this.dynamic_route("menus/getmenus")).then((res) => {
+                this.menus = res.data;
+                // console.log(this.menus);
+            });
+    }
   },
   created() {
     this.setActiveByRoute();
+    this.getUserType();
+    this.getSidebarCont()
   },
   mounted() {
     
