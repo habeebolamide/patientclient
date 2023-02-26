@@ -173,12 +173,27 @@
                 bodyClass="widget-table-overflow"
                 customHeader
             >
+            <div class="row">
+                      <div class="col-md-4 mt-5 ml-5">
+                        <v-text-field v-model="filter.search" @keyup="searchData" label="Search By Name" outlined
+                            append-icon="mdi-magnify"></v-text-field>
+                      </div>
+                      <div class="col-md-4 mt-5">
+                        <v-select
+                        @change="searchData"
+                          v-model="filter.status"
+                          :items="items"
+                          label="Search By Status"
+                        ></v-select>
+                      </div>
+                </div>
                 <VueElementLoading
                     :active="loading"
                     spinner="bar-fade-scale"
                     color="var(--primary)"
                 />
                 <div class="scroll-area-lg" v-if="transactions">
+                 
                     <div class="table-responsive mt-4">
                         <table class="table table-hover table-sm mb-0 requests-table-two">
                             <thead>
@@ -238,36 +253,6 @@
                                             {{transaction.status}} 
                                         </span>
                                     </td>
-                                    <!-- <td class="text-center" style="font-size: 18px">
-                                        <v-menu
-                                            bottom
-                                            origin="center center"
-                                            transition="scale-transition"
-                                            :close-on-content-click="closeOnContentClick"
-                                            left
-                                        >
-                                            <template #activator="{ on, attrs }">
-                                                <v-btn
-                                                    color="black"
-                                                    icon
-                                                    v-bind="attrs"
-                                                    v-on="on"
-                                                >
-                                                    <i class="fa fa-list-ul"></i>
-                                                </v-btn>
-                                            </template>
-    
-                                            <v-list>
-                                                <v-list-item>
-                                                    <v-list-item-title
-                                                    style="cursor:pointer"
-                                                    >
-                                                    <i class="mdi mdi-check-circle-outline mr-1"></i> Check Status
-                                                    </v-list-item-title>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
-                                    </td> -->
                                 </tr>
                             </tbody>
                         
@@ -396,9 +381,15 @@ export default {
       number:290,
       closeOnContentClick: true,
       transactions: {},
+      filter:{},
       loading: false,
       loading2: false,
-      loading3: false
+      loading3: false,
+      items: [
+        'not completed',
+        'success',
+        'declined',
+      ],
     };
   },
   mounted(){
@@ -465,12 +456,14 @@ export default {
     getDashboardTransactions(page = 1){
       this.loading = true
       this.$api
-            .get(this.dynamic_route(`transaction/?page=${page}`), {
-        }).then((res)=> {
-          this.transactions = res.data
-            this.loading = false
+            .post(this.dynamic_route(`transaction/?page=${page}`), {filter: this.filter }).then((res)=> {
+              this.transactions = res.data.transactions
+              this.loading = false
         })
     },
+    searchData() {
+            this.getDashboardTransactions()
+        },
     getInitials(fullname) {
         const allNames = fullname.trim().split(' ');
         const initials = allNames.reduce((acc, curr, index) => {

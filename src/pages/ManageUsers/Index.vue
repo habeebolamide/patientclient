@@ -81,12 +81,12 @@
                                                             <i class="mdi mdi-square-edit-outline mr-1"></i> Edit Details
                                                         </v-list-item-title>
                                                     </v-list-item>
-                                                    <!-- <v-list-item>
+                                                    <v-list-item>
                                                         <v-list-item-title style="cursor:pointer"
                                                             @click="openConfirm4 = true; reset_id = user.id; currentUser = user">
                                                             <i class="mdi mdi-square-edit-outline mr-1"></i> login as
                                                         </v-list-item-title>
-                                                    </v-list-item> -->
+                                                    </v-list-item>
                                                     <!-- <v-list-item>
                                                 <v-list-item-title
                                                 style="cursor:pointer"
@@ -149,6 +149,7 @@
 </template>
 <script>
 import laravelVuePagination from 'laravel-vue-pagination'
+import { mapState, mapActions } from 'vuex';
 import VueElementLoading from "vue-element-loading";
 import edit from './Partials/EditUser'
 export default {
@@ -166,6 +167,8 @@ export default {
         }
     },
     components: { VueElementLoading, laravelVuePagination, edit },
+    computed:{
+  },
     methods: {
         getUsers(page = 1) {
             this.loading = true
@@ -226,19 +229,17 @@ export default {
                 // headers:{
                 //     authorization: `Bearer ${this.auth_token}`
                 // }
-            })
+        })
             .then((res) => {
                 if(res.data.access_token) {
-
                     var newUser = {
                         auth_token : res.data.access_token,
                         auth_user : res.data.data
                     };
-                    return console.log(newUser);
-                    var data = JSON.parse(localStorage.getItem('auth_info'));
-
-                    data.unshift(newUser)
-                    localStorage.setItem('auth_info', JSON.stringify(data));
+                    var data = JSON.parse(localStorage.getItem('auth_user'));
+                    var newData = Object.assign({}, newUser, data);
+                    // return console.log(newData);
+                    localStorage.setItem('auth_user', JSON.stringify(newData));
                     location.href="/app/dashboard"
                 }
                 this.$toast.success('Operation successfully!', {
@@ -258,6 +259,7 @@ export default {
                 
             })
             .catch(err => {
+                return console.log(err);
                 this.loading = false;
                 if(err.response.status == 401 && err.response.statusText == "Unauthorized") {
                     return this.logoutUser();

@@ -173,6 +173,16 @@
               bodyClass="widget-table-overflow"
               customHeader
           >
+          <div class="row">
+                      <div class="col-md-4 mt-5 ml-5">
+                        <v-select
+                        @change="searchData"
+                          v-model="filter.status"
+                          :items="items"
+                          label="Search By Status"
+                        ></v-select>
+                      </div>
+                </div>
               <VueElementLoading
                   :active="loading"
                   spinner="bar-fade-scale"
@@ -393,7 +403,13 @@ data() {
     stats: {
       // total_transactions:0,
     },
+    items: [
+        'not completed',
+        'success',
+        'declined',
+      ],
     number:290,
+    filter:{},
     closeOnContentClick: true,
     transactions: {},
     loading: false,
@@ -465,11 +481,13 @@ methods: {
   getDashboardTransactions(page = 1){
     this.loading = true
     this.$api
-          .get(this.dynamic_route(`transaction/all/?page=${page}`), {
-      }).then((res)=> {
-        this.transactions = res.data
+          .post(this.dynamic_route(`transaction/all/?page=${page}`),  {filter: this.filter }).then((res)=> {
+          this.transactions = res.data.transactions
           this.loading = false
       })
+  },
+  searchData() {
+    this.getDashboardTransactions()
   },
   getInitials(fullname) {
       const allNames = fullname.trim().split(' ');
