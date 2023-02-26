@@ -21,6 +21,7 @@
         APP
       </h5> -->
       <ul class="nav">
+
         <NavLink
             v-for="(menu, index) in menus"
             :key="index"
@@ -102,6 +103,7 @@
             isHeader
         /> -->
         <NavLink 
+            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
             :activeItem="activeItem"
             header="Services"
             link="/app/services"
@@ -111,7 +113,7 @@
         />
 
         <NavLink 
-            v-if = "authType == 'admin'"
+            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -136,7 +138,7 @@
             isHeader
         />
         <NavLink 
-            v-if = "authType == 'admin'"
+            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
             :activeItem="activeItem"
             header="Manage Users"
             link="/app/manage-users"
@@ -162,6 +164,7 @@ export default {
     return {
       authType:'',
       menus:{},
+      user_type_hash:"",
       alerts: [
         {
           id: 0,
@@ -202,9 +205,9 @@ export default {
      
     getUserType(){
          const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
-        //  return console.log(auth_user);
+          
         if(auth_user) {
-          // return console.log(auth_user.auth_token);
+          this.user_type_hash = auth_user.user_typehash;
           this.$api
             .get(this.dynamic_route('user'),
             {

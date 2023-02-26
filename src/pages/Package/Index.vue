@@ -101,86 +101,87 @@
     </b-modal>
   </div>
 </template>
-  <script>
-import Widget from "@/components/Widget/Widget";
-import CreatePackage from "./Partials/Create.vue";
-import EditPackage from "./Partials/Edit.vue";
-import AttachService from "./Partials/AttachService.vue";
-import axios from "axios";
-import VueElementLoading from "vue-element-loading";
-import { mapState, mapActions } from "vuex";
-export default {
-  data() {
-    return {
-      headers: [
-        {
-          text: "Name",
-          align: "start",
-          sortable: false,
-          value: "name",
+<script>
+    import Widget from "@/components/Widget/Widget";
+    import CreatePackage from "./Partials/Create.vue";
+    import EditPackage from "./Partials/Edit.vue";
+    import AttachService from "./Partials/AttachService.vue";
+    import axios from "axios";
+    import VueElementLoading from "vue-element-loading";
+    import { mapState, mapActions } from "vuex";
+    export default {
+      data() {
+        return {
+          headers: [
+            {
+              text: "Name",
+              align: "start",
+              sortable: false,
+              value: "name",
+            },
+            { text: "File", value: "file" },
+            { text: "Duration", value: "duration" },
+            { text: "Timestamp", value: "timestamp" },
+          ],
+          data: [],
+          packages: {},
+          current: {},
+        };
+      },
+      components: {
+        CreatePackage,
+        EditPackage,
+        AttachService,
+      },
+      computed: {},
+      methods: {
+        getPackages() {
+          this.$api
+            .get(this.dynamic_route("pacakges"))
+            .then((res) => {
+              this.packages = res.data.packages;
+            })
+            .catch((err) => {})
+            .finally(() => {
+              this.loading = false;
+              this.text = "";
+            });
         },
-        { text: "File", value: "file" },
-        { text: "Duration", value: "duration" },
-        { text: "Timestamp", value: "timestamp" },
-      ],
-      data: [],
-      packages: {},
-      current: {},
+        setCurrent(data) {
+          this.current = data;
+        },
+        deleteCurrent(id) {
+          this.$api
+            .delete(this.dynamic_route("pacakges/" + id))
+            .then((res) => {
+              this.$toast.error(res.data.message, {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false,
+              });
+              this.getPackages();
+            })
+            .catch((err) => {})
+            .finally(() => {
+              this.loading = false;
+            });
+        },
+      },
+      mounted() {
+        this.getPackages();
+      },
     };
-  },
-  components: {
-    CreatePackage,
-    EditPackage,
-    AttachService,
-  },
-  computed: {},
-  methods: {
-    getPackages() {
-      this.$api
-        .get(this.dynamic_route("pacakges"))
-        .then((res) => {
-          this.packages = res.data.packages;
-        })
-        .catch((err) => {})
-        .finally(() => {
-          this.loading = false;
-          this.text = "";
-        });
-    },
-    setCurrent(data) {
-      this.current = data;
-    },
-    deleteCurrent(id) {
-      this.$api
-        .delete(this.dynamic_route("pacakges/" + id))
-        .then((res) => {
-          this.$toast.error(res.data.message, {
-            position: "top-right",
-            timeout: 5000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false,
-          });
-          this.getPackages();
-        })
-        .catch((err) => {})
-        .finally(() => {
-          this.loading = false;
-        });
-    },
-  },
-  mounted() {
-    this.getPackages();
-  },
-};
 </script>
+
   <style scoped>
 .modal-body {
   background: white !important;

@@ -5,6 +5,7 @@
     <section id="services" class="services">
       <div class="container" data-aos="fade-up">
         <div class="row">
+          
           <div
             class="col-lg-4"
             v-for="(p, i) in packages"
@@ -28,12 +29,108 @@
           </div>
         </div>
       </div>
+
     </section>
     <!-- End Pricing Section -->
   </div>
   </v-app>
   
 </template>
+
+<script>
+
+import Subscribe from "./Subscribe.vue";
+export default {
+  data() {
+    return {
+      packages: {},
+    };
+  },
+  components: {
+         Subscribe,
+      },
+  methods: {
+    getPackages() {
+      this.$api
+        .get(this.dynamic_route("package_services"))
+        .then((res) => {
+          this.packages = res.data.packageservices;
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loading = false;
+          this.text = "";
+        });
+    },
+    Subscribe(data) {
+      let packageservice = data.id;
+      // return console.log(packageservice.id);
+      // return console.log(packageservice);;
+      this.$swal({
+        icon: "warning",
+        title: "Subscribe ",
+        text: "Are you sure you want to subscribe to this package?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes !",
+        cancelButtonText: "No, Exit!",
+        cancelButtonColor: "#d92550",
+        showCloseButton: true,
+        showLoaderOnConfirm: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$api.post(this.dynamic_route(`subscribe/store/${packageservice}`))
+          .then((res) => {
+            if (res.data.status) {
+              this.$toast.success(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+              });
+            }else{
+              console.log(res.data.message);
+              this.$toast.error(res.data.message, {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+              });
+            }
+
+           
+          })
+        }
+      });
+    },
+    setCurrent(data) {
+          this.current = data;
+        },
+   
+  },
+  mounted() {
+    this.getPackages();
+  },
+};
+</script>
+
+
 <style scoped>
 .services .row {
   padding-top: 40px;
@@ -158,6 +255,8 @@
   }
 }
 </style>
+<<<<<<< HEAD
+=======
 
 <script>
 import Subscribe from "./Partials/Subscribe.vue";
@@ -259,3 +358,4 @@ export default {
   },
 };
 </script>
+>>>>>>> b8d0518ad9c354d5148952b14410a8e6788fc192
