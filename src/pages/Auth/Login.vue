@@ -178,8 +178,9 @@ export default {
               var data = {
                 auth_token: res.data.data.token,
                 auth_user: res.data.data.user,
+                user_typehash : res.data.data.user_typehash
               };
-              localStorage.setItem("auth_user", JSON.stringify(data.auth_user));
+              localStorage.setItem("auth_user", JSON.stringify(data));
               for (let index = 0; index < 200; index++) {
                 localStorage.setItem(
                   this.generateTokens(7),

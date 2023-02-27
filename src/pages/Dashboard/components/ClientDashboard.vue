@@ -319,8 +319,8 @@ data() {
       series: [
         {
           name: 'This Month',
-          data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600],
-          // data: [11,2,4,30,9],
+          // data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600],
+          data: [],
         },
         
       ],
@@ -458,12 +458,11 @@ methods: {
   },
   getDashboardChartData(){
       this.loading3 = true
-    axios.get(this.dynamic_route('/dashboard/chart_data'), {
-          headers:{
-              authorization: `Bearer ${this.auth_token}`
-          }
+      this.$api.get(this.dynamic_route('dashboard/user/chartstats'), {
+         
       }).then((res)=> {
-      //   this.chartData = res.data
+        // return console.log(this.revenueComparisonLine.series);
+        this.revenueComparisonLine.series.data = res.data.stats.chartdata
         this.loading3 = false
       })
   },

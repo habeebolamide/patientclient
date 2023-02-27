@@ -103,7 +103,7 @@
             isHeader
         /> -->
         <NavLink 
-            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
             header="Services"
             link="/app/services"
@@ -113,7 +113,7 @@
         />
 
         <NavLink 
-            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -121,24 +121,24 @@
             index="settingss"
             isHeader
         />
-        <NavLink 
+        <!-- <NavLink 
             :activeItem="activeItem"
             header="My Packages"
             link="/app/my-packages"
             iconName="flaticon-alert"
             index="settingss"
             isHeader
-        />
-        <NavLink 
+        /> -->
+        <!-- <NavLink 
             :activeItem="activeItem"
             header="My Services"
             link="/app/my-services"
             iconName="flaticon-alert"
             index="settingss"
             isHeader
-        />
+        /> -->
         <NavLink 
-            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
             header="Manage Users"
             link="/app/manage-users"
@@ -205,7 +205,7 @@ export default {
      
     getUserType(){
          const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
-          
+          // console.log(auth_user.user_typehash);
         if(auth_user) {
           this.user_type_hash = auth_user.user_typehash;
           this.$api
