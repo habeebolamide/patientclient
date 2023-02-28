@@ -83,7 +83,7 @@ export default {
        loggedInAs : false,
        loading : false,
        openConfirm:true,
-       user : null
+       user : ""
     }
   },
  
@@ -145,7 +145,7 @@ export default {
     }
   },
   mounted(){
-    const data = JSON.parse(localStorage.getItem('auth_info')) && JSON.parse(localStorage.getItem('auth_info')).auth_user || null;
+    const data = JSON.parse(localStorage.getItem('auth_user')) && JSON.parse(localStorage.getItem('auth_user')).auth_user.name || null;
     this.user = data
   }
 };

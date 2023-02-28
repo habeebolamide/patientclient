@@ -103,7 +103,7 @@
             isHeader
         /> -->
         <NavLink 
-            v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
             header="Services"
             link="/app/services"
@@ -113,7 +113,7 @@
         />
 
         <NavLink 
-            v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -138,7 +138,7 @@
             isHeader
         />
         <NavLink 
-            v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
             header="Manage Users"
             link="/app/manage-users"

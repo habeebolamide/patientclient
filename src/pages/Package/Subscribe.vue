@@ -134,7 +134,8 @@
         cancelButtonColor: "#d92550",
         showCloseButton: true,
         showLoaderOnConfirm: true,
-      }).then((result) => {
+      })
+      .then((result) => {
         if (result.isConfirmed) {
           this.$api.post(this.dynamic_route(`subscribe/store/${packageservice}`))
           .then((res) => {

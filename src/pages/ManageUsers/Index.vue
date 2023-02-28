@@ -204,9 +204,22 @@ export default {
             // this.loading = true
             let userid = data.id
             // return console.log(userid);
+            this.$swal({
+                icon: "warning",
+                title: "Reset Password",
+                text: "Are you sure you want to Reset This User Password?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes !",
+                cancelButtonText: "No, Exit!",
+                cancelButtonColor: "#d92550",
+                showCloseButton: true,
+                showLoaderOnConfirm: true,
+            }).then((result) => {
+        if (result.isConfirmed) {
             this.$api.post(this.dynamic_route(`manage_users/reset_password/${userid}`)).then((res) => {
                 this.$toast.success('Password Reset successfully!', {
-                    position: 'top-center',
+                    position: 'top-right',
                     timeout: 3000,
                     closeOnClick: true,
                     pauseOnFocusLoss: true,
@@ -221,6 +234,10 @@ export default {
                 })
                 this.getUsers()
             });
+        }
+      })
+
+          
         },
         loginAs(id) {
         this.loading = true

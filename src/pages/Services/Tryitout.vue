@@ -59,7 +59,8 @@ export default {
         });
     },
     AttachService(data) {
-      this.$router.push('/app/'+data.service_name)
+      console.log(data);
+      this.$router.push(data.service_url)
       // let service = data.id;
       // this.$api
       //   .post(this.dynamic_route(`user_services/${service}`))
