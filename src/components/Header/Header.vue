@@ -24,7 +24,9 @@
       <i class="fa fa-circle text-primary" />
     </a> -->
     <b-nav class="ml-auto">
-      <span  class="px-2">{{ this.user }}</span>
+      <strong style="padding: 20px;" class="text-info">
+       Currently Logged In As<span  class="px-2 py-3 ">{{ this.user }}</span>
+      </strong>
 
       <b-nav-item-dropdown
         class="d-none notificationsMenu"
