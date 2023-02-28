@@ -103,7 +103,11 @@
             isHeader
         /> -->
         <NavLink 
+<<<<<<< HEAD
             v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
+=======
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
+>>>>>>> 6489075899b1d5d852d2bf55bea3e37bc5a80249
             :activeItem="activeItem"
             header="Services"
             link="/app/services"
@@ -113,7 +117,11 @@
         />
 
         <NavLink 
+<<<<<<< HEAD
             v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
+=======
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
+>>>>>>> 6489075899b1d5d852d2bf55bea3e37bc5a80249
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -121,24 +129,28 @@
             index="settingss"
             isHeader
         />
-        <NavLink 
+        <!-- <NavLink 
             :activeItem="activeItem"
             header="My Packages"
             link="/app/my-packages"
             iconName="flaticon-alert"
             index="settingss"
             isHeader
-        />
-        <NavLink 
+        /> -->
+        <!-- <NavLink 
             :activeItem="activeItem"
             header="My Services"
             link="/app/my-services"
             iconName="flaticon-alert"
             index="settingss"
             isHeader
-        />
+        /> -->
         <NavLink 
+<<<<<<< HEAD
             v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
+=======
+            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
+>>>>>>> 6489075899b1d5d852d2bf55bea3e37bc5a80249
             :activeItem="activeItem"
             header="Manage Users"
             link="/app/manage-users"
@@ -205,7 +217,7 @@ export default {
      
     getUserType(){
          const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
-          
+          // console.log(auth_user.user_typehash);
         if(auth_user) {
           this.user_type_hash = auth_user.user_typehash;
           this.$api

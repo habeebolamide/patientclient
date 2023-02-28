@@ -178,6 +178,16 @@
               bodyClass="widget-table-overflow"
               customHeader
           >
+          <div class="row">
+                      <div class="col-md-4 mt-5 ml-5">
+                        <v-select
+                        @change="searchData"
+                          v-model="filter.status"
+                          :items="items"
+                          label="Search By Status"
+                        ></v-select>
+                      </div>
+                </div>
               <VueElementLoading
                   :active="loading"
                   spinner="bar-fade-scale"
@@ -314,8 +324,13 @@ data() {
       series: [
         {
           name: 'This Month',
+<<<<<<< HEAD
           data: [0, 0, 0, 0],
           // data: [11,2,4,30,9,5,3,56],
+=======
+          // data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600],
+          data: [],
+>>>>>>> 6489075899b1d5d852d2bf55bea3e37bc5a80249
         },
        
         
@@ -399,7 +414,13 @@ data() {
     stats: {
       // total_transactions:0,
     },
+    items: [
+        'not completed',
+        'success',
+        'declined',
+      ],
     number:290,
+    filter:{},
     closeOnContentClick: true,
     transactions: {},
     loading: true,
@@ -435,6 +456,7 @@ methods: {
   },
 
   getDashboardChartData(){
+<<<<<<< HEAD
     this.loading = true
     this.$api
       .get(this.dynamic_route('dashboard/user/chart_data'), {
@@ -448,6 +470,15 @@ methods: {
         
       }).catch((err)=>{
         this.loading = false;
+=======
+      this.loading3 = true
+      this.$api.get(this.dynamic_route('dashboard/user/chartstats'), {
+         
+      }).then((res)=> {
+        // return console.log(this.revenueComparisonLine.series);
+        this.revenueComparisonLine.series.data = res.data.stats.chartdata
+        this.loading3 = false
+>>>>>>> 6489075899b1d5d852d2bf55bea3e37bc5a80249
       })
   },
   getDashboardTableData(){
@@ -464,11 +495,13 @@ methods: {
   getDashboardTransactions(page = 1){
     this.loading = true
     this.$api
-          .get(this.dynamic_route(`transaction/all/?page=${page}`), {
-      }).then((res)=> {
-        this.transactions = res.data
+          .post(this.dynamic_route(`transaction/all/?page=${page}`),  {filter: this.filter }).then((res)=> {
+          this.transactions = res.data.transactions
           this.loading = false
       })
+  },
+  searchData() {
+    this.getDashboardTransactions()
   },
   getInitials(fullname) {
       const allNames = fullname.trim().split(' ');
