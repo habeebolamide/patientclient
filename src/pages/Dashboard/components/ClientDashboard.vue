@@ -4,9 +4,14 @@
           <div class="card-body">
               <b-row>
                   <b-col cols="12" class="" md="8">
-                    <h2 class="mb-4">Sale Report</h2>
-
+                    <h2 class="mb-4">Services Report</h2>
+                      <VueElementLoading
+                          :active="loading"
+                          spinner="bar-fade-scale"
+                          color="var(--primary)"
+                      />
                       <vue-apex-charts
+                        v-if="!loading"
                           class="shadow-sm mt-3"
                           type="line"
                           :height="number"
@@ -17,7 +22,7 @@
                   
       
                   <b-col md="4" cols="12" class="">
-                      <h2>Statics</h2>
+                      <h2>Statistics</h2>
                       <div class="">
                           <div class="card">
                               <div class="card-body p-0">
@@ -290,7 +295,7 @@ import BigStat from './BigStat/BigStat';
 import mock from '../mock';
 import Bar from '../Bar'
 import { Chart } from 'highcharts-vue';
-import { mapState, mapActions } from 'vuex';
+// import { mapState, mapActions } from 'vuex';
 import axios from "axios"
 import VueApexCharts from 'vue-apexcharts'
 import laravelVuePagination from 'laravel-vue-pagination'
@@ -309,9 +314,10 @@ data() {
       series: [
         {
           name: 'This Month',
-          data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600],
-          // data: [11,2,4,30,9],
+          data: [0, 0, 0, 0],
+          // data: [11,2,4,30,9,5,3,56],
         },
+       
         
       ],
       chartOptions: {
@@ -359,7 +365,7 @@ data() {
           axisTicks: {
             show: false,
           },
-          categories: ['01', '05', '09', '13', '17', '21', '26', '31'],
+          categories: ['0', '0', '0', '0'], //all services
           axisBorder: {
             show: false,
           },
@@ -396,22 +402,20 @@ data() {
     number:290,
     closeOnContentClick: true,
     transactions: {},
-    loading: false,
+    loading: true,
     loading2: false,
     loading3: false
   };
 },
 mounted(){
     this.getDashboardStats()
-    // this.getDashboardChartData()
+    this.getDashboardChartData()
     // this.getDashboardTableData()
     this.getDashboardTransactions()
 },
 computed:{
-  // ...mapState('auth', ['auth_data','auth_token']),
 },
 methods: {
-  // ...mapActions('auth', ['getAuthData']),
   getDashboardStats(){
     this.$api
           .get(this.dynamic_route('dashboard/user/stats'), {
@@ -421,34 +425,29 @@ methods: {
       }).then((res)=> {
         // return console.log(res.data.stats);
         this.stats = res.data.stats
-        // console.log(this.stats);
       })
   },
-  getInitials(fullname) {
-      const allNames = fullname.trim().split(' ');
-      const initials = allNames.reduce((acc, curr, index) => {
-          if(index === 0 || index === allNames.length - 1){
-              acc = `${acc}${curr.charAt(0).toUpperCase()}`;
-          }
-          return acc;
-      }, '');
-      return initials;
-  },
-      getRandomBadgeClass() {
-  //   const {primary, success, info, danger} = this.appConfig.colors;
+
+  getRandomBadgeClass() {
     const colors = ['badge-light-info', 'badge-light-primary', 'badge-light-danger', 
                   'badge-light-success', 'badge-light-warning', 'badge-light-secondary'];
     return colors[Math.floor(Math.random() * colors.length)]
   },
+
   getDashboardChartData(){
-      this.loading3 = true
-    axios.get(this.dynamic_route('/dashboard/chart_data'), {
-          headers:{
-              authorization: `Bearer ${this.auth_token}`
-          }
+    this.loading = true
+    this.$api
+      .get(this.dynamic_route('dashboard/user/chart_data'), {
       }).then((res)=> {
-      //   this.chartData = res.data
-        this.loading3 = false
+        this.revenueComparisonLine.series[0].data =  res.data.data
+        this.revenueComparisonLine.chartOptions.xaxis.categories =  res.data.services
+
+        setTimeout(function(){
+          this.loading = false;
+        }, 1000)
+        
+      }).catch((err)=>{
+        this.loading = false;
       })
   },
   getDashboardTableData(){
@@ -480,12 +479,6 @@ methods: {
           return acc;
       }, '');
       return initials;
-  },
-  getRandomBadgeClass() {
-  //   const {primary, success, info, danger} = this.appConfig.colors;
-    const colors = ['badge-light-info', 'badge-light-primary', 'badge-light-danger', 
-                  'badge-light-success', 'badge-light-warning', 'badge-light-secondary'];
-    return colors[Math.floor(Math.random() * colors.length)]
   },
 },
 };

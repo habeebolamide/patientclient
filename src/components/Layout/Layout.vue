@@ -10,7 +10,7 @@
         <router-view />
       </transition>
       <footer class="contentFooter">
-        BI MED.ng
+        hypelbase
       </footer>
     </v-touch>
   </div>

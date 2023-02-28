@@ -59,58 +59,59 @@ export default {
         });
     },
     AttachService(data) {
-      let service = data.id;
-      this.$swal({
-        icon: "warning",
-        title: "Subscribe ",
-        text: "Are you sure you want to want to carry out ths operation?",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes !",
-        cancelButtonText: "No, Exit!",
-        cancelButtonColor: "#d92550",
-        showCloseButton: true,
-        showLoaderOnConfirm: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.$api
-            .post(this.dynamic_route(`user_services/${service}`))
-            .then((res) => {
-              if (res.data.status) {
-                this.$toast.success(res.data.message, {
-                  position: "top-right",
-                  timeout: 5000,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  draggablePercent: 0.6,
-                  showCloseButtonOnHover: false,
-                  hideProgressBar: true,
-                  closeButton: "button",
-                  icon: true,
-                  rtl: false,
-                });
-              } else {
-                console.log(res.data.message);
-                this.$toast.error(res.data.message, {
-                  position: "top-right",
-                  timeout: 5000,
-                  closeOnClick: true,
-                  pauseOnFocusLoss: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  draggablePercent: 0.6,
-                  showCloseButtonOnHover: false,
-                  hideProgressBar: true,
-                  closeButton: "button",
-                  icon: true,
-                  rtl: false,
-                });
-              }
-            });
-        }
-      });
+      this.$router.push('/app/'+data.service_name)
+      // let service = data.id;
+      // this.$api
+      //   .post(this.dynamic_route(`user_services/${service}`))
+      //   .then((res) => {
+      //     if (res.data.status) {
+      //       this.$toast.success(res.data.message, {
+      //         position: "top-right",
+      //         timeout: 5000,
+      //         closeOnClick: true,
+      //         pauseOnFocusLoss: true,
+      //         pauseOnHover: true,
+      //         draggable: true,
+      //         draggablePercent: 0.6,
+      //         showCloseButtonOnHover: false,
+      //         hideProgressBar: true,
+      //         closeButton: "button",
+      //         icon: true,
+      //         rtl: false,
+      //       });
+      //     } else {
+      //       this.$toast.error(res.data.message, {
+      //         position: "top-right",
+      //         timeout: 5000,
+      //         closeOnClick: true,
+      //         pauseOnFocusLoss: true,
+      //         pauseOnHover: true,
+      //         draggable: true,
+      //         draggablePercent: 0.6,
+      //         showCloseButtonOnHover: false,
+      //         hideProgressBar: true,
+      //         closeButton: "button",
+      //         icon: true,
+      //         rtl: false,
+      //       });
+      //     }
+      // });
+      // this.$swal({
+      //   icon: "warning",
+      //   title: "Subscribe ",
+      //   text: "Are you sure you want to want to carry out ths operation?",
+      //   type: "warning",
+      //   showCancelButton: true,
+      //   confirmButtonText: "Yes !",
+      //   cancelButtonText: "No, Exit!",
+      //   cancelButtonColor: "#d92550",
+      //   showCloseButton: true,
+      //   showLoaderOnConfirm: true,
+      // }).then((result) => {
+      //   if (result.isConfirmed) {
+         
+      //   }
+      // });
     },
   },
   mounted() {

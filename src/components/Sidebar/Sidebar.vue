@@ -103,7 +103,7 @@
             isHeader
         /> -->
         <NavLink 
-            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
             :activeItem="activeItem"
             header="Services"
             link="/app/services"
@@ -113,7 +113,7 @@
         />
 
         <NavLink 
-            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
             :activeItem="activeItem"
             header="packages"
             link="/app/package"
@@ -138,7 +138,7 @@
             isHeader
         />
         <NavLink 
-            v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'"
+            v-if="user_type_hash == '$2y$10$q4rG1yBxxwz4MgAZk//GgerJMZ5SOP43u0Qhd1LzbEeDvdgJNrN6G'"
             :activeItem="activeItem"
             header="Manage Users"
             link="/app/manage-users"
@@ -164,7 +164,7 @@ export default {
     return {
       authType:'',
       menus:{},
-      user_type_hash:"",
+      user_type_hash : "",
       alerts: [
         {
           id: 0,

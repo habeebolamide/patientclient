@@ -3,8 +3,8 @@
     <div class="auth-page">
       <div class="container">
         <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
           <img src="/remove.png" alt="" class="img-fluid mb-5 center" width="40%">
           <div class="card">
             <div class="container">
@@ -13,7 +13,7 @@
                 Create a Secure Account
               </h1>
               <p
-                class="text-center mb-5"
+                class="text-center mb-3"
                 style="color: #4a5568; text-align: center !important"
               >
                 Welcome To Hypelbase
@@ -33,64 +33,70 @@
                 >
                   {{ errorMessage }}
                 </b-alert>
-                <p style="color: #4a5568; font-weight: 700">Fullname</p>
-                <input
-                  v-model="form.name"
-                  label="Name"
-                  class="form-control mb-5"
-                  type="text"
-                  required
+                <div class="row">
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Fullname</p>
+                    <input
+                      v-model="form.name"
+                      label="Name"
+                      class="form-control mb-3"
+                      type="text"
+                      required
+                    />
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Username</p>
+                    <input
+                      v-model="form.username"
+                      label="Username"
+                      class="form-control mb-3"
+                      type="text"
+                      required
+                    />
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Email</p>
+                    <input
+                      v-model="form.email"
+                      label="Email"
+                      class="form-control mb-3"
+                      type="email"
+                      required
                 />
-
-                <p style="color: #4a5568; font-weight: 700">Username</p>
-                <input
-                  v-model="form.username"
-                  label="Username"
-                  class="form-control mb-5"
-                  type="text"
-                  required
-                />
-
-                <p style="color: #4a5568; font-weight: 700">Email</p>
-                <input
-                  v-model="form.email"
-                  label="Email"
-                  class="form-control mb-5"
-                  type="email"
-                  required
-                />
-
-                <p style="color: #4a5568; font-weight: 700">Phone</p>
-                <input
-                  v-model="form.phone"
-                  label="Phone"
-                  class="form-control mb-5"
-                  type="number"
-                  required
-                />
-
-                <p style="color: #4a5568; font-weight: 700">Password</p>
-
-                <input
-                  v-model="form.password"
-                  :rules="passwordRules"
-                  label="Password"
-                  type="password"
-                  class="form-control mb-5"
-                  required
-                />
-
-                <p style="color: #4a5568; font-weight: 700">Confirm Password</p>
-
-                <input
-                  v-model="form.password_confirmation"
-                  :rules="passwordRules"
-                  label="Password"
-                  type="password"
-                  class="form-control"
-                  required
-                />
-
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Phone</p>
+                    <input
+                      v-model="form.phone"
+                      label="Phone"
+                      class="form-control mb-3"
+                      type="number"
+                      required
+                    />
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Password</p>
+                    <input
+                      v-model="form.password"
+                      :rules="passwordRules"
+                      label="Password"
+                      type="password"
+                      class="form-control mb-3"
+                      required
+                    />
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Confirm Password</p>
+                      <input
+                        v-model="form.password_confirmation"
+                        :rules="passwordRules"
+                        label="Password"
+                        type="password"
+                        class="form-control"
+                        required
+                      />
+                  </div>
+                </div>
 
                 <button
                   type="submit"

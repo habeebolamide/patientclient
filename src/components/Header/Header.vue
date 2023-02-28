@@ -24,7 +24,7 @@
       <i class="fa fa-circle text-primary" />
     </a> -->
     <b-nav class="ml-auto">
-      <!-- <span  class="px-2">ss{{auth_data.username ? auth_data.username : auth_data.fname + ' ' +  auth_data.lname}}</span> -->
+      <span  class="px-2">{{ this.user }}</span>
 
       <b-nav-item-dropdown
         class="d-none notificationsMenu"
@@ -83,14 +83,12 @@ export default {
        loggedInAs : false,
        loading : false,
        openConfirm:true,
+       user : null
     }
   },
-  mounted() {
-    
-  },
+ 
   methods: {
     ...mapActions('layout', ['toggleSidebar', 'switchSidebar', 'changeSidebarActive']),
-    ...mapActions('auth', ['getAuthData']),
     
     switchSidebarMethod() {
       if (!this.sidebarClose) {
@@ -145,6 +143,10 @@ export default {
         });
         this.$router.push('/home');
     }
+  },
+  mounted(){
+    const data = JSON.parse(localStorage.getItem('auth_info')) && JSON.parse(localStorage.getItem('auth_info')).auth_user || null;
+    this.user = data
   }
 };
 </script>
