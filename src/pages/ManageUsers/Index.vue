@@ -81,12 +81,12 @@
                                                             <i class="mdi mdi-square-edit-outline mr-1"></i> Edit Details
                                                         </v-list-item-title>
                                                     </v-list-item>
-                                                    <v-list-item>
+                                                    <!-- <v-list-item>
                                                         <v-list-item-title style="cursor:pointer"
                                                             @click="openConfirm4 = true; reset_id = user.id; currentUser = user">
                                                             <i class="mdi mdi-square-edit-outline mr-1"></i> login as
                                                         </v-list-item-title>
-                                                    </v-list-item>
+                                                    </v-list-item> -->
                                                     <!-- <v-list-item>
                                                 <v-list-item-title
                                                 style="cursor:pointer"
