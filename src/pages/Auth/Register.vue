@@ -203,7 +203,23 @@ export default {
         .post(this.dynamic_auth_route("register"), this.form)
         .then((res) => {
           this.loading = false;
-          this.$toast.success("Registration successful!", {
+          if (res.data.status == false) {
+            return this.$toast.error(res.data.message, {
+            position: "top-center",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+            });
+          }
+          this.$toast.success("Account Created Successfully", {
             position: "top-center",
             timeout: 5000,
             closeOnClick: true,
@@ -269,7 +285,7 @@ export default {
               rtl: false,
             });
           }
-          this.$toast.error("An error occurred, please try again!", {
+          this.$toast.error(res.data.data.message, {
             position: "top-center",
             timeout: 5000,
             closeOnClick: true,

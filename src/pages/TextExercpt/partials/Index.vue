@@ -64,8 +64,7 @@ export default {
       this.$api
         .post(this.dynamic_route("service/textexcerpt"), this.form)
         .then((res) => {
-          console.log(this.form);
-         this.loading = false;
+            this.loading = false;
             this.summary = res.data.summary.summarizedtext
         
         })
@@ -85,7 +84,6 @@ export default {
     handleExportText(data){
       this.form.textuploaded = "hi"
       this.form.textuploaded = data.text
-      console.log(this.form.textuploaded);
     }
   },
 };

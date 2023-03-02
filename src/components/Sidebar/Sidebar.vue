@@ -205,15 +205,11 @@ export default {
      
     getUserType(){
          const auth_user = JSON.parse(localStorage.getItem('auth_user'))  || null;
-          // console.log(auth_user.user_typehash);
         if(auth_user) {
           this.user_type_hash = auth_user.user_typehash;
           this.$api
             .get(this.dynamic_route('user'),
             {
-              // headers:{
-              //   authorization: `Bearer 18|ZGFToUhOKfZjTPT9UtPPqags1EVDyH0sts4T5mJM`
-              // }
             })
             .then(res => {
               this.authType = res.data.user_type;
