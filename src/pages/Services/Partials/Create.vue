@@ -36,6 +36,14 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12">
+                    <v-text-field
+                      label="Service URL"
+                      type="text"
+                      v-model="form.service_url"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
                     <v-select
                       :items="items"
                       label="Status"

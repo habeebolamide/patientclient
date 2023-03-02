@@ -34,6 +34,13 @@
                   v-model="form.description"
                   class="mt-5"
                 ></v-text-field>
+                <v-text-field
+                  label="Service URL"
+                  hide-details="auto"
+                  :rules="rules"
+                  v-model="form.service_url"
+                  class="mt-5"
+                ></v-text-field>
                     <v-select
                       :items="items"
                       label="Status"
@@ -89,9 +96,8 @@ export default {
       this.$api
         .put(this.dynamic_route("services/" + this.form.id), this.form)
         .then((res) => {
-          console.log(res);
           if (res.data.status) {
-            this.loading = false;
+          this.loading = false;
           this.closeMe();
           this.$emit("edit-service");
           this.$toast.success(res.data.message, {
