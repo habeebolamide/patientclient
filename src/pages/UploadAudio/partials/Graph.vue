@@ -60,7 +60,6 @@
                 this.dialog = !this.dialog;
             },
             getSentiment() {
-              console.log(this.sentiment);
                 this.loading = true;
                 this.sentiment[0] = this.sentiments.data.sentiments.negative.replace('%', '')
                 this.sentiment[1] = this.sentiments.data.sentiments.neutral.replace('%', '')

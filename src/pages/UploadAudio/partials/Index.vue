@@ -176,9 +176,7 @@
             .post(this.dynamic_route("service/pos"), this.keywords)
             .then((res) => {
               this.loading = false;
-              console.log(res.data.res);
               this.pos = res.data.res;
-              return console.log(this.pos);
             });
         },
         getSentiment() {
@@ -213,44 +211,41 @@
       });
       div.innerHTML = modifiedText;
         },
-        startRecording() {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(micStream => {
-          const audioContext = new AudioContext();
-          const source = audioContext.createMediaStreamSource(micStream);
-          const audioDestination = audioContext.createMediaStreamDestination();
-          source.connect(audioDestination);
+        // startRecording() {
+        // navigator.mediaDevices.getUserMedia({ audio: true })
+        // .then(micStream => {
+        //   const audioContext = new AudioContext();
+        //   const source = audioContext.createMediaStreamSource(micStream);
+        //   const audioDestination = audioContext.createMediaStreamDestination();
+        //   source.connect(audioDestination);
 
-          this.mediaRecorder = new MediaRecorder(audioDestination.stream);
-          const chunks = [];
+        //   this.mediaRecorder = new MediaRecorder(audioDestination.stream);
+        //   const chunks = [];
 
-          this.mediaRecorder.addEventListener("dataavailable", event => {
-            chunks.push(event.data);
-          });
+        //   this.mediaRecorder.addEventListener("dataavailable", event => {
+        //     chunks.push(event.data);
+        //   });
 
-          this.mediaRecorder.addEventListener("stop", () => {
-            console.log("Chunks:", chunks);
-            const blob = new Blob(chunks, { type: "audio/webm" });
-            console.log("Blob:", blob);
-            const formData = new FormData();
-            formData.append("audio", blob, "recording.webm");
-            console.log("FormData:", formData);
-            // fetch("https://example.com/service/uploadaudio", {
-            //   method: "POST",
-            //   body: formData
-            // })
-            this.$api
-            .post(this.dynamic_route("service/uploadaudio/recordedaudio"), formData)
-              .then(response => console.log("Audio sent successfully:", response))
-              .catch(error => console.error("Error sending audio:", error));
-          });
+        //   this.mediaRecorder.addEventListener("stop", () => {
+        //     const blob = new Blob(chunks, { type: "audio/webm" });
+        //     const formData = new FormData();
+        //     formData.append("audio", blob, "recording.webm");
+        //     // fetch("https://example.com/service/uploadaudio", {
+        //     //   method: "POST",
+        //     //   body: formData
+        //     // })
+        //     this.$api
+        //     .post(this.dynamic_route("service/uploadaudio/recordedaudio"), formData)
+        //       .then(response => console.log("Audio sent successfully:", response))
+        //       .catch(error => console.error("Error sending audio:", error));
+        //   });
 
-          this.stream = micStream;
-          this.recording = true;
-          this.mediaRecorder.start();
-        })
-        .catch(err => console.error("Error accessing microphone:", err));
-        },
+        //   this.stream = micStream;
+        //   this.recording = true;
+        //   this.mediaRecorder.start();
+        // })
+        // .catch(err => console.error("Error accessing microphone:", err));
+        // },
         stopRecording() {
         if (this.mediaRecorder && this.mediaRecorder.state !== "inactive") {
         this.mediaRecorder.stop();

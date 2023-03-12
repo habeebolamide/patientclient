@@ -238,7 +238,6 @@ export default {
             this.$bvModal.hide("create");
         },
         handleImage() {
-            console.log(this.files)
             for (let i = 0; i < this.files.length; i++) {
                 let validateFile=this.fileFormats.some(el => el == this.files[i].type);
                 if(!validateFile) {
