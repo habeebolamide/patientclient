@@ -22,7 +22,7 @@
       </h5> -->
       <ul class="nav">
 
-        <NavLink
+        <!-- <NavLink
             v-for="(menu, index) in menus"
             :key="index"
             :activeItem="activeItem"
@@ -31,45 +31,45 @@
             :iconName="menu.iconName"
             :index="menu.index"
             isHeader
-        />
-        <!-- <NavLink
+        /> -->
+        <NavLink
             :activeItem="activeItem"
             header="Dashboard"
             link="/app/dashboard"
             iconName="flaticon-homew"
             index="dashboard"
             isHeader
-        /> -->
+        />
         
         <!-- <div class="bg-info" style="position:relative;width:100%;overflow:hidden"> -->
-          <!-- <NavLink
+          <NavLink
               :activeItem="activeItem"
               header="User Profiles"
               link="/app/user-profile"
               iconName="flaticon-account-box"
               index="list"
               isHeader
-          /> -->
+          />
           <!-- <span class="badge badge-warning">90</span> -->
 
         <!-- </div> -->
-         <!-- <NavLink
+         <NavLink
             :activeItem="activeItem"
             header="Upload Audios"
             iconName="flaticon-audio"
             link="/app/upload-audio"
             index="manage-orders"
             isHeader
-        /> -->
-        <!-- <NavLink
+        />
+        <NavLink
             :activeItem="activeItem"
             header="Transcribe text"
             link="/app/transcribe-text"
             iconName="flaticon-admin-quick"
             index="transcribe-text"
             isHeader
-        /> -->
-<!--       
+        />
+      
         <NavLink
             :activeItem="activeItem"
             header="Text Excerpt"
@@ -77,7 +77,7 @@
             iconName="flaticon-investment"
             index="settings"
             isHeader
-        /> -->
+        />
         <!-- <NavLink
             :activeItem="activeItem"
             header="POS"
@@ -94,14 +94,14 @@
             index="settings2"
             isHeader
         /> -->
-        <!-- <NavLink
+        <NavLink
             :activeItem="activeItem"
             header="Paraphrase Text"
             link="/app/paraphrase"
             iconName="flaticon-investment"
             index="settings2"
             isHeader
-        /> -->
+        />
         <NavLink 
             v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
             :activeItem="activeItem"
