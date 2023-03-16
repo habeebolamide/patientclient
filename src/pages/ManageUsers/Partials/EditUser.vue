@@ -55,6 +55,17 @@
                             required
                             ></v-text-field>
                         </v-col>
+                        <v-col
+                            cols="12"
+                        >
+                            <small class="text-danger" v-if="error_messg.status">{{error_messg.status[0]}}</small>
+
+                            <v-select
+                                :items="items"
+                                label="Status"
+                                v-model="form.status"
+                            ></v-select>
+                        </v-col>
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -93,6 +104,7 @@ export default {
             loading: false,
             form: this.user,
             error_messg:{},
+            items: ["active", "inactive"],
         }
     },
     methods: {

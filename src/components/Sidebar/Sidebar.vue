@@ -237,7 +237,7 @@ export default {
   created() {
     this.setActiveByRoute();
     this.getUserType();
-    this.getSidebarCont()
+    // this.getSidebarCont()
   },
   mounted() {
     
