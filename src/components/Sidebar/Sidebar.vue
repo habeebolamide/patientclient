@@ -61,14 +61,14 @@
             index="manage-orders"
             isHeader
         />
-        <NavLink
+        <!-- <NavLink
             :activeItem="activeItem"
             header="Transcribe text"
             link="/app/transcribe-text"
             iconName="flaticon-admin-quick"
             index="transcribe-text"
             isHeader
-        />
+        /> -->
       
         <NavLink
             :activeItem="activeItem"
