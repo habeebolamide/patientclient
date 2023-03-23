@@ -127,12 +127,11 @@
       },
       mounted() {},
       methods: {
-        callback (data) {
-            console.debug(data)
-        },
+        // callback (data) {
+        //     console.debug(data)
+        // },
         Upload() {
           this.loading = true;
-          let currentObj = this;
           const config = {
             headers: {
             'content-type': 'multipart/form-data',
