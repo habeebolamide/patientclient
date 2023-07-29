@@ -5,12 +5,12 @@
         <div class="row">
           <div class="col-md-3"></div>
           <div class="col-md-6">
-            <img
+            <!-- <img
               src="/remove.png"
               alt=""
               class="img-fluid mb-5 center"
               width="40%"
-            />
+            /> -->
             <div class="card">
               <div class="container">
                 <div class="login-form py-5">
@@ -174,31 +174,20 @@ export default {
               rtl: false,
             });
 
-            if (res.data.data.token) {
+            if (res.data.token) {
               var data = {
-                auth_token: res.data.data.token,
-                auth_user: res.data.data.user,
-                user_typehash : res.data.data.user_typehash
+                auth_token: res.data.token,
+                auth_user: res.data.patient,
               };
-              localStorage.setItem("auth_user", JSON.stringify(data));
-              for (let index = 0; index < 200; index++) {
-                localStorage.setItem(
-                  this.generateTokens(7),
-                  JSON.stringify(this.generateTokens(42))
-                );
-              }
-              localStorage.setItem("2@39$*8", data.auth_token);
-
-              localStorage.setItem("0$oR*2w", this.generateTokens(30));
-              localStorage.setItem("||xm2Nw", this.generateTokens(43));
+              localStorage.setItem("auth_info", JSON.stringify(data));
+              // this.$router.push('/app/dashboard')
               location.href = "/app/dashboard";
             }
           })
           .catch((err) => {
             this.loading = false;
-            if (err.response.status == 400) {
-              this.errorMessage = err.response.data.message;
-              return this.$toast.error("Invalid Credentials!", {
+              // this.errorMessage = err.response.data.message;
+              return this.$toast.error( "err.response.data.message", {
                 position: "top-center",
                 timeout: 5000,
                 closeOnClick: true,
@@ -212,21 +201,6 @@ export default {
                 icon: true,
                 rtl: false,
               });
-            }
-            this.$toast.error("An error occurred, please try again!", {
-              position: "top-center",
-              timeout: 5000,
-              closeOnClick: true,
-              pauseOnFocusLoss: true,
-              pauseOnHover: true,
-              draggable: true,
-              draggablePercent: 0.6,
-              showCloseButtonOnHover: false,
-              hideProgressBar: true,
-              closeButton: "button",
-              icon: true,
-              rtl: false,
-            });
           })
           .finally(() => {
             this.loading = false;

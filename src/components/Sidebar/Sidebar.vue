@@ -40,7 +40,22 @@
             index="dashboard"
             isHeader
         />
-        
+        <NavLink
+            :activeItem="activeItem"
+            header="Groups"
+            link="/app/groups"
+            iconName="flaticon-homew"
+            index="manage-orders"
+            isHeader
+        />
+        <NavLink
+            :activeItem="activeItem"
+            header="My Group"
+            link="/app/my-group"
+            iconName="flaticon-homew"
+            index="manage-orders"
+            isHeader
+        />
         <!-- <div class="bg-info" style="position:relative;width:100%;overflow:hidden"> -->
           <NavLink
               :activeItem="activeItem"
@@ -52,100 +67,6 @@
           />
           <!-- <span class="badge badge-warning">90</span> -->
 
-        <!-- </div> -->
-         <NavLink
-            :activeItem="activeItem"
-            header="Upload Audios"
-            iconName="flaticon-audio"
-            link="/app/upload-audio"
-            index="manage-orders"
-            isHeader
-        />
-        <!-- <NavLink
-            :activeItem="activeItem"
-            header="Transcribe text"
-            link="/app/transcribe-text"
-            iconName="flaticon-admin-quick"
-            index="transcribe-text"
-            isHeader
-        /> -->
-      
-        <NavLink
-            :activeItem="activeItem"
-            header="Text Excerpt"
-            link="/app/text-exercpt"
-            iconName="flaticon-investment"
-            index="settings"
-            isHeader
-        />
-        <!-- <NavLink
-            :activeItem="activeItem"
-            header="POS"
-            link="/app/pos"
-            iconName="flaticon-audio"
-            index="settings2"
-            isHeader
-        /> -->
-        <!-- <NavLink
-            :activeItem="activeItem"
-            header="Text Sentiment"
-            link="/app/sentiment"
-            iconName="flaticon-investment"
-            index="settings2"
-            isHeader
-        /> -->
-        <NavLink
-            :activeItem="activeItem"
-            header="Paraphrase Text"
-            link="/app/paraphrase"
-            iconName="flaticon-investment"
-            index="settings2"
-            isHeader
-        />
-        <NavLink 
-            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
-            :activeItem="activeItem"
-            header="Services"
-            link="/app/services"
-            iconName="flaticon-alert"
-            index="settingss"
-            isHeader
-        />
-
-        <NavLink 
-            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
-            :activeItem="activeItem"
-            header="packages"
-            link="/app/package"
-            iconName="flaticon-alert"
-            index="settingss"
-            isHeader
-        />
-        <!-- <NavLink 
-            :activeItem="activeItem"
-            header="My Packages"
-            link="/app/my-packages"
-            iconName="flaticon-alert"
-            index="settingss"
-            isHeader
-        /> -->
-        <NavLink 
-            :activeItem="activeItem"
-            header="My Services"
-            link="/app/my-services"
-            iconName="flaticon-alert"
-            index="settingss"
-            isHeader
-        />
-        <NavLink 
-            v-if="user_type_hash == '$2y$10$7iVAOMjRy8J4Fbt7IGY20OBzgW7EBwSlGjCvd9x4ds0gSZjYfEqvC'"
-            :activeItem="activeItem"
-            header="Manage Users"
-            link="/app/manage-users"
-            iconName="flaticon-users"
-            index="manage-users"
-            isHeader
-        />
       </ul>
       
     </nav>
@@ -164,7 +85,6 @@ export default {
     return {
       authType:'',
       menus:{},
-      user_type_hash : "",
       alerts: [
         {
           id: 0,

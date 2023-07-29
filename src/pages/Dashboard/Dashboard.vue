@@ -2,8 +2,8 @@
   <div class="dashboard-page">
     <h1 class="page-title">Dashboard</h1>
 
-    <AdminDashboard   v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'" />
-    <ClientDashboard v-else/>
+    <!-- <AdminDashboard   v-if="user_type_hash == '$2y$10$Kn1O69Af7kQmsZ7eRaUH7u09Wbbat6ZCWJbyGwY/vVQZWBnD648IS'" /> -->
+    <ClientDashboard/>
     <!-- End Pricing Section -->
   </div>
 </template>

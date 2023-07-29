@@ -21,6 +21,9 @@ import GoogleMapPage from '@/pages/Maps/Google';
 
 // Main
 import AnalyticsPage from '@/pages/Dashboard/Dashboard';
+import Groups from '@/pages/Groups/Index';
+import MyGroups from '@/pages/Groups/MyGroup';
+import Message from '@/pages/Groups/partial/Messages';
 
 
 // Charts
@@ -92,67 +95,26 @@ export default new Router({
           },
         },
         {
-          path: 'package',
-          name: 'package',
-          component: () => import('@/pages/Package/Index'),
+          path: 'groups',
+          name: 'Groups',
+          component: Groups,
           meta: {
             requireAuth: true
           },
         },
         {
-          path: 'my-packages',
-          name: 'my-packages',
-          component: MyPackages,
+          path: 'my-group',
+          name: 'my-group',
+          component: MyGroups,
           meta: {
             requireAuth: true
           },
         },
         {
-          path: 'my-services',
-          name: 'my-services',
-          component: MyServices,
+          path: ":groupid/message",
+          component: Message,
           meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'transactions',
-          name: 'transaction',
-          component: () => import('@/pages/Transaction/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'notification',
-          name: 'notification',
-          component: () => import('@/pages/Notifications/Notifications'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'manage-users',
-          name: 'notification',
-          component: () => import('@/pages/ManageUsers/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'services',
-          name: 'services',
-          component: () => import('@/pages/Services/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'package',
-          name: 'package',
-          component: () => import('@/pages/Package/Index'),
-          meta: {
-            requireAuth: true
+            requiresAuth: true, 
           },
         },
         {
@@ -171,105 +133,6 @@ export default new Router({
           meta: {
             requireAuth: true
           },
-        },
-        {
-          path: 'upload-audio',
-          name: 'Upload Audio',
-          component: () => import('@/pages/UploadAudio/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'manage-coupons/list',
-          name: 'Coupon',
-          component: () => import('@/pages/Coupon/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'transcribe-text',
-          name: 'TranscribeText',
-          component: () => import('@/pages/TranscribeText/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'text-exercpt',
-          name: 'TextExercpt',
-          component: () => import('@/pages/TextExercpt/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'pos',
-          name: 'POS',
-          component: () => import('@/pages/POS/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'paraphrase',
-          name: 'Paraphrase',
-          component: () => import('@/pages/Paraphrase/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'subscribe',
-          name: 'Subscribe',
-          component: () => import('@/pages/Package/Partials/Subscribe'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'entity-recogntion',
-          name: 'Entity-Recogntion',
-          component: () => import('@/pages/EntityRecogntion/Index'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        {
-          path: 'settings',
-          name: 'Settings',
-          component: () => import('@/pages/Settings/Index'),
-        },
-        {
-          path: 'typography',
-          name: 'TypographyPage',
-          component: TypographyPage,
-        },
-        {
-          path: 'components/icons',
-          name: 'IconsPage',
-          component: IconsPage,
-        },
-        {
-          path: 'notifications',
-          name: 'NotificationsPage',
-          component: NotificationsPage,
-        },
-        {
-          path: 'components/charts',
-          name: 'ChartsPage',
-          component: ChartsPage,
-        },
-        {
-          path: 'tables',
-          name: 'TablesBasicPage',
-          component: TablesBasicPage,
-        },
-        {
-          path: 'components/maps',
-          name: 'GoogleMapPage',
-          component: GoogleMapPage,
         },
         // { path: "/:pathMatch(.*)*", component: AnalyticsPage }
       ],

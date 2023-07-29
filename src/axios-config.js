@@ -1,11 +1,11 @@
 import axios from "axios";
 
+const token = JSON.parse(localStorage.getItem('auth_info'))?.auth_token; // Use optional chaining to handle null value
 
-let token = localStorage.getItem('2@39$*8');
 const appAxios = axios.create({
     headers: {
-        authorization: `Bearer ${token}`
-    }
+        authorization: token ? `Bearer ${token}` : null,
+    },
 });
 
 const onErrorResponse = async (error) => {
@@ -43,13 +43,14 @@ const onSuccessResponse = (response) => {
 };
 
 appAxios.interceptors.response.use(onSuccessResponse, onErrorResponse);
-// before a request is made start the nprogress
+
+// Before a request is made, start the NProgress
 appAxios.interceptors.request.use(config => {
     NProgress.start()
     return config
 })
 
-// before a response is returned stop nprogress
+// Before a response is returned, stop the NProgress
 //   appAxios.interceptors.response.use(response => {
 //     alert(2)
 
@@ -64,6 +65,4 @@ appAxios.interceptors.request.use(config => {
 
 //   })
 
-
-
-export default appAxios
+export default appAxios;
