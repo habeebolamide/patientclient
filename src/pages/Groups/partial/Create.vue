@@ -70,14 +70,9 @@ export default {
     },
     methods:{
         getDisease(){
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${this.auth_token.replace(/"/g, '')}`,
-                },
-            };
 
-            this.$http.get(this.dynamic_route('/disease/all'), config).then((res) => {
+
+            this.$api.get(this.dynamic_route('disease/all'),).then((res) => {
                 this.disease = res.data.diseases;
             });
         },
@@ -87,13 +82,7 @@ export default {
         createGroup(){
             this.loading = true
             this.loading_text = 'Creating Group'
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${this.auth_token.replace(/"/g, '')}`,
-                },
-            };
-            this.$http.post(this.dynamic_route('/group/createGroup'),this.form, config)
+            this.$api.post(this.dynamic_route('group/createGroup'),this.form)
             .then((res) => {
                 this.$toast.success(res.data.message, {
                     timeout: 3000

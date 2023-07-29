@@ -31,9 +31,8 @@
             </div>
             <div class="profile_content">
               <h4 class="">
-                {{ form.lname }} {{ form.fname }} {{ form.mname }}
+                {{ form.lastname }} {{ form.firstname }}
               </h4>
-              <span class="d-block my-2">{{ form.user_type.name }}</span>
               <small class="mb-3">{{ form.email }}</small>
               <!-- <button
                 class="mt-5 p-2 btn btn-block btn-primary"
@@ -189,8 +188,17 @@
             <v-row>
               <v-col cols="12" sm="12" md="12" class="mb-2">
                 <v-text-field
-                  label="Full name*"
-                  v-model="form.name"
+                  label="First name*"
+                  v-model="form.firstname"
+                  :disabled="disableEdit"
+                  :rules="nameRule"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="12" md="12" class="mb-2">
+                <v-text-field
+                  label="Last name*"
+                  v-model="form.lastname"
                   :disabled="disableEdit"
                   :rules="nameRule"
                   required
@@ -296,9 +304,10 @@ export default {
       this.disableEdit = !this.disableEdit;
     },
     getUser() {
-      this.$api.get(this.dynamic_route("user")).then((res) => {
-        this.form = res.data;
-      });
+      // this.$api.get(this.dynamic_route("user")).then((res) => {
+      //   this.form = res.data;
+      // });
+      this.form = JSON.parse(localStorage.getItem('auth_info')).auth_user
     },
     closeMe() {
       this.dialog = !this.dialog;

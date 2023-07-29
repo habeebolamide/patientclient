@@ -89,7 +89,7 @@ export default {
                     perPage: this.perPage,
                 },
             };
-            this.$api.get(this.dynamic_route('/group/patientgroup',config))
+            this.$api.get(this.dynamic_route('group/patientgroup',config))
             .then((res) => {
                 this.groups = res.data.data.groups;
                 this.perPage = res.data.data.perPage;

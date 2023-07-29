@@ -147,7 +147,7 @@ export default {
     }
   },
   mounted(){
-    const data = JSON.parse(localStorage.getItem('auth_user')) && JSON.parse(localStorage.getItem('auth_user')).auth_user.name || null;
+    const data =  JSON.parse(localStorage.getItem('auth_info')).auth_user.username || null;
     this.user = data
   }
 };

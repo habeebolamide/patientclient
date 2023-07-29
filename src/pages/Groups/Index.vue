@@ -48,55 +48,52 @@
         </b-row>
     </div> -->
     <v-app class="p-4 mx-0">
-    <v-card>
-        <VueElementLoading
-        :active="loading"
-        :text="loading_text"
-        spinner="line-scale"
-        color="var(--primary)"
-        />
-      <v-card-title>
-       
-      </v-card-title>
-      <v-container>
-        <div class="row">
-          <div class="col-md-12">
-            <v-simple-table>
-              <thead>
-                <tr>
-                    <th width ="1%">S/N</th>
-                    <th width ="10%">Name</th>
-                    <th width ="10%">Disease</th>
-                    <th width ="10%">Join Group</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(g, index) in groups" :key="index">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ g.name }}</td>
-                    <td>{{ g.disease.name }}</td>
-                    <td>
-                        <v-btn
-                            class="mx-2"
-                            @click="joinGroup(g._id)"
-                            small
-                            color="#3f50b5"
-                            outlined
-                        >
-                            <span>Join group</span>
-                        </v-btn>
-                    </td>
-                </tr>
-              </tbody>
-            </v-simple-table>
-          </div>
-          <div class="col-md-12">
-          </div>
-        </div>
-      </v-container>
-    </v-card>
-   
-  </v-app>
+        <v-card>
+            <VueElementLoading :active="loading" :text="loading_text" spinner="line-scale" color="var(--primary)" />
+            <v-card-title class="d-flex justify-space-between">
+                <div>
+                    <span>Groups</span>
+                </div>
+                <v-btn @click="$bvModal.show('create-group')" small color="#3f50b5" outlined>Create Group</v-btn>
+                <b-modal id="create-group" hide-footer title="Create Group">
+                    <Create :my_modal="$bvModal" @get-group="getGroups()" />
+                </b-modal>
+            </v-card-title>
+
+
+            <v-container>
+                <div class="row">
+                    <div class="col-md-12">
+                        <v-simple-table>
+                            <thead>
+                                <tr>
+                                    <th width="1%">S/N</th>
+                                    <th width="10%">Name</th>
+                                    <th width="10%">Disease</th>
+                                    <th width="10%">Join Group</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(g, index) in groups" :key="index">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ g.name }}</td>
+                                    <td>{{ g.disease.name }}</td>
+                                    <td>
+                                        <v-btn class="mx-2" @click="joinGroup(g._id)" small color="#3f50b5" outlined>
+                                            <span>Join group</span>
+                                        </v-btn>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </v-simple-table>
+                    </div>
+                    <div class="col-md-12">
+                    </div>
+                </div>
+            </v-container>
+        </v-card>
+
+    </v-app>
 </template>
 
 <script>
@@ -107,7 +104,7 @@ export default {
         // if no subcomponents specify a metaInfo.title, this title will be used
         title: "SignIn",
     },
-    components:{
+    components: {
         Create,
         VueElementLoading
     },
@@ -115,7 +112,7 @@ export default {
         return {
             groups: {},
             loading: false,
-            loading_text:'',
+            loading_text: '',
             auth_token: {},
             currentPage: 1,
             perPage: 10, // Change this to the number of groups per page you want to display
@@ -134,7 +131,7 @@ export default {
                 },
             };
 
-            this.$api.get(this.dynamic_route('/group/all'), config).then((res) => {
+            this.$api.get(this.dynamic_route('group/all'), config).then((res) => {
                 this.loading = false
                 this.loading_text = ''
                 this.groups = res.data.data.groups;
@@ -150,8 +147,13 @@ export default {
             //         Authorization: `Bearer ${this.auth_token.replace(/"/g, '')}`,
             //     },
             // };
-            this.$api.post(this.dynamic_route(`/group/${id}/joingroup`))
+            this.$api.post(this.dynamic_route(`group/${id}/joingroup`))
                 .then((res) => {
+                    if (res.data.status == false) {
+                        return this.$toast.error(res.data.message, {
+                            timeout: 3000
+                        });
+                    }
                     this.$toast.success(res.data.message, {
                         timeout: 3000
                     });
@@ -173,21 +175,3 @@ export default {
 };
 </script>
 
-<style>
-.modal-body {
-  background: white !important;
-}
-
-._body {
-  height: auto !important;
-}
-.modal-body {
-  background: #fff !important;
-}
-.custom-bg {
-  background: #ec570db8 !important;
-  color: white !important;
-}
-li {
-  display: inline;
-}
