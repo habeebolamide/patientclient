@@ -14,7 +14,7 @@
                 <div class="chat-messages">
                     <div v-for="(msg, i) in messages" :key="i" :class="['chat-message', msg.user === user ? 'current-user' : '']">
                     <div class="message-avatar">
-                        <img v-if="msg.user !== user"  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="Avatar" />
+                        <img v-if="msg.user !== user"  :src=msg.avatar alt="Avatar" />
                     </div>
                     <div class="message-content-wrapper">
                         <div v-if="msg.user === user" class="message-sender">You</div>
@@ -54,6 +54,7 @@ export default {
             message: '',
             groupId: '',
             messages: [],
+            form:{}
         };
     },
     methods: {
@@ -73,8 +74,14 @@ export default {
         },
         sendMessage() {
             if (this.user.trim() === '' || this.message.trim() === '') return;
-            this.$api.post(this.dynamic_route('group/messages'), { groupId: this.groupId, user: this.user, message: this.message }).then(() => { });
+            const data = { groupId: this.groupId, user: this.user, message: this.message, avatar:this.form.avatar}
+            this.$api.post(this.dynamic_route('group/messages'), data).then(() => { });
             this.message = '';
+        },
+        getUser() {
+        this.$api.get(this.dynamic_auth_route("me")).then((res) => {
+            this.form = res.data.patient;
+        });
         },
         handleIncomingMessage(data) {
             this.messages.push(data);
@@ -85,8 +92,8 @@ export default {
         },
     },
     async created() {
+        this.getUser()
         this.group = this.$route.query.name
-        // return console.log(this.$route.query.name);
         this.groupId = this.$route.params.groupid
         this.user = JSON.parse(localStorage.getItem('auth_info')).auth_user.username
         // Fetch initial messages from the database (if you have stored messages in the backend)

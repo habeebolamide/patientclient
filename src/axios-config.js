@@ -11,11 +11,11 @@ const appAxios = axios.create({
 const onErrorResponse = async (error) => {
     if (error.response) {
         if (
-            error.response.status === 401 &&
-            error.response.data.message === "Unauthenticated."
+            error.response.status === 401 
         ) {
             localStorage.clear();
-            this.$route.push("/login");
+            // this.$route.push("/login");
+            location.href = "/login";
             // this.$toast.error("Login expired", {
             //     position: "top-center",
             //     timeout: 5000,

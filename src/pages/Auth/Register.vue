@@ -35,9 +35,19 @@
                 </b-alert>
                 <div class="row">
                   <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Fullname</p>
+                    <p style="color: #4a5568; font-weight: 700">FirstName</p>
                     <input
-                      v-model="form.name"
+                      v-model="form.firstname"
+                      label="Name"
+                      class="form-control mb-3"
+                      type="text"
+                      required
+                    />
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">Lastname</p>
+                    <input
+                      v-model="form.lastname"
                       label="Name"
                       class="form-control mb-3"
                       type="text"
@@ -63,6 +73,16 @@
                       type="email"
                       required
                 />
+                  </div>
+                  <div class="col-6">
+                    <p style="color: #4a5568; font-weight: 700">DOB</p>
+                    <input
+                      v-model="form.dob"
+                      label="DOB"
+                      class="form-control mb-3"
+                      type="date"
+                      required
+                  />
                   </div>
                   <div class="col-6">
                     <p style="color: #4a5568; font-weight: 700">Phone</p>
@@ -152,7 +172,7 @@ export default {
   },
   methods: {
     login() {
-      if (Object.keys(this.form).length != 6) {
+      if (Object.keys(this.form).length < 2) {
         return this.$toast.error("All fields are required!", {
           position: "top-center",
           timeout: 5000,
@@ -238,17 +258,7 @@ export default {
               auth_token: res.data.data.token,
               auth_user: res.data.data.user,
             };
-            localStorage.setItem("auth_user", JSON.stringify(data.auth_user));
-            for (let index = 0; index < 200; index++) {
-              localStorage.setItem(
-                this.generateTokens(7),
-                JSON.stringify(this.generateTokens(42))
-              );
-            }
-            localStorage.setItem("2@39$*8", data.auth_token);
-
-            localStorage.setItem("0$oR*2w", this.generateTokens(30));
-            localStorage.setItem("||xm2Nw", this.generateTokens(43));
+            localStorage.setItem("auth_info", JSON.stringify(data));
             location.href = "/app/dashboard";
           }
         })

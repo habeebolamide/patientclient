@@ -186,8 +186,7 @@ export default {
           })
           .catch((err) => {
             this.loading = false;
-              // this.errorMessage = err.response.data.message;
-              return this.$toast.error( "err.response.data.message", {
+              return this.$toast.error(err.response.data.error, {
                 position: "top-center",
                 timeout: 5000,
                 closeOnClick: true,
