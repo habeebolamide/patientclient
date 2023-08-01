@@ -20,6 +20,7 @@
                     <th width ="10%">Name</th>
                     <th width ="10%">Disease</th>
                     <th width ="10%">View Messages</th>
+                    <th width ="10%">Leave Group</th>
                 </tr>
               </thead>
               <tbody>
@@ -36,6 +37,17 @@
                             outlined
                         >
                             <span>View Messages</span>
+                        </v-btn>
+                    </td>
+                    <td>
+                        <v-btn
+                            class="mx-2"
+                            @click="LeaveGroup(g)"
+                            small
+                            color="#f44336"
+                            outlined
+                        >
+                            <span>Leave Group</span>
                         </v-btn>
                     </td>
                 </tr>
@@ -99,6 +111,27 @@ export default {
                 this.loading = false
                 this.loading_text = ''
             })
+        },
+
+        LeaveGroup(group) {
+            this.loading = true
+            this.loading_text = 'Processing'
+            this.$api.post(this.dynamic_route(`group/${group._id}/leaveGroup`))
+                .then((res) => {
+                    this.getGroups()
+                    return this.$toast(res.data.message, {
+                        timeout: 3000
+                    });
+                })
+                .catch((err) => {
+                    return this.$toast.error(err.data.message, {
+                        timeout: 3000
+                    });
+                })
+                .finally(() => {
+                    this.loading = false
+                    this.loading_text = ''
+                })
         },
 
         ViewMessages(group){

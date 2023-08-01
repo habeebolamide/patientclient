@@ -6,12 +6,9 @@
         @mouseleave="sidebarMouseLeave"
     >
       <header class="logo text-center mt-3">
-        <img src="../../assets/remove.png" alt="HypelBase logo" width="70%">
+        <!-- <img src="../../assets/remove.png" alt="HypelBase logo" width="70%"> -->
 
         <router-link to="/app/dashboard">
-          <!-- <span class="primary-word">
-          <img src="/img/cardLogo.png" style="height:25px;" alt=""></span>  -->
-          <!-- <span class="secondary-word"> COInvest</span> -->
         </router-link>
       </header>
 

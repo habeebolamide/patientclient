@@ -24,7 +24,7 @@
                     class="text-center mb-5"
                     style="color: #4a5568; text-align: center !important"
                   >
-                    Securely login to your Hypelbase
+                    Securely login to your account
                   </p>
                   <form @submit.prevent="login" class="pt-4">
                     <VueElementLoading

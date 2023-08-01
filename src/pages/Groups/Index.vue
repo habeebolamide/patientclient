@@ -147,6 +147,8 @@ export default {
             //         Authorization: `Bearer ${this.auth_token.replace(/"/g, '')}`,
             //     },
             // };
+            this.loading = true
+            this.loading_text = 'Processing'
             this.$api.post(this.dynamic_route(`group/${id}/joingroup`))
                 .then((res) => {
                     if (res.data.status == false) {
@@ -163,6 +165,10 @@ export default {
                     this.$toast.error(err.response.data.message, {
                         timeout: 3000
                     });
+                })
+                .finally(() =>{
+                    this.loading = false
+                    this.loading_text = ''
                 })
         }
 
