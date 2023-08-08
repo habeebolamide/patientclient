@@ -1,39 +1,54 @@
 <template>
     <v-app>
-        <v-card>
-            <VueElementLoading
-            :active="loading"
-            :text="loading_text"
-            spinner="line-scale"
-            color="var(--primary)"
-            />
-            <v-card-title>
-                <div class="chat-header">{{ group }}</div>
-            </v-card-title>
-            <div class="chat-container">
-                <div class="chat-messages">
-                    <div v-for="(msg, i) in messages" :key="i" :class="['chat-message', msg.user === user ? 'current-user' : '']">
-                    <div class="message-avatar">
-                        <img v-if="msg.user !== user"  :src=msg.avatar alt="Avatar" />
-                    </div>
-                    <div class="message-content-wrapper">
-                        <div v-if="msg.user === user" class="message-sender">You</div>
-                        <div v-else class="message-sender">{{ msg.user }}</div>
-                        <div :class="msg.user === user ? 'my-message' : 'other-message'">
-                        <span class="message-content">{{ msg.message }}</span>
-                        </div>
-                    </div>
-                    </div>
+      <v-card>
+        <VueElementLoading
+          :active="loading"
+          :text="loading_text"
+          spinner="line-scale"
+          color="var(--primary)"
+        />
+        <v-card-title>
+          <div class="chat-header">{{ group }}</div>
+        </v-card-title>
+        <div class="chat-container">
+          <div class="chat-messages">
+            <div
+              v-for="(msg, i) in messages"
+              :key="i"
+              :class="['chat-message', msg.user === user ? 'current-user' : '']"
+            >
+              <div class="message-avatar">
+                <img v-if="msg.user !== user" :src="msg.avatar" alt="Avatar" />
+              </div>
+              <div class="message-content-wrapper">
+                <div v-if="msg.user === user" class="message-sender">You</div>
+                <div v-else class="message-sender">{{ msg.user }}</div>
+                <div :class="msg.user === user ? 'my-message' : 'other-message'">
+                  <span class="message-content">{{ msg.message }}</span>
                 </div>
-                <form @submit.prevent="sendMessage" class="chat-form">
-                    <input v-model="message" type="text" class="chat-input" placeholder="Type a message..." required />
-                    <v-btn type="submit" class="chat-btn" color="primary">
-                    <v-icon color="darken-3">mdi-forum</v-icon>
-                    </v-btn>
-                </form>
+              </div>
             </div>
-
-        </v-card>
+          </div>
+          <form @submit.prevent="sendMessage" class="chat-form">
+            <input
+              v-model="message"
+              type="text"
+              class="chat-input"
+              placeholder="Type a message..."
+              required
+            />
+            <v-btn type="submit" class="chat-btn" color="primary">
+              <v-icon color="darken-3">mdi-forum</v-icon>
+            </v-btn>
+          </form>
+        </div>
+  
+        <!-- Button to toggle the emoji picker -->
+        <button class="emoji-picker-button" @click="toggleEmojiPicker">😀</button>
+  
+        <!-- Emoji Picker -->
+        <Picker v-if="showEmojiPicker" :set="set" @select="handleEmojiSelect" ref="emojiPicker" class="emoji-picker" />
+      </v-card>
     </v-app>
 </template>
   
@@ -41,10 +56,13 @@
 <script>
 import Pusher from 'pusher-js';
 import VueElementLoading from "vue-element-loading";
+import { Picker } from "emoji-mart-vue";
+
 
 export default {
     components:{
-        VueElementLoading
+        VueElementLoading,
+        Picker,
     },
     data() {
         return {
@@ -54,7 +72,9 @@ export default {
             message: '',
             groupId: '',
             messages: [],
-            form:{}
+            form:{},
+            showEmojiPicker: false,
+            set: "apple",
         };
     },
     methods: {
@@ -90,6 +110,19 @@ export default {
         isMessageFromCurrentUser(msg) {
             return msg.user === this.user;
         },
+        handleEmojiSelect(emoji) {
+            this.message += emoji.native; // Append the selected emoji to the input field value
+        },
+        toggleEmojiPicker() {
+            this.showEmojiPicker = !this.showEmojiPicker; // Toggle the visibility of the emoji picker
+        },
+        handleOutsideClick(event) {
+      const emojiPicker = this.$refs.emojiPicker; // Get a reference to the emoji picker element
+      if (!emojiPicker.contains(event.target)) {
+        // If the click event target is not inside the emoji picker element, hide the emoji picker
+        this.showEmojiPicker = false;
+      }
+    },
     },
     async created() {
         this.getUser()
@@ -113,6 +146,13 @@ export default {
         this.chatChannel.bind('new-message', (data) => this.handleIncomingMessage(data));
         this.fetchMessages();
     },
+    mounted(){
+        window.addEventListener("click", this.handleOutsideClick);
+    },
+    beforeDestroy() {
+    // Remove the click event listener when the component is about to be destroyed
+    window.removeEventListener("click", this.handleOutsideClick);
+  },
 };
 </script>
   
@@ -120,6 +160,22 @@ export default {
 .chat-message.current-user {
     text-align: right;
 }
+  .emoji-picker-button {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border: none;
+    background: transparent;
+  }
+
+  /* Style for the emoji picker */
+  .emoji-picker {
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
+    z-index: 999;
+    background-color: black !important;
+  }
 
 .chat-messages {
     flex: 1;
@@ -127,6 +183,14 @@ export default {
     flex-direction: column;
     padding: 0 10px;
     overflow-y: auto;
+}
+.emoji-mart-category-label span[data-v-376cda0e]{
+    display: block;
+    width: 100%;
+    font-weight: 500;
+    padding: 5px 6px;
+    background-color: black !important;
+    color: white;
 }
 
 /* CSS */

@@ -25,6 +25,7 @@
     "dot-env": "0.0.1",
     "dotenv": "^16.0.3",
     "echarts": "^4.9.0",
+    "emoji-mart-vue": "^2.6.6",
     "expose-loader": "^0.7.5",
     "font-awesome": "4.7.0",
     "glyphicons-halflings": "^1.9.1",
