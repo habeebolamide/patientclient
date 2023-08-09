@@ -79,9 +79,42 @@
                                     <td>{{ g.name }}</td>
                                     <td>{{ g.disease.name }}</td>
                                     <td>
-                                        <v-btn class="mx-2" @click="joinGroup(g._id)" small color="#3f50b5" outlined>
+                                        <v-btn v-if="g.isLocked !== 'true'" class="mx-2" @click="joinGroup(g._id)" small
+                                            color="#3f50b5" outlined>
                                             <span>Join group</span>
                                         </v-btn>
+                                        <v-btn v-else class="mx-2" @click="$bvModal.show('join-group')" small
+                                            color="#3f50b5" outlined>
+                                            <span>Join group</span>
+                                        </v-btn>
+                                        <b-modal id="join-group" hide-footer title="Enter Password">
+                                            <VueElementLoading :active="loading2" :text="loading_text" spinner="line-scale" color="var(--primary)" />
+                                            <form @submit.prevent="joinPassGroup(g._id)">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 mb-3">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Input Password:</span>
+                                                                </div>
+                                                                <input type="password" class="form-control"
+                                                                    v-model="form.password" />
+                                                            </div>
+                                                            <!-- <small class="text-danger">{{ errors.grade_name }}</small> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-block text-right card-footer">
+                                                    <button type="button" class="mr-2 btn btn-danger btn-sm"
+                                                        @click="$bvModal.hide('join-group')">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                        Join Group
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </b-modal>
                                     </td>
                                 </tr>
                             </tbody>
@@ -111,7 +144,9 @@ export default {
     data() {
         return {
             groups: {},
+            form:{},
             loading: false,
+            loading2: false,
             loading_text: '',
             auth_token: {},
             currentPage: 1,
@@ -141,12 +176,6 @@ export default {
         },
 
         joinGroup(id) {
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         Authorization: `Bearer ${this.auth_token.replace(/"/g, '')}`,
-            //     },
-            // };
             this.loading = true
             this.loading_text = 'Processing'
             this.$api.post(this.dynamic_route(`group/${id}/joingroup`))
@@ -166,11 +195,40 @@ export default {
                         timeout: 3000
                     });
                 })
-                .finally(() =>{
+                .finally(() => {
                     this.loading = false
                     this.loading_text = ''
                 })
-        }
+        },
+
+        joinPassGroup(id) {
+            this.loading2 = true
+            this.loading_text = 'Processing'
+            this.$api.post(this.dynamic_route(`group/${id}/joingroup`),this.form)
+                .then((res) => {
+                    if (res.data.status == false) {
+                        return this.$toast.error(res.data.message, {
+                            timeout: 3000
+                        });
+                    }
+                    this.$toast.success(res.data.message, {
+                        timeout: 3000
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.$toast.error(err.response.data.message, {
+                        timeout: 3000
+                    });
+                })
+                .finally(() => {
+                    this.getGroups()
+                    this.form = ''
+                    this.loading2 = false
+                    this.loading_text = ''
+                    this.$bvModal.hide('join-group')
+                })
+        },
 
     },
 

@@ -35,6 +35,31 @@
             </div>
             <!-- <small class="text-danger">{{ errors.grade_name }}</small> -->
           </div>
+          <div class="col-md-12 mb-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Locked</label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" v-model="form.isLocked">
+                    <option selected>false</option>
+                    <option>true</option>
+                </select>
+            </div>
+            <!-- <small class="text-danger">{{ errors.grade_name }}</small> -->
+          </div>
+          <div class="col-md-12 mb-3" v-if="form.isLocked == 'true'">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Password:</span>
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                v-model="form.password"
+              />
+            </div>
+            <!-- <small class="text-danger">{{ errors.grade_name }}</small> -->
+          </div>
         </div>
       </div>
       <div class="d-block text-right card-footer">
