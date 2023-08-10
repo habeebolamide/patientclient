@@ -103,8 +103,22 @@ export default {
             this.form = res.data.patient;
         });
         },
+        showNotification(sender, message) {
+          if (Notification.permission === "granted") {
+            const notification = new Notification(`New message from ${sender}`, {
+              body: message,
+              icon: "/path/to/your/icon.png" // Replace with your icon's path
+            });
+            notification.onclick = () => {
+              this.openChatWindow = true; // Open chat window on notification click
+            };
+          }
+        },
         handleIncomingMessage(data) {
-            this.messages.push(data);
+          this.messages.push(data);
+          if (!this.isMessageFromCurrentUser(data)) {
+            this.showNotification(data.user, data.message); // Trigger notification
+          }
         },
 
         isMessageFromCurrentUser(msg) {
@@ -125,6 +139,12 @@ export default {
     },
     },
     async created() {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          console.log("Notification permission granted");
+        }
+      });
+
         this.getUser()
         this.group = this.$route.query.name
         this.groupId = this.$route.params.groupid
