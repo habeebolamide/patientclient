@@ -107,7 +107,7 @@ export default {
           if (Notification.permission === "granted") {
             const notification = new Notification(`New message from ${sender}`, {
               body: message,
-              icon: "/path/to/your/icon.png" // Replace with your icon's path
+              icon: "https://res.cloudinary.com/crownbirthltd/image/upload/v1597424758/psitywq3w0z4wzpojmp8.png" 
             });
             notification.onclick = () => {
               this.openChatWindow = true; // Open chat window on notification click
