@@ -26,7 +26,9 @@ import AudioRecorder from 'vue-audio-recorder'
 import VueSocialSharing from 'vue-social-sharing'
 import Echo from 'laravel-echo';
 import axiosConfig from './axios-config';
+import Notifications from 'vue-notification';
 
+Vue.use(Notifications);
 Vue.prototype.$api=axiosConfig;
 
 window.Pusher = require('pusher-js');

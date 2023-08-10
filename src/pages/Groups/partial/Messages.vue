@@ -1,176 +1,171 @@
 <template>
-    <v-app>
-      <v-card>
-        <VueElementLoading
-          :active="loading"
-          :text="loading_text"
-          spinner="line-scale"
-          color="var(--primary)"
-        />
-        <v-card-title>
-          <div class="chat-header">{{ group }}</div>
-        </v-card-title>
-        <div class="chat-container">
-          <div class="chat-messages">
-            <div
-              v-for="(msg, i) in messages"
-              :key="i"
-              :class="['chat-message', msg.user === user ? 'current-user' : '']"
-            >
-              <div class="message-avatar">
-                <img v-if="msg.user !== user" :src="msg.avatar" alt="Avatar" />
-              </div>
-              <div class="message-content-wrapper">
-                <div v-if="msg.user === user" class="message-sender">You</div>
-                <div v-else class="message-sender">{{ msg.user }}</div>
-                <div :class="msg.user === user ? 'my-message' : 'other-message'">
-                  <span class="message-content">{{ msg.message }}</span>
-                </div>
+  <v-app>
+    <v-card>
+      <VueElementLoading
+        :active="loading"
+        :text="loading_text"
+        spinner="line-scale"
+        color="var(--primary)"
+      />
+      <v-card-title>
+        <div class="chat-header">{{ group }}</div>
+      </v-card-title>
+      <div class="chat-container">
+        <div class="chat-messages">
+          <div
+            v-for="(msg, i) in messages"
+            :key="i"
+            :class="['chat-message', msg.user === user ? 'current-user' : '']"
+          >
+            <div class="message-avatar">
+              <img v-if="msg.user !== user" :src="msg.avatar" alt="Avatar" />
+            </div>
+            <div class="message-content-wrapper">
+              <div v-if="msg.user === user" class="message-sender">You</div>
+              <div v-else class="message-sender">{{ msg.user }}</div>
+              <div :class="msg.user === user ? 'my-message' : 'other-message'">
+                <span class="message-content">{{ msg.message }}</span>
               </div>
             </div>
           </div>
-          <form @submit.prevent="sendMessage" class="chat-form">
-            <input
-              v-model="message"
-              type="text"
-              class="chat-input"
-              placeholder="Type a message..."
-              required
-            />
-            <v-btn type="submit" class="chat-btn" color="primary">
-              <v-icon color="darken-3">mdi-forum</v-icon>
-            </v-btn>
-          </form>
         </div>
-  
-        <!-- Button to toggle the emoji picker -->
-        <button class="emoji-picker-button" @click="toggleEmojiPicker">😀</button>
-  
-        <!-- Emoji Picker -->
-        <Picker v-if="showEmojiPicker" :set="set" @select="handleEmojiSelect" ref="emojiPicker" class="emoji-picker" />
-      </v-card>
-    </v-app>
+        <form @submit.prevent="sendMessage" class="chat-form">
+          <input
+            v-model="message"
+            type="text"
+            class="chat-input"
+            placeholder="Type a message..."
+            required
+          />
+          <v-btn type="submit" class="chat-btn" color="primary">
+            <v-icon color="darken-3">mdi-forum</v-icon>
+          </v-btn>
+        </form>
+      </div>
+      
+      <!-- Button to toggle the emoji picker -->
+      <button class="emoji-picker-button" @click="toggleEmojiPicker">😀</button>
+
+      <!-- Emoji Picker -->
+      <Picker v-if="showEmojiPicker" :set="set" @select="handleEmojiSelect" id="emojiPicker" class="emoji-picker" />
+    </v-card>
+  </v-app>
 </template>
-  
-  
+
 <script>
 import Pusher from 'pusher-js';
 import VueElementLoading from "vue-element-loading";
 import { Picker } from "emoji-mart-vue";
 
-
 export default {
-    components:{
-        VueElementLoading,
-        Picker,
+  components: {
+    VueElementLoading,
+    Picker,
+  },
+  data() {
+    return {
+      user: '',
+      loading: false,
+      loading_text:'',
+      message: '',
+      groupId: '',
+      messages: [],
+      form: {},
+      showEmojiPicker: false,
+      set: "apple",
+      openChatWindow: false, // For handling notification click
+    };
+  },
+  methods: {
+    async fetchMessages() {
+      this.loading = true;
+      this.loading_text = 'Fetching Messages';
+      try {
+        const response = await this.$api.get(this.dynamic_route(`group/${this.groupId}/messages`));
+        this.messages = response.data;
+        this.loading = false;
+        this.loading_text = '';
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+        this.loading = true;
+        this.loading_text = 'Fetching Messages';
+      }
     },
-    data() {
-        return {
-            user: '',
-            loading: false,
-            loading_text:'',
-            message: '',
-            groupId: '',
-            messages: [],
-            form:{},
-            showEmojiPicker: false,
-            set: "apple",
-        };
-    },
-    methods: {
-        async fetchMessages() {
-            this.loading = true
-            this.loading_text = 'Fetching Messages'
-            try {
-                const response = await this.$api.get(this.dynamic_route(`group/${this.groupId}/messages`));
-                this.messages = response.data;
-                this.loading = false
-                this.loading_text = ''
-            } catch (error) {
-                console.error('Error fetching messages:', error);
-                this.loading = true
-                this.loading_text = 'Fetching Messages'
-            }
-        },
-        sendMessage() {
-            if (this.user.trim() === '' || this.message.trim() === '') return;
-            const data = { groupId: this.groupId, user: this.user, message: this.message, avatar:this.form.avatar}
-            this.$api.post(this.dynamic_route('group/messages'), data).then(() => { });
-            this.message = '';
-        },
-        getUser() {
-        this.$api.get(this.dynamic_auth_route("me")).then((res) => {
-            this.form = res.data.patient;
+    showNotification(sender, message) {
+      if (Notification.permission == "granted") {
+        const notification = new Notification(`New message from ${sender}`, {
+          body: message,
+          icon: "https://res.cloudinary.com/crownbirthltd/image/upload/v1597424758/psitywq3w0z4wzpojmp8.png", // Replace with the path to your avatar image
         });
-        },
-        showNotification(sender, message) {
-          if (Notification.permission === "granted") {
-            const notification = new Notification(`New message from ${sender}`, {
-              body: message,
-              icon: "https://res.cloudinary.com/crownbirthltd/image/upload/v1597424758/psitywq3w0z4wzpojmp8.png" 
-            });
-            notification.onclick = () => {
-              this.openChatWindow = true; // Open chat window on notification click
-            };
-          }
-        },
-        handleIncomingMessage(data) {
-          this.messages.push(data);
-          if (!this.isMessageFromCurrentUser(data)) {
-            this.showNotification(data.user, data.message); // Trigger notification
-          }
-        },
 
-        isMessageFromCurrentUser(msg) {
-            return msg.user === this.user;
-        },
-        handleEmojiSelect(emoji) {
-            this.message += emoji.native; // Append the selected emoji to the input field value
-        },
-        toggleEmojiPicker() {
-            this.showEmojiPicker = !this.showEmojiPicker; // Toggle the visibility of the emoji picker
-        },
-        handleOutsideClick(event) {
-      const emojiPicker = this.$refs.emojiPicker; // Get a reference to the emoji picker element
-      if (!emojiPicker.contains(event.target)) {
-        // If the click event target is not inside the emoji picker element, hide the emoji picker
+        notification.onclick = () => {
+          this.openChatWindow = true; // Open chat window on notification click
+        };
+      }
+    },
+    sendMessage() {
+      if (this.user.trim() === '' || this.message.trim() === '') return;
+      const data = { groupId: this.groupId, user: this.user, message: this.message, avatar: this.form.avatar };
+      this.$api.post(this.dynamic_route('group/messages'), data).then(() => { });
+      this.message = '';
+    },
+    getUser() {
+      this.$api.get(this.dynamic_auth_route("me")).then((res) => {
+        this.form = res.data.patient;
+      });
+    },
+    handleIncomingMessage(data) {
+      this.messages.push(data);
+      if (!this.isMessageFromCurrentUser(data)) {
+        if (!document.hasFocus()) {
+          document.title = "New Message Received!"; // Change the document title if user is not focused on the window
+        }
+        this.showNotification(data.user, data.message);
+      }
+    },
+    isMessageFromCurrentUser(msg) {
+      return msg.user === this.user;
+    },
+    handleEmojiSelect(emoji) {
+      this.message += emoji.native;
+    },
+    toggleEmojiPicker() {
+      this.showEmojiPicker = !this.showEmojiPicker;
+    },
+    handleOutsideClick(event) {
+      // return console.log(document.getElementById('emojiPicker'));
+      if (!document.getElementById('emojiPicker').contains(event.target)) {
         this.showEmojiPicker = false;
       }
     },
-    },
-    async created() {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          console.log("Notification permission granted");
-        }
-      });
 
-        this.getUser()
-        this.group = this.$route.query.name
-        this.groupId = this.$route.params.groupid
-        this.user = JSON.parse(localStorage.getItem('auth_info')).auth_user.username
-        // Fetch initial messages from the database (if you have stored messages in the backend)
-        // Replace this with your actual backend endpoint to fetch messages
-        // Example: axios.get('/api/messages')
-        // After fetching, update this.messages with the fetched data
+  },
+  created() {
+    this.getUser();
+    this.group = this.$route.query.name;
+    this.groupId = this.$route.params.groupid;
+    this.user = JSON.parse(localStorage.getItem('auth_info')).auth_user.username;
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        console.log("Notification permission granted");
+      }
+    });
+    window.addEventListener("focus", () => {
+      document.title = "Your App Title"; // Reset the document title
+    });
+    this.pusher = new Pusher('23770585f05335a622d6', {
+      cluster: 'mt1',
+      encrypted: true,
+    });
 
-        // Set up Pusher to listen for new messages
-        this.pusher = new Pusher('23770585f05335a622d6', {
-            cluster: 'mt1',
-            encrypted: true,
-        });
-        // Fetch existing messages for the group from the server and populate the chat
-
-        this.chatChannel = this.pusher.subscribe(this.groupId);
-        // Bind new messages for the specific group
-        this.chatChannel.bind('new-message', (data) => this.handleIncomingMessage(data));
-        this.fetchMessages();
-    },
-    mounted(){
-        window.addEventListener("click", this.handleOutsideClick);
-    },
-    beforeDestroy() {
-    // Remove the click event listener when the component is about to be destroyed
+    this.chatChannel = this.pusher.subscribe(this.groupId);
+    this.chatChannel.bind('new-message', (data) => this.handleIncomingMessage(data));
+    this.fetchMessages();
+  },
+  mounted() {
+    window.addEventListener("click", this.handleOutsideClick);
+  },
+  beforeDestroy() {
     window.removeEventListener("click", this.handleOutsideClick);
   },
 };

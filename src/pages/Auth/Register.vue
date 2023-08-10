@@ -253,14 +253,14 @@ export default {
             icon: true,
             rtl: false,
           });
-          if (res.data.data.token) {
-            var data = {
-              auth_token: res.data.data.token,
-              auth_user: res.data.data.user,
-            };
-            localStorage.setItem("auth_info", JSON.stringify(data));
-            location.href = "/app/dashboard";
-          }
+          if (res.data.token) {
+              var data = {
+                auth_token: res.data.token,
+                auth_user: res.data.patient,
+              };
+              localStorage.setItem("auth_info", JSON.stringify(data));
+              location.href = "/app/dashboard";
+            }
         })
         .catch((err) => {
           this.loading = false;
