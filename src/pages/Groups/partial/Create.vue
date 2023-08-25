@@ -23,7 +23,7 @@
             </div>
             <!-- <small class="text-danger">{{ errors.grade_name }}</small> -->
           </div>
-          <div class="col-md-12 mb-3">
+          <!-- <div class="col-md-12 mb-3">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Group Disease</label>
@@ -33,8 +33,7 @@
                     <option v-for="d in disease" :value="d._id">{{ d.name }}</option>
                 </select>
             </div>
-            <!-- <small class="text-danger">{{ errors.grade_name }}</small> -->
-          </div>
+          </div> -->
           <div class="col-md-12 mb-3">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
