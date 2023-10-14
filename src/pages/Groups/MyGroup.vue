@@ -18,7 +18,6 @@
                 <tr>
                     <th width ="1%">S/N</th>
                     <th width ="10%">Name</th>
-                    <th width ="10%">Disease</th>
                     <th width ="10%">View Messages</th>
                     <th width ="10%">Leave Group</th>
                 </tr>
@@ -27,7 +26,6 @@
                 <tr v-for="(g, index) in groups" :key="index">
                     <td>{{ index + 1 }}</td>
                     <td>{{ g.name }}</td>
-                    <td>{{ g.disease.name }}</td>
                     <td>
                         <v-btn
                             class="mx-2"
