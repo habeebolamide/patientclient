@@ -91,18 +91,6 @@ export default {
         this.loading_text = 'Fetching Messages';
       }
     },
-    showNotification(sender, message) {
-      if (Notification.permission == "granted") {
-        const notification = new Notification(`New message from ${sender}`, {
-          body: message,
-          icon: "https://res.cloudinary.com/crownbirthltd/image/upload/v1597424758/psitywq3w0z4wzpojmp8.png", // Replace with the path to your avatar image
-        });
-
-        notification.onclick = () => {
-          this.openChatWindow = true; // Open chat window on notification click
-        };
-      }
-    },
     sendMessage() {
       if (this.user.trim() === '' || this.message.trim() === '') return;
       const data = { groupId: this.groupId, user: this.user, message: this.message, avatar: this.form.avatar };
@@ -121,6 +109,24 @@ export default {
           document.title = "New Message Received!"; // Change the document title if user is not focused on the window
         }
         this.showNotification(data.user, data.message);
+      }
+    },
+
+    showNotification(sender, message) {
+      if (Notification.permission == "granted") {
+        const notification = new Notification(`New message from ${sender}`, {
+          body: message,
+          icon: "https://res.cloudinary.com/crownbirthltd/image/upload/v1597424758/psitywq3w0z4wzpojmp8.png"
+        });
+
+        notification.onclick = () => {
+          // Open chat window
+          this.openChatWindow = true;
+          // Focus the chat input
+          this.$nextTick(() => {
+            this.$refs.chatInput.focus();
+          });
+        };
       }
     },
     isMessageFromCurrentUser(msg) {
@@ -365,6 +371,4 @@ export default {
 .chat-btn:hover {
     background-color: #0056b3;
 }
-</style>
-  
-  
+</style> 
