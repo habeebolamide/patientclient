@@ -29,8 +29,8 @@
                               <div class="small-box">
                                   <div class="d-flex inner">
                                   <div>
-                                      <h3>$ {{stats ? Number(stats.total_transactions).toLocaleString() : 0}}</h3>
-                                      <p>Total Income</p>
+                                      <h3> {{stats ? Number(stats.total_message).toLocaleString() : 0}}</h3>
+                                      <p>Total Message Sent</p>
                                   </div>
                                   <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
                                       <span class="b-avatar-custom">
@@ -49,8 +49,8 @@
                               <div class="small-box">
                                   <div class="d-flex inner">
                                   <div>
-                                      <h3>{{stats ? Number(stats.subscriptions).toLocaleString() : 0}}</h3>
-                                      <p>Total Subscriptions</p>
+                                      <h3>{{stats ? Number(stats.total_group).toLocaleString() : 0}}</h3>
+                                      <p>Total Group</p>
                                   </div>
                                   <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
                                       <span class="b-avatar-custom">
@@ -63,240 +63,13 @@
                               </div>
                           </div>
                       </div>
-                      <div class="">
-                          <div class="card">
-                              <div class="card-body p-0">
-                              <div class="small-box">
-                                  <div class="d-flex inner">
-                                  <div>
-                                      <h3> {{stats ? Number(stats.active_subscriptions).toLocaleString() : 0}}</h3>
-                                      <p>Active Subscriptions</p>
-                                  </div>
-                                  <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
-                                      <span class="b-avatar-custom">
-                                      <svg data-v-254b7dbb="" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-watch"><circle data-v-254b7dbb="" cx="12" cy="12" r="7"></circle><polyline data-v-254b7dbb="" points="12 9 12 12 13.5 13.5"></polyline><path data-v-254b7dbb="" d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"></path></svg>
-                                      </span><!---->
-                                  </span>
-                                  </div>
-                                  <!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-                              </div>
-                              </div>
-                          </div>
-                      </div>
-                      <!-- <div class="h-100">
-                      <div class="card">
-                          <div class="card-body p-0">
-                          <div class="small-box">
-                              <div class="d-flex inner">
-                              <div>
-                                  <h3>&#8358; {{stats ? Number(stats.total_transactions).toLocaleString() : 0}}</h3>
-                                  <p>Orders</p>
-                              </div>
-                              <span class="b-avatar badge-light-warning rounded-circle ml-auto" style="width: 58px; height: 58px;">
-                                  <span class="b-avatar-custom">
-                                  <svg data-v-254b7dbb="" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-watch"><circle data-v-254b7dbb="" cx="12" cy="12" r="7"></circle><polyline data-v-254b7dbb="" points="12 9 12 12 13.5 13.5"></polyline><path data-v-254b7dbb="" d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"></path></svg>
-                                  </span>
-                              </span>
-                              </div>
-                              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                          </div>
-                          </div>
-                      </div>
-                      </div> -->
                   </b-col>
       
               </b-row>
 
           </div>
       </div>
-      <!-- <b-row>
-          <b-col md="6">
-            <Widget
-              title="<h5>Categories against Customers</h5>"
-              bodyClass="widget-table-overflow"
-              customHeader
-            >
-                <div class="px-3">
-                    <VueElementLoading
-                        :active="loading3"
-                        spinner="bar-fade-scale"
-                        color="var(--primary)"
-                    />
-                    <bar :chartData="chartData" :height="395" style="height: 395px;"></bar>
-                </div>
-            </Widget>
-          </b-col>
-          <b-col md="6">
-          <Widget
-              title="<h5>Recent <span class='fw-semi-bold'>Orders</span></h5>"
-              bodyClass="widget-table-overflow"
-              customHeader
-          >
-              <div class="table-responsive mt-3">
-                  <VueElementLoading
-                      :active="loading2"
-                      spinner="bar-fade-scale"
-                      color="var(--primary)"
-                  />
-                <table class="table table-striped table-lg mb-0 requests-table">
-                    <thead>
-                    <tr class="text-muted">
-                        <th>PRODUCT</th>
-                        <th>TOTAL ORDERS</th>
-                        <th>PRICE</th>
-                        <th>STATUS</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr
-                    
-                    >
-                        <td>
-                          Pack of Meds..
-                        </td>
-                        <td>5</td>
-                        <td>₦ 20.00</td>
-                        <td>
-                        <b-badge
-                            variant="success"
-                            pill
-                        >
-                            active
-                        </b-badge>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-              </div>
-          </Widget>
-          </b-col>
-      </b-row> -->
-      <b-row>
-          <b-col md="12">
-          <Widget
-              title="<h5>Transactions <span class='fw-semi-bold'>Overview</span></h5>"
-              bodyClass="widget-table-overflow"
-              customHeader
-          >
-          <div class="row">
-                      <div class="col-md-4 mt-5 ml-5">
-                        <v-select
-                        @change="searchData"
-                          v-model="filter.status"
-                          :items="items"
-                          label="Search By Status"
-                        ></v-select>
-                      </div>
-                </div>
-              <VueElementLoading
-                  :active="loading"
-                  spinner="bar-fade-scale"
-                  color="var(--primary)"
-              />
-              <div class="scroll-area-lg" v-if="transactions">
-                  <div class="table-responsive mt-4">
-                      <table class="table table-hover table-sm mb-0 requests-table-two">
-                          <thead>
-                              <tr>
-                                  <th class="hidden-sm-down">#</th>
-                                  <th class="hidden-sm-down">Transaction ID</th>
-                                  <th class="hidden-sm-down" width="40%">User Info </th>
-                                  <th class="hidden-sm-down">Package</th>
-                                  <!-- <th class="hidden-sm-down">Installment Type (%)</th> -->
-                                  <th class="hidden-sm-down">Amount</th>
-                                  <th class="hidden-sm-down">Date</th>
-                                  <th class="hidden-sm-down">Status</th>
-                                  <!-- <th class="hidden-sm-down text-center">Action</th> -->
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr v-for="(transaction, index) in transactions.data" :key="transaction.id">
-                                  <td>{{index+1}}</td>
-                                  <td class="text-dark">
-                                      {{transaction.transaction_reference}}
-                                  </td>
-                                  <td>
-                                      <span class="d-flex pt-2">
-                                          <span>
-                                              <span class="b-avatar rounded-circle" :class="getRandomBadgeClass()" 
-                                                  style="width: 38px; height: 38px; font-weight: 600">
-                                                  {{getInitials(transaction.user.name)}}
-                                              </span>
-                                          </span>
-                                          <span class="ml-3">
-                                                      <span class="fw-semi-bold">&nbsp; {{transaction.user.name}}</span>
-                                              <p>
-                                                  <small>
-                                                      <span class="text-semi-muted">&nbsp; {{transaction.user.email}}</span>
-                                                  </small>    
-                                              </p>
-                                          </span>
-                                      </span>
-                                  </td>
-                                  <td class="text-dark">
-                                      {{transaction.package.package_name}}
-                                  </td>
-                                  <!-- <td class="text-dark">
-                                      {{transaction.installment.name}}
-                                  </td> -->
-                                  <td class="text-dark text-capitalize">
-                                      $ {{Number(transaction.amount).toLocaleString()}}
-                                  </td>
-                                  <td class="text-dark">
-                                      {{transaction.created_at | moment("D MMM, YYYY, h:mm a")}}
-                                  </td>
-                                  <td class="font-weight-bolder">
-                                      <span class="badge badge-pill text-capitalize"
-                                          :class="{'badge-light-secondary': transaction.status == 'not completed', 
-                                          'badge-light-success': transaction.status == 'success', 
-                                          'badge-light-danger': transaction.status == 'declined'}"> 
-                                          {{transaction.status}} 
-                                      </span>
-                                  </td>
-                                  <!-- <td class="text-center" style="font-size: 18px">
-                                      <v-menu
-                                          bottom
-                                          origin="center center"
-                                          transition="scale-transition"
-                                          :close-on-content-click="closeOnContentClick"
-                                          left
-                                      >
-                                          <template #activator="{ on, attrs }">
-                                              <v-btn
-                                                  color="black"
-                                                  icon
-                                                  v-bind="attrs"
-                                                  v-on="on"
-                                              >
-                                                  <i class="fa fa-list-ul"></i>
-                                              </v-btn>
-                                          </template>
-  
-                                          <v-list>
-                                              <v-list-item>
-                                                  <v-list-item-title
-                                                  style="cursor:pointer"
-                                                  >
-                                                  <i class="mdi mdi-check-circle-outline mr-1"></i> Check Status
-                                                  </v-list-item-title>
-                                              </v-list-item>
-                                          </v-list>
-                                      </v-menu>
-                                  </td> -->
-                              </tr>
-                          </tbody>
-                      
-                      </table>
-                  </div>
-                  <laravelVuePagination :data="transactions" @pagination-change-page="getDashboardTransactions" />
-              </div>
-              <div class="alert alert-info text-center m-4" v-else>
-                  <b style="font-weight: 600 !important">NO TRANSACTION RECORD</b>
-              </div>
-          </Widget>
-          </b-col>
-      </b-row>
-  </div>
+    </div>
 </template>
 <script>
 import Widget from '@/components/Widget/Widget';
@@ -407,7 +180,6 @@ data() {
       },
     },
     stats: {
-      // total_transactions:0,
     },
     items: [
         'not completed',
@@ -418,86 +190,46 @@ data() {
     filter:{},
     closeOnContentClick: true,
     transactions: {},
-    loading: true,
+    loading: false,
     loading2: false,
     loading3: false
   };
 },
 mounted(){
     this.getDashboardStats()
-    this.getDashboardChartData()
-    // this.getDashboardTableData()
-    this.getDashboardTransactions()
+    // this.getDashboardChartData()
 },
 computed:{
 },
 methods: {
   getDashboardStats(){
     this.$api
-          .get(this.dynamic_route('dashboard/user/stats'), {
-          // headers:{
-          //     authorization: `Bearer ${this.auth_token}`
-          // }
+          .get(this.dynamic_route('dashboard/stats'), {
       }).then((res)=> {
         // return console.log(res.data.stats);
         this.stats = res.data.stats
-      })
-  },
-
-  getRandomBadgeClass() {
-    const colors = ['badge-light-info', 'badge-light-primary', 'badge-light-danger', 
-                  'badge-light-success', 'badge-light-warning', 'badge-light-secondary'];
-    return colors[Math.floor(Math.random() * colors.length)]
-  },
-
-  getDashboardChartData(){
-    this.loading = true
-    this.$api
-      .get(this.dynamic_route('dashboard/user/chart_data'), {
-      }).then((res)=> {
-        this.revenueComparisonLine.series[0].data =  res.data.data
+        this.revenueComparisonLine.series[0].data =  res.data.stats
         this.revenueComparisonLine.chartOptions.xaxis.categories =  res.data.services
+      })
+  },
 
-        setTimeout(function(){
-          this.loading = false;
-        }, 1000)
+
+  // getDashboardChartData(){
+  //   this.loading = true
+  //   this.$api
+  //     .get(this.dynamic_route('dashboard/user/chart_data'), {
+  //     }).then((res)=> {
+  //       this.revenueComparisonLine.series[0].data =  res.data.data
+  //       this.revenueComparisonLine.chartOptions.xaxis.categories =  res.data.services
+
+  //       setTimeout(function(){
+  //         this.loading = false;
+  //       }, 1000)
         
-      }).catch((err)=>{
-        this.loading = false;
-      })
-  },
-  getDashboardTableData(){
-      this.loading2 = true
-    axios.get(this.dynamic_route('/dashboard/table_data'), {
-          headers:{
-              authorization: `Bearer ${this.auth_token}`
-          }
-      }).then((res)=> {
-        this.tableData = res.data
-        this.loading2 = false
-      })
-  },
-  getDashboardTransactions(page = 1){
-    this.loading = true
-    this.$api
-          .post(this.dynamic_route(`transaction/all/?page=${page}`),  {filter: this.filter }).then((res)=> {
-          this.transactions = res.data.transactions
-          this.loading = false
-      })
-  },
-  searchData() {
-    this.getDashboardTransactions()
-  },
-  getInitials(fullname) {
-      const allNames = fullname.trim().split(' ');
-      const initials = allNames.reduce((acc, curr, index) => {
-          if(index === 0 || index === allNames.length - 1){
-              acc = `${acc}${curr.charAt(0).toUpperCase()}`;
-          }
-          return acc;
-      }, '');
-      return initials;
-  },
+  //     }).catch((err)=>{
+  //       this.loading = false;
+  //     })
+  // },
 },
 };
 </script>
