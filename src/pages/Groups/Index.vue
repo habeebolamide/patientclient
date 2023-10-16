@@ -54,7 +54,7 @@
                 <div>
                     <span>Groups</span>
                 </div>
-                <v-btn @click="$bvModal.show('create-group')" small color="#3f50b5" outlined>Create Group</v-btn>
+                <v-btn @click="$bvModal.show('create-group')" small color="#3f50b5" outlined v-if="auth_user.auth_user.user_type == 'admin'">Create Group</v-btn>
                 <b-modal id="create-group" hide-footer title="Create Group">
                     <Create :my_modal="$bvModal" @get-group="getGroups()" />
                 </b-modal>
@@ -150,6 +150,7 @@ export default {
             currentPage: 1,
             perPage: 10, // Change this to the number of groups per page you want to display
             groupCount: '',
+            auth_user:{}
         };
     },
 
@@ -231,6 +232,7 @@ export default {
     },
 
     mounted() {
+        this.auth_user= JSON.parse(localStorage.getItem('auth_info'))
         this.auth_token = JSON.parse(localStorage.getItem('auth_info')).auth_token
         this.getGroups()
     }
