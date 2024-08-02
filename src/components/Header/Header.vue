@@ -24,7 +24,7 @@
       <i class="fa fa-circle text-primary" />
     </a> -->
     <b-nav class="ml-auto">
-      <strong style="padding: 20px;" class="text-info">
+      <strong style="padding: 20px; color: #1e5144;" >
        Currently Logged In As<span  class="px-2 py-3 ">{{ this.user }}</span>
       </strong>
 

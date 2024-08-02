@@ -54,7 +54,7 @@
                 <div>
                     <span>Groups</span>
                 </div>
-                <v-btn @click="$bvModal.show('create-group')" small color="#3f50b5" outlined v-if="auth_user.auth_user.user_type == 'admin'">Create Group</v-btn>
+                <v-btn @click="$bvModal.show('create-group')" small color="#1e5144" outlined v-if="auth_user.auth_user.user_type == 'admin'">Create Group</v-btn>
                 <b-modal id="create-group" hide-footer title="Create Group">
                     <Create :my_modal="$bvModal" @get-group="getGroups()" />
                 </b-modal>
@@ -78,11 +78,11 @@
                                     <td>{{ g.name }}</td>
                                     <td>
                                         <v-btn v-if="g.isLocked !== 'true'" class="mx-2" @click="joinGroup(g._id)" small
-                                            color="#3f50b5" outlined>
+                                            color="#1e5144" outlined>
                                             <span>Join group</span>
                                         </v-btn>
                                         <v-btn v-else class="mx-2" @click="$bvModal.show('join-group')" small
-                                            color="#3f50b5" outlined>
+                                            color="#1e5144" outlined>
                                             <span>Join group</span>
                                         </v-btn>
                                         <b-modal id="join-group" hide-footer title="Enter Password">
@@ -107,7 +107,7 @@
                                                         @click="$bvModal.hide('join-group')">
                                                         Cancel
                                                     </button>
-                                                    <button type="submit" class="btn btn-primary btn-sm">
+                                                    <button type="submit" class="btn join btn-sm">
                                                         Join Group
                                                     </button>
                                                 </div>
@@ -128,6 +128,7 @@
 </template>
 
 <script>
+
 import Create from './partial/Create.vue'
 import VueElementLoading from "vue-element-loading";
 export default {
@@ -239,3 +240,9 @@ export default {
 };
 </script>
 
+<style scoped>
+    .join{
+        background-color:#1e5144 ;
+        color: white;
+    }
+</style>

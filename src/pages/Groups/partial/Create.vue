@@ -66,7 +66,7 @@
         <button type="button" class="mr-2 btn btn-danger btn-sm" @click="closeMe()">
           Cancel
         </button>
-        <button type="submit" class="btn btn-primary btn-sm">
+        <button type="submit" class="btn create btn-sm">
           Create Group
         </button>
       </div>
@@ -128,3 +128,31 @@ export default {
     }
 }
 </script>
+
+<style>
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: 0.375rem 1rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white !important;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #1e5144;
+    border: 1px solid #c1ccd3;
+    border-radius: 0.5rem;
+}
+</style>
+
+<style scoped>
+  .card{
+    background: transparent;
+  }
+  .create{
+    background: transparent !important;
+    border: 1px solid #1e5144;
+  }
+</style>

@@ -55,7 +55,7 @@
     }
 
     .input-group-text {
-      color: $white;
+      color: white;
     }
 
     input::placeholder {
@@ -86,7 +86,7 @@
     input {
       background-color: #F9FAFE;
       &::placeholder {
-        color: #4A5056;
+        color: white;
         font-weight: $font-weight-normal;
       }
     }

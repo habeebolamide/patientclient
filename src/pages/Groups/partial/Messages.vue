@@ -37,7 +37,7 @@
             placeholder="Type a message..."
             required
           />
-          <v-btn type="submit" class="chat-btn" color="primary">
+          <v-btn type="submit" class="chat-btn" color="#1e5144">
             <v-icon color="darken-3">mdi-forum</v-icon>
           </v-btn>
         </form>
@@ -310,7 +310,7 @@ export default {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
-    color: #007bff;
+    color: #1e5144;
 }
 
 .chat-messages {
@@ -357,12 +357,12 @@ export default {
     padding: 8px 16px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
+    color: white !important;
     cursor: pointer;
 }
 
 .chat-btn:hover {
     background-color: #0056b3;
+    color: white !important;
 }
 </style> 

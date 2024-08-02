@@ -16,13 +16,13 @@
                 <div class="login-form py-5">
                   <h1
                     class="text-center"
-                    style="font-weight: bold; color: #3f86ca"
+                    style="font-weight: bold; color: #1e5144"
                   >
                     Login to your account
                   </h1>
                   <p
                     class="text-center mb-5"
-                    style="color: #4a5568; text-align: center !important"
+                    style="color: #1e5144; text-align: center !important"
                   >
                     Securely login to your account
                   </p>
@@ -41,7 +41,7 @@
                     >
                       {{ errorMessage }}
                     </b-alert>
-                    <p style="color: #4a5568; font-weight: 700">Email</p>
+                    <p style="color: #1e5144; font-weight: 700">Email</p>
                     <input
                       v-model="form.email"
                       :rules="emailRules"
@@ -50,7 +50,7 @@
                       type="email"
                       required
                     />
-                    <p style="color: #4a5568; font-weight: 700">Password</p>
+                    <p style="color: #1e5144; font-weight: 700">Password</p>
 
                     <input
                       v-model="form.password"
@@ -74,7 +74,7 @@
 
                     <button
                       type="submit"
-                      class="btn-block btn auth-btn btn-lg btn-primary"
+                      class="btn-block btn auth-btn btn-lg "
                       @click.prevent="login"
                     >
                       LOG IN
@@ -105,9 +105,6 @@
         </div>
       </div>
     </div>
-    <!-- <footer class="auth-footer">
-        2019 &copy; Sing App Vue Admin Dashboard Template - Made by <a href="https://flatlogic.com/">Flatlogic</a>
-      </footer> -->
   </v-app>
 </template>
 
@@ -140,7 +137,7 @@ export default {
     login() {
       if (Object.keys(this.form).length < 2) {
         return this.$toast.error("All fields are required!", {
-          position: "top-center",
+          position: "top-right",
           timeout: 5000,
           closeOnClick: true,
           pauseOnFocusLoss: true,
@@ -160,7 +157,7 @@ export default {
           .then((res) => {
             this.loading = false;
             this.$toast.success("Login successful!", {
-              position: "top-center",
+              position: "top-right",
               timeout: 5000,
               closeOnClick: true,
               pauseOnFocusLoss: true,
@@ -187,7 +184,7 @@ export default {
           .catch((err) => {
             this.loading = false;
               return this.$toast.error(err.response.data.error, {
-                position: "top-center",
+                position: "top-right",
                 timeout: 5000,
                 closeOnClick: true,
                 pauseOnFocusLoss: true,
@@ -251,8 +248,9 @@ input {
   font-size: 25px !important;
 }
 .auth-page {
-  background-image: url("/img/vuesax-login-bg.jpg");
+  /* background-image: url("/img/vuesax-login-bg.jpg"); */
   padding-top: 15px !important;
+  margin-top: 100px;
 }
 
 .auth-btn {
@@ -262,6 +260,18 @@ input {
   font-family: "Rubik";
   font-weight: 700;
   border-radius: 10px 10px 10px 0px !important;
+  background-color: #1e5144;
+  color: white;
+}
+.auth-btn:hover {
+  margin-top: 35px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  font-family: "Rubik";
+  font-weight: 700;
+  border-radius: 10px 10px 10px 0px !important;
+  background-color: #1e5144;
+  color: white;
 }
 .login-wrapper {
   width: 90%;

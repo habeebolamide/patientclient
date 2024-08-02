@@ -40,110 +40,114 @@ import NotificationsPage from '@/pages/Notifications/Notifications';
 
 
 Vue.use(Router);
-export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/',
-      name: 'Login',
-      redirect: '/login',
+
+const routes = [
+  {
+    path: '/',
+    name: 'Login',
+    redirect: '/login',
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+  },
+  {
+    path: '/reset',
+    name: 'ResetPassword',
+    component: ResetPassword,
+  },
+  {
+    path: '/error',
+    name: 'Error',
+    component: ErrorPage,
+  },
+  {
+    path: '/',
+    name: 'Main',
+    redirect: '/app/dashboard',
+  },
+  {
+    path: '/app',
+    name: 'Layout',
+    component: Layout,
+    meta: {
+      requireAuth: true
     },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login,
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register,
-    },
-    {
-      path: '/forgot-password',
-      name: 'ForgotPassword',
-      component: ForgotPassword,
-    },
-    {
-      path: '/reset',
-      name: 'ResetPassword',
-      component: ResetPassword,
-    },
-    {
-      path: '/error',
-      name: 'Error',
-      component: ErrorPage,
-    },
-    {
-      path: '/',
-      name: 'Main',
-      redirect: '/app/dashboard',
-    },
-    {
-      path: '/app',
-      name: 'Layout',
-      component: Layout,
-      meta: {
-        requireAuth: true
+    children: [
+      {
+        path: 'dashboard',
+        name: 'AnalyticsPage',
+        component: AnalyticsPage,
+        meta: {
+          requireAuth: true
+        },
       },
-      children: [
-        {
-          path: 'dashboard',
-          name: 'AnalyticsPage',
-          component: AnalyticsPage,
-          meta: {
-            requireAuth: true
-          },
+      {
+        path: 'groups',
+        name: 'Groups',
+        component: Groups,
+        meta: {
+          requireAuth: true
         },
-        {
-          path: 'groups',
-          name: 'Groups',
-          component: Groups,
-          meta: {
-            requireAuth: true
-          },
+      },
+      {
+        path: 'my-group',
+        name: 'my-group',
+        component: MyGroups,
+        meta: {
+          requireAuth: true
         },
-        {
-          path: 'my-group',
-          name: 'my-group',
-          component: MyGroups,
-          meta: {
-            requireAuth: true
-          },
+      },
+      {
+        path: ":groupid/message",
+        component: Message,
+        meta: {
+          requiresAuth: true, 
         },
-        {
-          path: ":groupid/message",
-          component: Message,
-          meta: {
-            requiresAuth: true, 
-          },
+      },
+      {
+        path: 'profile',
+        name: 'ProfilePage',
+        component: Profile,
+        meta: {
+          requireAuth: true
         },
-        {
-          path: 'profile',
-          name: 'ProfilePage',
-          component: Profile,
-          meta: {
-            requireAuth: true
-          },
+      },
+      {
+        path: 'user-profile',
+        name: 'UserProfile',
+        
+        component: () => import('@/pages/Auth/Profile'),
+        meta: {
+          requireAuth: true
         },
-        {
-          path: 'user-profile',
-          name: 'UserProfile',
-          
-          component: () => import('@/pages/Auth/Profile'),
-          meta: {
-            requireAuth: true
-          },
-        },
-        // { path: "/:pathMatch(.*)*", component: AnalyticsPage }
-      ],
-    },
-  ],
-});
+      },
+      // { path: "/:pathMatch(.*)*", component: AnalyticsPage }
+    ],
+  },
+]
+  
+const router = new Router({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
 
 function isAuthenticated() {
   // Check if the user is authenticated
   // Modify this logic based on your authentication implementation
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('auth_info');
   return !!token;
 }
 
@@ -156,3 +160,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+
+export default router
