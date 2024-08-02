@@ -47,14 +47,14 @@
           <i class='fi flaticon-settings-10 px-2' />
         </template>
         <b-dropdown-item @click="navigate"><i class='fi flaticon-person px-3 mr-2' />My Account</b-dropdown-item>
-        <b-dropdown-divider />
-        <b-dropdown-item><i class='fi flaticon-person px-3 mr-2' />Password</b-dropdown-item>
+        <!-- <b-dropdown-divider /> -->
+        <!-- <b-dropdown-item><i class='fi flaticon-person px-3 mr-2' />Password</b-dropdown-item> -->
         <!-- <b-dropdown-item><i class='fi flaticon-email px-3 mr-3' />
           Inbox &nbsp;&nbsp;<b-badge variant="inverse" pill class="animate__animated animate__bounceIn" style="padding: 6px 9px;">9</b-badge>
         </b-dropdown-item> -->
         <b-dropdown-divider />
         <b-dropdown-item-button @click="logout">
-          <i class="fi flaticon-power-1 px-3 mr-3" /> Log Out
+          <i class="fi flaticon-power-1 px-3 mr-3" style=""/> Log Out
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
 
@@ -173,4 +173,10 @@ export default {
     }
   }
  
+</style>
+
+<style>
+  .presentation i {
+    color: #124337 !important;
+  }
 </style>
