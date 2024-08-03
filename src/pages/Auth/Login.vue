@@ -240,8 +240,8 @@ export default {
 input {
   padding-top: 28px !important;
   padding-bottom: 28px !important;
-  border: none;
-  background: #e8f0fe !important;
+  border: 1px solid #1e5144;
+  background: transparent !important;
 }
 .card h1 {
   font-family: "Rubik";

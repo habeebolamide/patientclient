@@ -5,16 +5,16 @@
         <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-          <img src="/remove.png" alt="" class="img-fluid mb-5 center" width="40%">
+          <!-- <img src="/remove.png" alt="" class="img-fluid mb-5 center" width="40%"> -->
           <div class="card">
             <div class="container">
               <div class="login-form py-5">
-              <h1 class="text-center" style="font-weight: bold; color: #3f86ca">
+              <h1 class="text-center" style="font-weight: bold; color: #1e5144">
                 Create a Secure Account
               </h1>
               <p
                 class="text-center mb-3"
-                style="color: #4a5568; text-align: center !important"
+                style="color: #1e5144; text-align: center !important"
               >
                 Welcome To Hypelbase
               </p>
@@ -34,8 +34,8 @@
                   {{ errorMessage }}
                 </b-alert>
                 <div class="row">
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">FirstName</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">FirstName</p>
                     <input
                       v-model="form.firstname"
                       label="Name"
@@ -44,8 +44,8 @@
                       required
                     />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Lastname</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">Lastname</p>
                     <input
                       v-model="form.lastname"
                       label="Name"
@@ -54,8 +54,8 @@
                       required
                     />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Username</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">Username</p>
                     <input
                       v-model="form.username"
                       label="Username"
@@ -64,8 +64,8 @@
                       required
                     />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Email</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">Email</p>
                     <input
                       v-model="form.email"
                       label="Email"
@@ -74,8 +74,8 @@
                       required
                 />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">DOB</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">DOB</p>
                     <input
                       v-model="form.dob"
                       label="DOB"
@@ -84,8 +84,8 @@
                       required
                   />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Phone</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">Phone</p>
                     <input
                       v-model="form.phone"
                       label="Phone"
@@ -94,8 +94,8 @@
                       required
                     />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Password</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">Password</p>
                     <input
                       v-model="form.password"
                       :rules="passwordRules"
@@ -105,8 +105,8 @@
                       required
                     />
                   </div>
-                  <div class="col-6">
-                    <p style="color: #4a5568; font-weight: 700">Confirm Password</p>
+                  <div class="col-md-6">
+                    <p style="color: #1e5144; font-weight: 700">Confirm Password</p>
                       <input
                         v-model="form.password_confirmation"
                         :rules="passwordRules"
@@ -120,7 +120,7 @@
 
                 <button
                   type="submit"
-                  class="btn-block btn auth-btn btn-lg btn-primary"
+                  class="btn-block btn auth-btn btn-lg text-white"
                 >
                   REGISTER
                 </button>
@@ -351,8 +351,8 @@ export default {
 input {
   padding-top: 28px !important;
   padding-bottom: 28px !important;
-  border: none;
-  background: #e8f0fe !important;
+  border: 1px solid #1e5144;
+  background: transparent !important;
 }
 .center {
   display: block;
@@ -364,7 +364,7 @@ input {
   font-size: 25px !important;
 }
 .auth-page {
-  background-image: url("/img/vuesax-login-bg.jpg");
+  /* background-image: url("/img/vuesax-login-bg.jpg"); */
   background-size: cover;
   height: auto;
   padding-top: 15px !important;
@@ -376,6 +376,8 @@ input {
   padding-bottom: 10px !important;
   font-family: "Rubik";
   font-weight: 700;
+  background: #1e5144;
+  /* color: white; */
   border-radius: 10px 10px 10px 0px !important;
 }
 .custom-btn {
